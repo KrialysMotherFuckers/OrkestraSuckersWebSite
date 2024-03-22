@@ -1,0 +1,26 @@
+﻿@using Krialys.Data.EF.Univers
+@using FilterType = Syncfusion.Blazor.DropDowns.FilterType
+
+<SfTooltip @ref=_dropdownTooltipReference
+           Target=#UserDropDown
+           OpensOn=Custom
+           Content=@Trad.Keys["COMMON:RequiredField"]
+           CssClass=e-griderror>
+    <SfDropDownList Value=UserId
+                    ID=UserDropDown
+                    DataSource=_users
+                    TItem=TRU_USERS
+                    TValue=string
+                    Placeholder=@Placeholder
+                    FloatLabelType=FloatLabelType.Always
+                    AllowFiltering=true
+                    FilterType=FilterType.Contains
+                    ShowClearButton=true
+                    Width=@Width>
+        <DropDownListFieldSettings Text=@nameof(TRU_USERS.TRU_FULLNAME)
+                                   Value=@nameof(TRU_USERS.TRU_USERID) />
+        <DropDownListEvents TItem=TRU_USERS
+                            TValue=string
+                            ValueChange=ValueChangeAsync />
+    </SfDropDownList>
+</SfTooltip>

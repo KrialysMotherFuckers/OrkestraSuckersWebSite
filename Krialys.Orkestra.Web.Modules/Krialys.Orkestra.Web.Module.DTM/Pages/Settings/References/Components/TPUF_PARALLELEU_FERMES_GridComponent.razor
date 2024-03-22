@@ -1,0 +1,41 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TPUF_PARALLELEU_FERMES"
+                       @ref="Ref_TPUF_PARALLELEU_FERMES"
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TPUF_PARALLELEU_FERMES"
+                    DataBound=Ref_TPUF_PARALLELEU_FERMES.DataBoundHander
+                    OnToolbarClick="@Ref_TPUF_PARALLELEU_FERMES.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TPUF_PARALLELEU_FERMES.OnContextMenuItemClickedAsync" OnLoad=Ref_TPUF_PARALLELEU_FERMES.OnLoadHandler Destroyed=Ref_TPUF_PARALLELEU_FERMES.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TPUF_PARALLELEU_FERMES, entity))">
+                    @Ref_TPUF_PARALLELEU_FERMES.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TPUF_PARALLELEU_FERMES.DataGrid.CloseEditAsync())">
+                    @Ref_TPUF_PARALLELEU_FERMES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

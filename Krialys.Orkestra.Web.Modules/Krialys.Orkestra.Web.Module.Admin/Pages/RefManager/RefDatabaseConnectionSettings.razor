@@ -1,0 +1,163 @@
+﻿@page "/RefManager_DatabaseConnectionSettings"
+
+@using FluentValidation
+@using Krialys.Orkestra.Web.Common.ApiClient
+
+<SfGrid TValue="TR_CNX_Connections"
+        class="e-large-filter"
+        Width="calc(100vw - 1.75rem)"
+        AllowPaging="true" AllowSorting="true" Toolbar="@(new string[] { "Add", "Edit", "Delete"  })">
+
+    <SfDataManager Url=@($"{Config[Litterals.ProxyUrl]}TR_CNX_ConnectionsListPagedResponse")
+                   InsertUrl="@($"{Config[Litterals.ProxyUrl]}TR_CNX_ConnectionsAdd")"
+                   UpdateUrl="@($"{Config[Litterals.ProxyUrl]}TR_CNX_ConnectionsUpdate")"
+                   RemoveUrl="@($"{Config[Litterals.ProxyUrl]}TR_CNX_ConnectionsRemove")"
+                   Adaptor="Adaptors.UrlAdaptor" />
+
+    <GridEvents TValue=TR_CNX_Connections OnActionBegin=OnActionBegin RowSelected="OnRowSelected" />
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_Code) HeaderText="@(Trad.Keys["RefManager:DbConnection_Code"])" />
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_Id) IsPrimaryKey=true IsIdentity=true Visible=false />
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_Label) HeaderText="@(Trad.Keys["RefManager:DbConnection_Label"])" />
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_DatabaseType) HeaderText="@(Trad.Keys["RefManager:DbConnection_DatabaseType"])">
+            <Template>
+                @{
+                    @(Enum.GetValues<DatabaseType>()
+                    .Select(e => ((int)e, e.ToString()))
+                    .ToList()
+                    .FirstOrDefault(x => x.Item1 == (context as TR_CNX_Connections).Cnx_DatabaseType)!.Item2)
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_ServerName) HeaderText="@(Trad.Keys["RefManager:DbConnection_Server"])" />
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_DatabaseName) HeaderText="@(Trad.Keys["RefManager:DbConnection_Database"])" />
+        <GridColumn Field=@nameof(TR_CNX_Connections.Cnx_IsActive) HeaderText="@(Trad.Keys["RefManager:DbConnection_Active"])">
+            <Template>
+                @{
+                    var connection = (context as TR_CNX_Connections);
+                    <MudCheckBox T="bool" @bind-Value="@connection.Cnx_IsActive" Size="Size.Small" ReadOnly></MudCheckBox>
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>
+
+    <GridEditSettings AllowAdding="true"
+                      AllowDeleting="@_deleteAllowed"
+                      AllowEditing="true"
+                      ShowConfirmDialog=true
+                      ShowDeleteConfirmDialog=true
+                      Mode="EditMode.Dialog"
+                      Dialog="@(new DialogSettings { Width = "600px", Height="auto", AllowDragging = false  })">
+
+        <Validator>
+            <RefDatabaseConnectionSettingsValidator context="@(context as ValidatorTemplateContext)" isEditMode="@_isEditMode" />
+            @* <OrkaFluentValidator TValidator="@RefDatabaseConnectionSettingsValidator" Param=@(_settingsList)></OrkaFluentValidator> *@
+        </Validator>
+
+        <HeaderTemplate>
+            @{
+                var item = (context as TR_CNX_Connections);
+                <span>@($"{Trad.Keys["RefManager:DbConnection_DetailTitle"]} {(item != null ? "" : " - " + @item?.Cnx_Label)}")</span>
+            }
+        </HeaderTemplate>
+
+        <Template>
+            @{
+                var item = (context as TR_CNX_Connections);
+                <br />
+                <MudForm Model="@item">
+                    <div class="container" style="width:auto">
+                        <div class="row">
+                            <div class="col-6">
+                                <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:DbConnection_Code"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_Code"
+                                              Margin="Margin.Dense" />
+                                <ValidationMessage For="@(() => item.Cnx_Code)"></ValidationMessage>
+                            </div>
+                            <div class="col-6">
+                                <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:DbConnection_Label"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_Label"
+                                              Margin="Margin.Dense" />
+                                <ValidationMessage For="@(() => item.Cnx_Label)"></ValidationMessage>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <MudCheckBox T="bool" Label="@(Trad.Keys["RefManager:DbConnection_Active"])" @bind-Value="@item.Cnx_IsActive"
+                                             Size="Size.Small" Color="Color.Primary" style="align-items: self-end;" Disabled=@(!_canAlterStatus)>
+                                </MudCheckBox>
+                            </div>
+                            <div class="col">
+                                <span class="e-badge e-badge-info" style='@(_canAlterStatus ? "display:none;" : "margin-top: 4px;")'>@(Trad.Keys["RefManager:DbConnection_Active_Alteration"])</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                    <h6>@(Trad.Keys["RefManager:DbConnection_ConfigurationTitle"])</h6>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <SfDropDownList Placeholder=@($"{Trad.Keys["RefManager:DbConnection_DatabaseType"]} *")
+                                                                FloatLabelType="FloatLabelType.Always"
+                                                                TItem="(int, string)"
+                                                                TValue="int"
+                                                                DataSource="@(Enum.GetValues<DatabaseType>().Select(e => ((int)e, e.ToString())).ToList())"
+                                                                @bind-Value="@item.Cnx_DatabaseType">
+                                                    <DropDownListFieldSettings Value="Item1" Text="Item2" />
+                                                </SfDropDownList>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:DbConnection_Server"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_ServerName"
+                                                              Margin="Margin.Dense" />
+                                                <ValidationMessage For="@(() => item.Cnx_ServerName)"></ValidationMessage>
+                                            </div>
+                                            <div class="col-4">
+                                                <MudNumericField @bind-Value="item.Cnx_Port"
+                                                                 Label=@($"{Trad.Keys["RefManager:DbConnection_Port"]} *") Variant="Variant.Outlined" Margin="Margin.Dense" />
+                                                <ValidationMessage For="@(() => item.Cnx_Port)"></ValidationMessage>
+                                            </div>
+                                            <div class="col-4">
+                                                <MudTextField T="string"
+                                                              Label=@($"{Trad.Keys["RefManager:DbConnection_Database"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_DatabaseName"
+                                                              Margin="Margin.Dense" />
+                                                <ValidationMessage For="@(() => item.Cnx_DatabaseName)"></ValidationMessage>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:DbConnection_Login"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_Login"
+                                                              Margin="Margin.Dense" />
+                                                <ValidationMessage For="@(() => item.Cnx_Login)"></ValidationMessage>
+                                            </div>
+                                            <div class="col-6">
+                                                <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:DbConnection_Password"]} *") Variant="Variant.Outlined" @bind-Value="item.Cnx_Password"
+                                                              Margin="Margin.Dense" />
+                                                <ValidationMessage For="@(() => item.Cnx_Password)"></ValidationMessage>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </MudForm>
+            }
+        </Template>
+
+
+    </GridEditSettings>
+
+</SfGrid>
+
+<style isolated>
+
+    .mud-icon-button {
+        padding: 0px;
+    }
+
+</style>
+

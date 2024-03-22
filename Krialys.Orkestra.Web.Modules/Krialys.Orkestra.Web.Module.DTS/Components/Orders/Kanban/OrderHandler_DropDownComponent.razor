@@ -1,0 +1,24 @@
+﻿@using FilterType = Syncfusion.Blazor.DropDowns.FilterType
+<SfTooltip @ref=_handlerDropdownTooltipReference
+           Target=#HandlerDropDown
+           OpensOn=Custom
+           Content=@Trad.Keys["COMMON:RequiredField"]
+           CssClass=e-griderror>
+    <SfDropDownList Value=HandlerId
+                    ID=HandlerDropDown
+                    DataSource=_handlers
+                    TItem=TRU_USERS
+                    TValue=string
+                    Placeholder=@_dropdownPlaceholder
+                    FloatLabelType=FloatLabelType.Always
+                    AllowFiltering=true
+                    FilterType=FilterType.Contains
+                    ShowClearButton=true
+                    Width=200px>
+        <DropDownListFieldSettings Text=@nameof(TRU_USERS.TRU_FULLNAME)
+                                   Value=@nameof(TRU_USERS.TRU_USERID) />
+        <DropDownListEvents TItem=TRU_USERS
+                            TValue=string
+                            ValueChange=HandlerValueChangeAsync />
+    </SfDropDownList>
+</SfTooltip>

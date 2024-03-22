@@ -1,0 +1,10 @@
+﻿<div class="row">
+    <div class="col" style="max-width:300px">
+        <LabelsListSearchComponent LabelsCount=_labelsCount
+                                   OnFiltersChanged=OnFiltersChangedAsync />
+    </div>
+    <div class="col overflow-auto">
+        <TETQ_ETIQUETTES_GridComponent @bind-LabelsCount=_labelsCount
+                                       @ref=_TETQ_ETIQUETTES_GridComponentRef />
+    </div>
+</div>

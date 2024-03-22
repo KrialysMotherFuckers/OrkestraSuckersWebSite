@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RunSettings>
+        <TestRunParameters>
+        <Parameter name="someParameterName" value="someExampleValue" />
+    </TestRunParameters>
+
+    <Playwright>
+        <LaunchOptions>
+            <Headless>false</Headless>
+        </LaunchOptions>
+    </Playwright>
+</RunSettings>

@@ -1,0 +1,53 @@
+﻿@page "/datadrivenadminpage"
+@using Krialys.Orkestra.Web.Module.ADM.Components.DTFAdmin
+
+@attribute [Authorize(Policy = PoliciesLiterals.Administrator)]
+
+<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "Univers_ETQ_datadrivenadminpage")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["COMMON:DTF"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <br/>
+                <DataDrivenAdminPageDTFComponent />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["COMMON:DTS"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <br />
+                <DTSAdminComponent />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>
+
+@code {
+    // No need to put code for managing SfTab Disabled state here because it is a component over a component that is created here
+
+    private void OnTabSelecting(SelectingEventArgs args)
+    {
+        // Disable Tab navigation on Tab selection.
+        if (args.IsSwiped)
+        {
+            args.Cancel = true;
+        }
+    }
+}

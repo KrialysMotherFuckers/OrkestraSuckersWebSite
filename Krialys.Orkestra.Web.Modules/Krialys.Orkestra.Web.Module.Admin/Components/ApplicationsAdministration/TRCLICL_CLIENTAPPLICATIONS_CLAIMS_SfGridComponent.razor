@@ -1,0 +1,148 @@
+﻿@inherits OrkaGenericGridComponent<Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS>
+
+@*Affiche la data grid.*@
+<OrkaGenericGridComponent TEntity="Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS"
+					   @ref=Ref_Grid
+					   SuffixId=@ClientApplicationId.ToString()
+					   AllowResizing="true"
+					   AllowPdfExport="false"
+					   AllowExcelExport="true"
+					   AllowCsvExport="false"
+					   EnableColumnMenu="false"
+					   AutoGenerateColumns="false"
+					   Query="@GridQuery"
+					   EnablePersistence=false>
+	<ChildContent>
+
+		@* Customisable datagrid events *@
+        <GridEvents TValue=Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS
+					DataBound=Ref_Grid.DataBoundHander
+					OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+					ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+					OnActionFailure=Ref_Grid.ActionFailureAsync
+                    OnActionComplete=OnActionComplete OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+		<GridEditSettings AllowAdding=true
+						  AllowEditing=true
+						  AllowDeleting=false
+						  ShowConfirmDialog=true
+						  ShowDeleteConfirmDialog=true
+						  Mode=EditMode.Dialog
+						  Dialog="@Extends.GridEditSettingDialog">
+
+			@* Customisable edit/save/cancel dialog events *@
+			<FooterTemplate>
+				<SfButton IsPrimary=true
+						  CssClass="e-success"
+                          OnClick=@(() => FooterSaveEditAsync(context as Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS))>
+					@Ref_Grid.EditButtonText
+				</SfButton>
+				<SfButton OnClick=@(() => Ref_Grid.DataGrid.CloseEditAsync())>
+					@Ref_Grid.CancelButtonText
+				</SfButton>
+			</FooterTemplate>
+		</GridEditSettings>
+	</ChildContent>
+
+	<GridColumns>
+		@foreach (var field in DisplayedFields)
+		{
+			var prop = GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == field);
+
+		    switch (prop?.Field)
+		    {
+		        // Construct datagrid.
+                case nameof(Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS.TRCL_CLAIMID):
+		            <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyField="Id"
+                                       ForeignKeyValue="Label"
+                                       ForeignDataSource="@prop.ForeignValuesList">
+                        <EditTemplate>
+                            @{
+                                var appClaims = context as Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS;
+                            }
+                            <SelectClaimComponent DataSource="@prop.ForeignValuesList"
+                                                  @bind-SelectedClaimId="@appClaims.TRCL_CLAIMID"
+                                                  @bind-ClaimValue="@appClaims.TRCLICL_CLAIM_VALUE" />
+                                                               
+                        </EditTemplate>
+                    </GridForeignColumn>
+		            break;
+
+                case nameof(Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS.TRCLICL_CLAIM_VALUE):
+		            <GridColumn Field="@prop.Field"
+                                HeaderText="@prop.HeaderText"
+                                IsPrimaryKey="@prop.IsPrimaryKey"
+                                IsIdentity="@prop.IsIdentity"
+                                Visible="@prop.Visible"
+                                Format="@prop.Format"
+                                Type="@prop.ColumnType"
+                                EnableGroupByFormat="@(prop.Format == default)">
+                        <Template>
+                            @{
+                                var appClaims = context as Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS;
+                                if (appClaims != null && ClaimTools.IsClaimInClaimsCatalog(ClaimsCatalog, appClaims.TRCL_CLAIMID))
+                                {
+                                    <span>
+                                        @ClaimTools.GetRoleValuesAsText(ClaimsCatalog,
+                                            appClaims.TRCL_CLAIMID,
+                                            appClaims.TRCLICL_CLAIM_VALUE)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>@appClaims.TRCLICL_CLAIM_VALUE</span>
+                                }
+                            } 
+                        </Template>
+                        <EditTemplate>
+                            @{
+                                var appClaims = context as Data.EF.Univers.TRCLICL_CLIENTAPPLICATIONS_CLAIMS;
+                                if (appClaims != null && ClaimTools.IsClaimInClaimsCatalog(ClaimsCatalog, appClaims.TRCL_CLAIMID))
+                                {
+                                    // Select one or more values from catalog.
+                                    <SelectClaimValueComponent @bind-ClaimValue="@appClaims.TRCLICL_CLAIM_VALUE" />
+                                }
+                                else
+                                {
+                                    // Text field, value entered by user.
+                                    <SfTextBox @bind-Value=@appClaims.TRCLICL_CLAIM_VALUE
+                                               Placeholder=@prop.HeaderText
+                                               FloatLabelType=@FloatLabelType.Always>
+                                    </SfTextBox>
+                                }
+                            } 
+                        </EditTemplate>
+                    </GridColumn>
+		            break;
+
+		        default:
+		        {
+		            if (prop.IsForeignKey)
+		            {
+		                <GridForeignColumn Field="@prop.Field"
+                                           HeaderText="@prop.HeaderText"
+                                           ForeignKeyField="Id"
+                                           ForeignKeyValue="Label"
+                                           ForeignDataSource="@prop.ForeignValuesList">
+                        </GridForeignColumn>
+		            }
+		            else
+		            {
+		                <GridColumn Field="@prop.Field"
+                                    HeaderText="@prop.HeaderText"
+                                    IsPrimaryKey="@prop.IsPrimaryKey"
+                                    IsIdentity="@prop.IsIdentity"
+                                    Visible="@prop.Visible"
+                                    Format="@prop.Format"
+                                    Type="@prop.ColumnType"
+                                    EnableGroupByFormat="@(prop.Format == default)">
+                        </GridColumn>
+		            }
+		            break;
+		        }
+		    }
+		}
+	</GridColumns>
+</OrkaGenericGridComponent>

@@ -1,0 +1,85 @@
+﻿@page "/dtf_ProductionSchedule"
+
+@using Krialys.Orkestra.Web.Module.Common.BusEvents;
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence=true
+       ID=@(Litterals.Portail + "Univers_DTF_dtf_planifications")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode=OverflowMode.Popup
+       ScrollStep=150>
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect=AnimationEffect.None />
+        <TabAnimationNext Effect=AnimationEffect.None />
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["DTF:ScheduleProduction"] />
+            </ChildContent>
+            <ContentTemplate>
+                @* Calendrier des productions *@
+                <ProductionScheduledComponent />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["DTF:RecurrentSchedules"] />
+            </ChildContent>
+            <ContentTemplate>
+                @* Gestion des récurrences *@
+                <RecurrentScheduledComponent />
+            </ContentTemplate>
+        </TabItem>
+
+        @* <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Logs des attendus" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.Common.Components.Admin.Logs />
+            </ContentTemplate>
+        </TabItem> *@
+
+    </TabItems>
+</SfTab>
+
+@code {
+    private bool Disabled { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Subscribe SfTabEvent
+        Bus.Subscribe<SfTabBusEvent>(e =>
+        {
+            var result = e.GetMessage<SfTabBusEvent>().Disabled;
+            if (Disabled != result)
+            {
+                Disabled = result;
+                // Refresh UI
+                StateHasChanged();
+            }
+        });
+    }
+
+    private void OnTabSelecting(SelectingEventArgs args)
+    {
+        // Disable Tab navigation on Tab selection.
+        if (args.IsSwiped)
+        {
+            args.Cancel = true;
+        }
+        else
+        {
+            // Set Disabled value then fire event to SfTab
+            Bus.Publish(new SfTabBusEvent { Disabled = false /*(args.SelectingIndex != 2)*/ });
+        }
+    }
+}

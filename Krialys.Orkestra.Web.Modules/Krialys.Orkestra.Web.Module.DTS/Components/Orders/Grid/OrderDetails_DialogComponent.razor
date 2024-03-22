@@ -1,0 +1,98 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width="840px"
+          MinHeight="315px"
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @string.Format(Trad.Keys["DTS:OrderNumber"], Order.TCMD_COMMANDEID)
+        </Header>
+
+        <Content>
+            <table class="table table-striped table-hover table-bordered">
+                <tbody>
+                    @if (Order?.TE_ETAT is not null)
+                    {
+                        <tr>
+                            <th scope="row">@(DataAnnotations.Display<TE_ETATS>(nameof(TE_ETATS.TE_FULLNAME)))</th>
+                            <td>@Order.TE_ETAT.TE_FULLNAME</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Trad.Keys["DTF:UTDInfo"]</th>
+                            <td>@Order.TE_ETAT.TEM_ETAT_MASTER?.TEM_COMMENTAIRE</td>
+                        </tr>
+                    }
+                    @if (Order?.TS_SCENARIO is not null)
+                    {
+                        <tr>
+                            <th scope="row">@(DataAnnotations.Display<TS_SCENARIOS>(nameof(TS_SCENARIOS.TS_NOM_SCENARIO)))</th>
+                            <td>@Order.TS_SCENARIO.TS_NOM_SCENARIO</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Trad.Keys["DTF:AppModuleInfo"]</th>
+                            <td>@Order.TS_SCENARIO.TS_DESCR</td>
+                        </tr>
+                    }
+                    @if (Order?.TDOM_DOMAINEID is not null)
+                    {
+                        <tr>
+                            <th scope="row">@(DataAnnotations.Display<TDOM_DOMAINES>(nameof(TDOM_DOMAINES.TDOM_LIB)))</th>
+                            <td>@_domain?.TDOM_LIB</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@(DataAnnotations.Display<TDOM_DOMAINES>(nameof(TDOM_DOMAINES.TDOM_DESC)))</th>
+                            <td>@_domain?.TDOM_DESC</td>
+                        </tr>
+                    }
+                    <tr>
+                        <th scope="row">@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TCMD_COMMENTAIRE)))</th>
+                        <td>@Order?.TCMD_COMMENTAIRE</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TRU_EXPLOITANTID)))</th>
+                        <td>@Order?.TRU_EXPLOITANT?.TRU_FULLNAME</td>
+                    </tr>
+                    @if (_phaseChangesHistory.Any())
+                    {
+                        <tr>
+                            <th scope="row">@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TCMD_PH_PHASEID)))</th>
+                            <td>
+                                @foreach (var phaseChange in _phaseChangesHistory)
+                                {
+                                    <div>
+                                        @if (Trad.IsCultureFr)
+                                        {
+                                            @string.Format(Trad.Keys["DTS:PhaseAndDate"],
+                                phaseChange.TCMD_PH_PHASE_APRES?.TCMD_PH_LIB_FR,
+                                phaseChange.TCMD_SP_DATE_MODIF?.ToString("g"))
+                                        }
+                                        else
+                                        {
+                                            @string.Format(Trad.Keys["DTS:PhaseAndDate"],
+                                phaseChange.TCMD_PH_PHASE_APRES?.TCMD_PH_LIB_EN,
+                                phaseChange.TCMD_SP_DATE_MODIF?.ToString("g"))
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=CloseDialogAsync
+                      Content=@Trad.Keys["COMMON:Back"] />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    th {
+        width: 200px;
+    }
+</style>

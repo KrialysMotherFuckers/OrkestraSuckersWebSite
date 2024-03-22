@@ -1,0 +1,91 @@
+﻿@using Krialys.Orkestra.Web.Common.ApiClient;
+@using Krialys.Orkestra.WebApi.Proxy
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Class="mr-3 mb-n1" />
+            Export / Import Job
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTabs Outlined="true" Rounded="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+            <MudTabPanel Text="Export">
+                <ChildContent>
+                    <div class="container" style="height:350px">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-4" style="margin-top: 12px;">
+                                    Job name
+                                </div>
+                                <div class="col-8">
+                                    <MudSelect T="Krialys.Orkestra.Web.Common.ApiClient.TEM_ETAT_MASTERS" Variant="Variant.Text" @bind-Value="@_jobSelected">
+                                        @* <MudSelectItem Value="0" Disabled="true">Select group type</MudSelectItem> *@
+                                        @foreach (var item in _jobList)
+                                        {
+                                            <MudSelectItem T="Krialys.Orkestra.Web.Common.ApiClient.TEM_ETAT_MASTERS" Value="@item">
+                                                @item.TEM_NOM_ETAT_MASTER
+                                            </MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <br />
+                                <MudButton StartIcon="@Icons.Material.Filled.ImportExport" Variant="Variant.Filled" OnClick="ExportJob" Disabled="@(_jobSelected == null)">Export</MudButton>
+                            </div>
+                            <div class="col-12">
+                                <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@JobExportedJson" Lines="10" ReadOnly />
+                             </div>
+                         </div>
+                     </div>
+                 </ChildContent>
+             </MudTabPanel>
+             <MudTabPanel Text="Import">
+                 <ChildContent>
+                     <div class="container" style="height:350px">
+                         <div class="row">
+                             <div class="col-12">
+                                 <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@JobToImportJson" Lines="10" />
+                                 <br />
+                                 <MudButton StartIcon="@Icons.Material.Filled.AppRegistration" Variant="Variant.Filled" OnClick="ImportJob" Disabled="@(string.IsNullOrEmpty(JobToImportJson))">Import</MudButton>
+                             </div>
+                         </div>
+                     </div>
+                 </ChildContent>
+             </MudTabPanel>
+         </MudTabs>
+     </DialogContent>
+     <DialogActions>
+         <MudButton StartIcon="@Icons.Material.Filled.Close" OnClick="Close">Close</MudButton>
+     </DialogActions>
+ </MudDialog>
+
+ @code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+
+    [Inject] private IJobClient _iJobClient { get; set; }
+
+    private ICollection<Krialys.Orkestra.Web.Common.ApiClient.TEM_ETAT_MASTERS> _jobList { get; set; } = new List<Krialys.Orkestra.Web.Common.ApiClient.TEM_ETAT_MASTERS>();
+
+    private Krialys.Orkestra.Web.Common.ApiClient.TEM_ETAT_MASTERS _jobSelected { get; set; }
+    private string JobExportedJson { get; set; }
+    private string JobToImportJson { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _jobList = await _iJobClient.GetAllAsync();
+    }
+
+    private async Task ImportJob()
+    {
+        var res = await _iJobClient.ImportAsync(JobToImportJson);
+    }
+
+    private async Task ExportJob()
+    {
+        JobExportedJson = await _iJobClient.ExportAsync(_jobSelected.TEM_ETAT_MASTERID);
+    }
+
+    void Close() => MudDialog.Close();
+}

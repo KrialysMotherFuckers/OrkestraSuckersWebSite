@@ -1,0 +1,58 @@
+﻿<SfDialog @bind-Visible=_isVisible
+          ShowCloseIcon=true
+          IsModal=true
+          Width=450px>
+    <DialogEvents OnClose=CloseDialog />
+
+    <DialogTemplates>
+        <Header>
+            @_dialogHeader
+        </Header>
+        <Content>
+            <div class="dlg-content-item">
+                <SfTooltip @ref=_reasonTooltipObj
+                           OpensOn="Custom"
+                           CssClass="e-griderror"
+                           Target="#ReasonSelect">
+                    <ContentTemplate>
+                        <label class="e-error">@Trad.Keys["COMMON:RequiredField"]</label>                        
+                    </ContentTemplate>
+                </SfTooltip>
+                <SfDropDownList @bind-Value=_selectedReasonId
+                                ID="ReasonSelect"
+                                TValue=int
+                                TItem=TCMD_RP_RAISON_PHASES
+                                Query=_dropdownQuery
+                                Placeholder=@Trad.Keys["DTS:Reason"]
+                                FloatLabelType=@FloatLabelType.Always>
+                    <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TCMD_RP_RAISON_PHASES>)
+                                   Adaptor=Adaptors.CustomAdaptor />
+                    <DropDownListFieldSettings Value=@nameof(TCMD_RP_RAISON_PHASES.TCMD_RP_RAISON_PHASEID)
+                                               Text=@_dropdownTextField>
+                    </DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+
+            <div class="dlg-content-item">
+                <SfTextBox @bind-Value=_comment
+                           Placeholder=@Trad.Keys["COMMON:Comment"]
+                           FloatLabelType=@FloatLabelType.Always />
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=ChangePhaseValidateAsync
+                      IsPrimary=true
+                      CssClass=e-success
+                      Content=@Trad.Keys["COMMON:Confirm"] />
+        <DialogButton OnClick=CloseDialog
+                      Content=@Trad.Keys["COMMON:Cancel"] />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    .e-dialog .e-dlg-header {
+        width: auto; /* Force header to take all available space. Default width is 80%. */
+    }
+</style>

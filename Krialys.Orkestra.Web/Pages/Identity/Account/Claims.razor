@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization;
+@using System.Security.Claims;
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            @Trad.Keys["Application Claims of the currently logged in user."]
+            <MudList Dense="true">
+                @if (ClaimItems is not null)
+                {
+                    @foreach (var claim in ClaimItems)
+                    {
+                        <MudListItem>
+                            <MudChip>
+                                @{
+                                    var claimtype = claim.Type;
+                                    @claimtype.Split('/').Last();
+                                }
+                            </MudChip>
+                                @if (claim.Type == "exp" || claim.Type == "nbf")
+                                {
+                                    var claimValue = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt32(claim.Value)).ToLocalTime();
+                                    @claimValue.ToString("G");
+
+                                    // TODO: add decoder for each app Role claim(s)
+                                }
+                                else
+                                {
+                                    @claim.Value
+                                }
+                        </MudListItem>
+                    }
+                }
+            </MudList>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = default!;
+
+    public IEnumerable<Claim> ClaimItems { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+
+        ClaimItems = authState.User.Claims;
+    }
+}

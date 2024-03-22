@@ -1,0 +1,186 @@
+﻿<OrkaGenericGridComponent @ref=_gridRef
+                       TEntity=ETQ_TM_AET_Authorization
+                       IsWithinTab=true
+                       AllowTracking=true
+                       AutoGenerateColumns=false
+                       AutoGenerateColumnProperties=false
+                       AllowResizing=true
+                       AllowExcelExport=true
+                       EnablePersistence=true
+                       Query=_gridQuery>
+    <ChildContent>
+        <GridEvents TValue=ETQ_TM_AET_Authorization
+                    OnLoad=_gridRef.OnLoadHandler
+                    Destroyed=_gridRef.OnDestroyed
+                    OnToolbarClick=_gridRef.OnToolbarClickAsync
+                    ContextMenuItemClicked=_gridRef.OnContextMenuItemClickedAsync
+                    OnActionFailure=_gridRef.ActionFailureAsync
+                    OnBeginEdit=OnBeginEditAsync />
+
+        <GridEditSettings AllowAdding=true
+                          AllowEditing=true
+                          Mode=EditMode.Dialog
+                          Dialog=@Extends.GridEditSettingDialog>
+            <HeaderTemplate>
+                @GetEditHeader(((ETQ_TM_AET_Authorization)context).aet_etiquette_id)
+            </HeaderTemplate>
+
+            <FooterTemplate>
+                <SfButton Content=@_gridRef.EditButtonText
+                          IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => SaveEditAsync(context as ETQ_TM_AET_Authorization)) />
+                <SfButton Content=@_gridRef.CancelButtonText
+                          OnClick=@(() => _gridRef.DataGrid.CloseEditAsync()) />
+            </FooterTemplate>
+
+            <Template>
+                @{
+                    var item = (context as ETQ_TM_AET_Authorization);
+
+                    // If it is a creation of a new item.
+                    if (item.aet_id.Equals(0))
+                    {
+                        <User_DropDownComponent IsValueSelectionRequired=true
+                        @ref=_userDropDownRef
+                        @bind-UserId=@item.aet_user_id />
+
+                        <br />
+
+                        <Etiquette_DropDownComponent IsValueSelectionRequired=true
+                        @ref=_etiquetteDropDownRef
+                        @bind-EtqId=item.aet_etiquette_id />
+
+                        <br />
+                    }
+                    // If it is an edition of an existing item.
+                    else
+                    {
+                        <label style="color:rgba(0, 0, 0, 0.54)">
+                            @(DataAnnotations.Display<Data.EF.Univers.TRU_USERS>(nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)))
+                        </label>
+                        <div>@_userName</div>
+
+                        <br />
+
+                        <label style="color:rgba(0, 0, 0, 0.54)">
+                            @(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_CODE)))
+                        </label>
+                        <div>@item.TETQ_ETIQUETTE?.TETQ_CODE</div>
+
+                        <br />
+
+                        if (!string.IsNullOrWhiteSpace(item.TETQ_ETIQUETTE?.TETQ_LIB))
+                        {
+                            <label style="color:rgba(0, 0, 0, 0.54)">
+                                @(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_LIB)))
+                            </label>
+                            <div>@item.TETQ_ETIQUETTE.TETQ_LIB</div>
+
+                            <br />
+                        }
+
+                        <h4 style="line-height:200%;color:rgba(0, 0, 0, 0.54)">
+                            @Trad.Keys["COMMON:ChangeStatus"]
+                        </h4>
+                        <p class="row">
+                            <SfRadioButton @onchange=OnStatusChange
+                                           Checked=@_statusRadioButtonValue
+                                           Label=@Trad.Keys["COMMON:NoChange"]
+                                           Name=@_statusRadioButtonName
+                                           Value=@_statusRadioButtonNoChangeValue />
+                        </p>
+                        <p class="row">
+                            @if (StatusLiteral.Available.Equals(item.aet_status_id))
+                            {
+                                <SfRadioButton @onchange=OnStatusChange
+                                               Checked=@_statusRadioButtonValue
+                                               Label=@Trad.Keys["STATUS:I"]
+                                               Name=@_statusRadioButtonName
+                                               Value=@StatusLiteral.Deactivated />
+                            }
+                            else
+                            {
+                                <SfRadioButton @onchange=OnStatusChange
+                                               Checked=@_statusRadioButtonValue
+                                               Label=@Trad.Keys["STATUS:A"]
+                                               Name=@_statusRadioButtonName
+                                               Value=@StatusLiteral.Available />
+                            }
+                        </p>
+
+                        <br />
+                    }
+
+                    <SfTextBox @bind-Value=@item.aet_comments
+                               CssClass=e-outline
+                               HtmlAttributes=_commentHtmlAttributes
+                               Placeholder=@Trad.Keys["COMMON:Comment"]
+                               FloatLabelType=@FloatLabelType.Always
+                               Multiline=true />
+                }
+            </Template>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(ETQ_TM_AET_Authorization.aet_etiquette_id)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        <GridForeignColumn Field=@nameof(Data.EF.Etq.ETQ_TM_AET_Authorization.aet_user_id)
+                           TValue=Data.EF.Univers.TRU_USERS
+                           ForeignKeyField=@nameof(Data.EF.Univers.TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)
+                           MinWidth=100
+                           Width=170
+                           AllowSorting=false>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<Data.EF.Univers.TRU_USERS>)
+                           Adaptor=Adaptors.CustomAdaptor />
+        </GridForeignColumn>
+
+        <GridColumn Field=@($"{nameof(ETQ_TM_AET_Authorization.TETQ_ETIQUETTE)}.{nameof(TETQ_ETIQUETTES.TETQ_CODE)}")
+                    HeaderText=@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_CODE)))
+                    MinWidth=100
+                    Width=160 />
+
+        <GridColumn Field=@($"{nameof(ETQ_TM_AET_Authorization.TETQ_ETIQUETTE)}.{nameof(TETQ_ETIQUETTES.TETQ_LIB)}")
+                    HeaderText=@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_LIB)))
+                    MinWidth=100
+                    Width=170 />
+
+        <GridColumn Field=@nameof(ETQ_TM_AET_Authorization.aet_status_id)
+                    MinWidth=80
+                    Width=114>
+            <Template>
+                @Trad.Keys[$"STATUS:{((ETQ_TM_AET_Authorization)context).aet_status_id}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((FilterItemTemplateContext)context).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(ETQ_TM_AET_Authorization.aet_comments)
+                    MinWidth=100
+                    Width=180 />
+
+        <GridColumn Field=@nameof(ETQ_TM_AET_Authorization.aet_update_date)
+                    MinWidth=100
+                    Width=152 />
+
+        <GridForeignColumn Field=@nameof(Data.EF.Etq.ETQ_TM_AET_Authorization.aet_update_by)
+                           TValue=Data.EF.Univers.TRU_USERS
+                           ForeignKeyField=@nameof(Data.EF.Univers.TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)
+                           MinWidth=100
+                           Width=170>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<Data.EF.Univers.TRU_USERS>)
+                           Adaptor=Adaptors.CustomAdaptor />
+        </GridForeignColumn>
+
+        <GridColumn Field=@nameof(ETQ_TM_AET_Authorization.aet_initializing_date)
+                    MinWidth=100
+                    Width=152 />
+    </GridColumns>
+</OrkaGenericGridComponent>

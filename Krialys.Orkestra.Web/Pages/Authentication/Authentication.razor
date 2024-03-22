@@ -1,0 +1,74 @@
+﻿@page "/authentication/{action}"
+
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [AllowAnonymous]
+
+<RemoteAuthenticatorView Action="@Action">
+    @* Override the different child items to adapt them to our own style
+        I've done this for LogOutSucceeded now, already added the rest but with the defaults (and localization). *@
+    <LogOutSucceeded>
+        <MudItem Class="d-flex justify-center">
+            <MudText Typo="Typo.h6" GutterBottom="true">
+                @Trad.Keys["You were successfully logged out."]
+            </MudText>
+        </MudItem>
+        <MudItem Class="d-flex justify-center">
+            <MudButton OnClick=@GoHome Color="Color.Primary" Size="MudBlazor.Size.Large">
+                @Trad.Keys["Click here to log back in"].
+            </MudButton>
+        </MudItem>
+    </LogOutSucceeded>
+    <LoggingIn>
+        <span>@Trad.Keys["Logging you in..."]</span>
+    </LoggingIn>
+    <CompletingLoggingIn>
+        <span>@Trad.Keys["Checking permissions..."]</span>
+    </CompletingLoggingIn>
+    <LogInFailed>
+        <MudItem Class="d-flex justify-center">
+            <MudText Typo="Typo.h6" GutterBottom="true">
+                @Trad.Keys["Sorry, your login failed. Please try again or contact support."]
+            </MudText>
+        </MudItem>
+        @if (GetMessage() is { } message && !string.IsNullOrWhiteSpace(message))
+        {
+            <MudItem Class="d-flex justify-center">
+                @message
+            </MudItem>
+        }
+    </LogInFailed>
+    <LogOut>
+        <span>@Trad.Keys["Logging you out..."]</span>
+    </LogOut>
+    <CompletingLogOut>
+        <span>@Trad.Keys["Logging you out..."]</span>
+    </CompletingLogOut>
+    <LogOutFailed>
+        <span>@Trad.Keys["Sorry, log out operation failed. Please try again or contact support."]</span>
+    </LogOutFailed>
+    <UserProfile>
+        <span>@Trad.Keys["Retrieving profile..."]</span>
+    </UserProfile>
+    <Registering>
+        <span>@Trad.Keys["Registering account..."]</span>
+    </Registering>
+</RemoteAuthenticatorView>
+
+@code {
+    [Parameter] public string Action { get; set; }
+
+    private void GoHome() => Navigation.NavigateTo("/");
+
+    private string GetMessage()
+    {
+        var query = Navigation.ToAbsoluteUri(Navigation.Uri).Query;
+
+        //if (!string.IsNullOrWhiteSpace(query))
+        //    //&& QueryHelpers.ParseQuery(query).TryGetValue("message", out var message))
+        //{
+        //    return message.ToString();
+        //}
+
+        return null;
+    }
+}

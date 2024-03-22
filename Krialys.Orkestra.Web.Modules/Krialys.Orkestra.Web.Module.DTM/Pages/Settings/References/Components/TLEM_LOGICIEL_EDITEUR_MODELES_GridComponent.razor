@@ -1,0 +1,41 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TLEM_LOGICIEL_EDITEUR_MODELES"
+                       @ref="Ref_TLEM_LOGICIEL_EDITEUR_MODELES"
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TLEM_LOGICIEL_EDITEUR_MODELES"
+                    DataBound=Ref_TLEM_LOGICIEL_EDITEUR_MODELES.DataBoundHander
+                    OnToolbarClick="@Ref_TLEM_LOGICIEL_EDITEUR_MODELES.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TLEM_LOGICIEL_EDITEUR_MODELES.OnContextMenuItemClickedAsync" OnLoad=Ref_TLEM_LOGICIEL_EDITEUR_MODELES.OnLoadHandler Destroyed=Ref_TLEM_LOGICIEL_EDITEUR_MODELES.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TLEM_LOGICIEL_EDITEUR_MODELES, entity))">
+                    @Ref_TLEM_LOGICIEL_EDITEUR_MODELES.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TLEM_LOGICIEL_EDITEUR_MODELES.DataGrid.CloseEditAsync())">
+                    @Ref_TLEM_LOGICIEL_EDITEUR_MODELES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

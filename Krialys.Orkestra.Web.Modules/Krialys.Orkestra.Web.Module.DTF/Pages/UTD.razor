@@ -1,0 +1,12 @@
+﻿@page "/dtf_utd"
+@attribute [Authorize]
+
+@using Krialys.Orkestra.Web.Module.DTF.Components.UTD.NewProduction
+
+<VDE_DEMANDES_ETENDUES_GridComponent CanLaunchProductions=true
+                                     @bind-IsNewProductionDisplayed=_isNewProductionDisplayed />
+
+@if (_isNewProductionDisplayed)
+{
+    <Krialys.Orkestra.Web.Module.DTF.Components.UTD.NewProductionComponent @bind-IsVisible=_isNewProductionDisplayed />
+}

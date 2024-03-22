@@ -1,0 +1,389 @@
+﻿@page "/referencesp3"
+@* Reférentiels MOE et système *@
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "Etq_referencesp3")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    @* Animation settings *@
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        @* Catégorie référentiels MOA et système *@
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Formats d'objets" />
+            </ChildContent>
+
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TOBF_OBJ_FORMATS"
+                                       @ref="Ref_TOBF_OBJ_FORMATS"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TOBF_OBJ_FORMATS"
+                                    DataBound=Ref_TOBF_OBJ_FORMATS.DataBoundHander
+                                    OnToolbarClick="@Ref_TOBF_OBJ_FORMATS.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TOBF_OBJ_FORMATS.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TOBF_OBJ_FORMATS.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TOBF_OBJ_FORMATS.OnLoadHandler Destroyed=Ref_TOBF_OBJ_FORMATS.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TOBF_OBJ_FORMATS, entity))">
+                                    @Ref_TOBF_OBJ_FORMATS.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TOBF_OBJ_FORMATS.DataGrid.CloseEditAsync())">
+                                    @Ref_TOBF_OBJ_FORMATS.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Natures d'objets" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TOBN_OBJ_NATURES"
+                                       @ref="Ref_TOBN_OBJ_NATURES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TOBN_OBJ_NATURES"
+                                    DataBound=Ref_TOBN_OBJ_NATURES.DataBoundHander
+                                    OnToolbarClick="@Ref_TOBN_OBJ_NATURES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TOBN_OBJ_NATURES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TOBN_OBJ_NATURES.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TOBN_OBJ_NATURES.OnLoadHandler Destroyed=Ref_TOBN_OBJ_NATURES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TOBN_OBJ_NATURES, entity))">
+                                    @Ref_TOBN_OBJ_NATURES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TOBN_OBJ_NATURES.DataGrid.CloseEditAsync())">
+                                    @Ref_TOBN_OBJ_NATURES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+       <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Types de domaines" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TTDOM_TYPE_DOMAINES"
+                                       @ref="Ref_TTDOM_TYPE_DOMAINES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TTDOM_TYPE_DOMAINES"
+                                    DataBound=Ref_TTDOM_TYPE_DOMAINES.DataBoundHander
+                                    OnToolbarClick="@Ref_TTDOM_TYPE_DOMAINES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TTDOM_TYPE_DOMAINES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TTDOM_TYPE_DOMAINES.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TTDOM_TYPE_DOMAINES.OnLoadHandler Destroyed=Ref_TTDOM_TYPE_DOMAINES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TTDOM_TYPE_DOMAINES, entity))">
+                                    @Ref_TTDOM_TYPE_DOMAINES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TTDOM_TYPE_DOMAINES.DataGrid.CloseEditAsync())">
+                                    @Ref_TTDOM_TYPE_DOMAINES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Codifications des étiquettes" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TEQC_ETQ_CODIFS"
+                                       @ref="Ref_TEQC_ETQ_CODIFS"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TEQC_ETQ_CODIFS"
+                                    DataBound=Ref_TEQC_ETQ_CODIFS.DataBoundHander
+                                    OnToolbarClick="@Ref_TEQC_ETQ_CODIFS.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TEQC_ETQ_CODIFS.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TEQC_ETQ_CODIFS.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TEQC_ETQ_CODIFS.OnLoadHandler Destroyed=Ref_TEQC_ETQ_CODIFS.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TEQC_ETQ_CODIFS, entity))">
+                                    @Ref_TEQC_ETQ_CODIFS.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TEQC_ETQ_CODIFS.DataGrid.CloseEditAsync())">
+                                    @Ref_TEQC_ETQ_CODIFS.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Types d'événements" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TTE_TYPE_EVENEMENTS"
+                                       @ref="Ref_TTE_TYPE_EVENEMENTS"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TTE_TYPE_EVENEMENTS"
+                                    DataBound=Ref_TTE_TYPE_EVENEMENTS.DataBoundHander
+                                    OnToolbarClick="@Ref_TTE_TYPE_EVENEMENTS.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TTE_TYPE_EVENEMENTS.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TTE_TYPE_EVENEMENTS.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TTE_TYPE_EVENEMENTS.OnLoadHandler Destroyed=Ref_TTE_TYPE_EVENEMENTS.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TTE_TYPE_EVENEMENTS, entity))">
+                                    @Ref_TTE_TYPE_EVENEMENTS.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TTE_TYPE_EVENEMENTS.DataGrid.CloseEditAsync())">
+                                    @Ref_TTE_TYPE_EVENEMENTS.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Types de ressources (Entrées)" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TTR_TYPE_RESSOURCES"
+                                       @ref="Ref_TTR_TYPE_RESSOURCES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TTR_TYPE_RESSOURCES"
+                                    DataBound=Ref_TTR_TYPE_RESSOURCES.DataBoundHander
+                                    OnToolbarClick="@Ref_TTR_TYPE_RESSOURCES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TTR_TYPE_RESSOURCES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TTR_TYPE_RESSOURCES.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TTR_TYPE_RESSOURCES.OnLoadHandler Destroyed=Ref_TTR_TYPE_RESSOURCES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TTR_TYPE_RESSOURCES, entity))">
+                                    @Ref_TTR_TYPE_RESSOURCES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TTR_TYPE_RESSOURCES.DataGrid.CloseEditAsync())">
+                                    @Ref_TTR_TYPE_RESSOURCES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Actions" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TACT_ACTIONS"
+                                          @ref="Ref_TACT_ACTIONS"
+                                          IsWithinTab=true
+                                          AllowResizing="true"
+                                          AllowPdfExport="false"
+                                          AllowExcelExport="true"
+                                          AllowCsvExport="false"
+                                          EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TACT_ACTIONS"
+                                    DataBound=Ref_TACT_ACTIONS.DataBoundHander
+                                    OnToolbarClick="@Ref_TACT_ACTIONS.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TACT_ACTIONS.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TACT_ACTIONS.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TACT_ACTIONS.OnLoadHandler Destroyed=Ref_TACT_ACTIONS.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TACT_ACTIONS, entity))">
+                                    @Ref_TACT_ACTIONS.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TACT_ACTIONS.DataGrid.CloseEditAsync())">
+                                    @Ref_TACT_ACTIONS.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+    </TabItems>
+</SfTab>

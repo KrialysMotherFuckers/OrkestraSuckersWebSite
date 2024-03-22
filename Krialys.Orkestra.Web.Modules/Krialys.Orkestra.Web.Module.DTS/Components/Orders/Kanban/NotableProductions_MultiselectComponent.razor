@@ -1,0 +1,29 @@
+﻿<SfTooltip @ref=_tooltipReference
+           Target=#ProductionMultiSelect
+           OpensOn=Custom
+           Content=@Trad.Keys["COMMON:RequiredField"]
+           CssClass=e-griderror>
+    <SfMultiSelect TValue=TCMD_DA_DEMANDES_ASSOCIEES[]
+                   TItem=TCMD_DA_DEMANDES_ASSOCIEES
+                   @bind-Value=_multiselectValues
+                   DataSource=_associatedProductions
+                   @ref=_multiselectReference
+                   ID=ProductionMultiSelect
+                   Mode=VisualMode.CheckBox
+                   Placeholder=@_multiselectPlaceholder
+                   AllowFiltering=true
+                   FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+                   ShowSelectAll=true
+                   EnableSelectionOrder=true
+                   ShowDropDownIcon=true
+                   EnablePersistence=false
+                   FloatLabelType=FloatLabelType.Always
+                   Width=200px>
+
+        <MultiSelectFieldSettings Text=@nameof(TCMD_DA_DEMANDES_ASSOCIEES.TD_DEMANDEID) />
+
+        <MultiSelectEvents TValue=TCMD_DA_DEMANDES_ASSOCIEES[]
+                           TItem=TCMD_DA_DEMANDES_ASSOCIEES
+                           ValueChange=ValueChangeAsync />
+    </SfMultiSelect>
+</SfTooltip>

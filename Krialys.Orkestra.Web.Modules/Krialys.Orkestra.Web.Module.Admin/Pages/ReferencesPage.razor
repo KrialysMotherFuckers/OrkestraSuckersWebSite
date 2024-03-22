@@ -1,0 +1,180 @@
+﻿@page "/adminreferences"
+
+@attribute [Authorize(Policy = PoliciesLiterals.Administrator)]
+
+<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "ADM_adminreferences")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["Administration:Claims"]"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <OrkaGenericGridComponent TEntity=Data.EF.Univers.TRCL_CLAIMS
+                                       @ref=_refGridClaims
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnableColumnMenu="false"
+                                       AutoGenerateColumns="false"
+                                       OnLoadFields="@_customDisplayedFields"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue=Data.EF.Univers.TRCL_CLAIMS
+                                    DataBound=_refGridClaims.DataBoundHander
+                                    OnToolbarClick=_refGridClaims.OnToolbarClickAsync
+                                    ContextMenuItemClicked=_refGridClaims.OnContextMenuItemClickedAsync
+                                    OnActionFailure=_refGridClaims.ActionFailureAsync OnLoad=_refGridClaims.OnLoadHandler Destroyed=_refGridClaims.OnDestroyed />
+
+                        <GridEditSettings AllowAdding=true
+                                          AllowEditing=true
+                                          AllowDeleting=false
+                                          ShowConfirmDialog=true
+                                          ShowDeleteConfirmDialog=true
+                                          Mode=EditMode.Dialog
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate>
+                                <SfButton IsPrimary=true
+                                          CssClass="e-success"
+                                          OnClick=@(() => _refGridClaims.DataGrid.EndEditAsync())>
+                                    @_refGridClaims.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick=@(() => _refGridClaims.DataGrid.CloseEditAsync())>
+                                    @_refGridClaims.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+                        </GridEditSettings>
+
+                        @* Hierarchy grid: Display claims catalogs linked to this row. *@
+                        <GridTemplates>
+                            <DetailTemplate Context="customerContext">
+                                <span>@Trad.Keys["Administration:CatalogLinkedToClaims"]</span>
+                                @{
+                                    @* Get current object Id. *@
+                                    var claimId = ((Data.EF.Univers.TRCL_CLAIMS)customerContext).TRCL_CLAIMID;
+                                    @* Query to filter child grid with the current object Id. *@
+                                    var gridQuery = new Query().Where("TRCL_CLAIMID", "equal", claimId);
+
+                                    @* Grid of the claims linked to this user. *@
+                                    <OrkaGenericGridComponent TEntity=Data.EF.Univers.TRCCL_CATALOG_CLAIMS
+                                                       Query=gridQuery
+                                                       SuffixId=@claimId.ToString()
+                                                       AllowResizing="true"
+                                                       AllowPdfExport="false"
+                                                       AllowExcelExport="true"
+                                                       AllowCsvExport="false"
+                                                       EnableColumnMenu="false"
+                                                       EnablePersistence=false>
+                                        <ChildContent>
+                                            <GridEditSettings AllowAdding="false"
+                                                          AllowEditing="true"
+                                                          AllowDeleting="false"
+                                                          ShowConfirmDialog="false"
+                                                          ShowDeleteConfirmDialog="false"
+                                                          Mode="EditMode.Dialog"
+                                                          Dialog="@Extends.GridEditSettingDialog" />
+                                        </ChildContent>
+                                    </OrkaGenericGridComponent>
+                                }
+                            </DetailTemplate>
+                        </GridTemplates>
+
+                    </ChildContent>
+
+                </OrkaGenericGridComponent>
+
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["Administration:AuthScenarios"]"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <OrkaGenericGridComponent TEntity=Data.EF.Univers.TRAS_AUTH_SCENARIOS
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       @ref=_refGridAuth
+                                       EnableColumnMenu="false">
+
+                    <ChildContent>
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue=Data.EF.Univers.TRAS_AUTH_SCENARIOS
+                                    DataBound=_refGridAuth.DataBoundHander />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="false"
+                                          ShowDeleteConfirmDialog="false"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog" />
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>
+
+@code {
+    private OrkaGenericGridComponent<Data.EF.Univers.TRCL_CLAIMS> _refGridClaims;
+    private OrkaGenericGridComponent<Data.EF.Univers.TRAS_AUTH_SCENARIOS> _refGridAuth;
+
+    /// <summary>
+    /// List of the displayed fields in grid columns.
+    /// </summary>
+    private readonly string[] _customDisplayedFields = {
+            nameof(Data.EF.Univers.TRCL_CLAIMS.TRCL_STATUS),
+            nameof(Data.EF.Univers.TRCL_CLAIMS.TRCL_CLAIM_NAME),
+            nameof(Data.EF.Univers.TRCL_CLAIMS.TRCL_CLAIM_DESCRIPTION),
+            nameof(Data.EF.Univers.TRCL_CLAIMS.TRCLI_MULTIVALUE),
+    };
+
+    private bool Disabled { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Subscribe SfTabEvent
+        Bus.Subscribe<SfTabBusEvent>(e =>
+        {
+            var result = e.GetMessage<SfTabBusEvent>().Disabled;
+            if (Disabled != result)
+            {
+                Disabled = result;
+                // Refresh UI
+                StateHasChanged();
+            }
+        });
+    }
+
+    private void OnTabSelecting(SelectingEventArgs args)
+    {
+        // Disable Tab navigation on Tab selection.
+        if (args.IsSwiped)
+        {
+            args.Cancel = true;
+        }
+        else
+        {
+            // Set Disabled value then fire event to SfTab
+            Bus.Publish(new SfTabBusEvent { Disabled = true });
+        }
+    }
+}

@@ -1,0 +1,74 @@
+﻿@page "/Admin_TechnicalSettings"
+
+@using Krialys.Orkestra.Web.Common.ApiClient;
+@using Krialys.Orkestra.Web.Common;
+@using Krialys.Orkestra.Web.Module.ADM.Components.Dialogs;
+
+<MudExpansionPanels MultiExpansion>
+    <MudExpansionPanel Text="Web Site Settings">
+        <TechnicalDetails />
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Web Site Settings">
+        <OrkestraSettings />
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Email Template settings">
+        <MudGrid>
+            <EmailTemplateSettings />
+        </MudGrid>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Misc" IsExpanded>
+        <MudGrid>
+            <MudItem xs="2">
+                <MudButton Size="Size.Small" StartIcon="@Icons.Material.Outlined.Key" OnClick="@((e) => GenerateLicenseKey())"
+                           Variant="Variant.Text">
+                    Generate License Key
+                </MudButton>
+            </MudItem>
+            <MudItem xs="2">
+                <MudButton Size="Size.Small" StartIcon="@Icons.Material.Outlined.Key" OnClick="@((e) => ImportExportJob())"
+                           Variant="Variant.Text">
+                    Import / Export Job
+                </MudButton>
+            </MudItem>
+            @* <MudItem xs="2">
+                <MudButton Size="Size.Small" StartIcon="@Icons.Material.Outlined.Key" OnClick="@((e) => DatabaseFactoryReset())"
+                           Variant="Variant.Text">
+                    Database Purge
+                </MudButton>
+            </MudItem> *@
+        </MudGrid>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code {
+
+    [Inject] private ITechnicalClient _iTechnicalClient { get; set; }
+    [Inject] private ISnackbar _iSnackbar { get; set; }
+    [Inject] private IHttpProxyCore _httpProxyCore { get; set; }
+
+    private CustomValidation _customValidation = default;
+
+    protected void GenerateLicenseKey()
+        => DialogService.Show<LicenseGeneration>(
+                    "License key generation",
+                    new DialogParameters(),
+                    new MudBlazor.DialogOptions { CloseOnEscapeKey = false, CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true });
+
+    protected void ImportExportJob()
+            => DialogService.Show<ImportExportJobDialog>(
+                        "Import / Export Job",
+                        new DialogParameters(),
+                        new MudBlazor.DialogOptions { CloseOnEscapeKey = false, CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true });
+
+    protected async Task DatabaseFactoryReset()
+    {
+        if (await DialogService.ShowMessageBox("Database reset", "Do you want to reset all database data ?", yesText: "Reset!", cancelText: "No") != null)
+            if (await ApiHelper.ExecuteCallGuardedAsync(() => _iTechnicalClient.DatabasePurgeAsync(), _iSnackbar, _customValidation))
+            {
+                _iSnackbar.Add($"All databases were successfully purged", Severity.Info);
+                _httpProxyCore.CacheClear();
+            }
+            else
+                _iSnackbar.Add($"Purge failed :-/", Severity.Error);
+    }
+}

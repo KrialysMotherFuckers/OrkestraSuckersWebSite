@@ -1,0 +1,41 @@
+﻿@page "/login"
+
+@layout EmptyLayout
+@attribute [AllowAnonymous]
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center" Style="height: 100vh;">
+    <MudPaper Elevation="25" Class="pa-8">
+        <div style="text-align-last: center;">
+            <img src="icon-512.png" Style="height:80px" alt="" />
+        </div>
+        <div style="text-align: center">
+            <MudText Typo="Typo.h4" GutterBottom="true">OrKestra</MudText>
+            <MudText>Connexion</MudText>
+        </div>
+        <br />
+        <EditForm Model="@_model" OnValidSubmit="SubmitAsync">
+            <MudGrid>
+                <DataAnnotationsValidator />
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Identifiant" Variant="Variant.Outlined" @bind-Value="_model.Login" Margin="Margin.Dense"
+                                  For="@(() => _model.Login)" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Label="Password" Variant="Variant.Outlined" @bind-Value="_model.Password" Margin="Margin.Dense"
+                                  For="@(() => _model.Password)" InputType="@_passwordInput"
+                                  Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="ShowPassword" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudButton StartIcon="@Icons.Material.Filled.LockReset" Href="/account/forgot-password" Size="MudBlazor.Size.Small" Disabled>Mot de passe oublié ?</MudButton>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudButton StartIcon="@Icons.Material.Filled.AppRegistration" Href="/users/self-register" Size="MudBlazor.Size.Small" Disabled>Demander un accès</MudButton>
+                </MudItem>
+                <MudItem xs="12" Class="d-flex justify-center">
+                    <MudButton ButtonType="MudBlazor.ButtonType.Submit" Disabled="BusySubmitting" Variant="Variant.Filled"
+                               Size="MudBlazor.Size.Large" StartIcon="@Icons.Material.Filled.Login" Style="width: 100%;background-color: #2c6474c2;font-weight: 600;color:white">Se Connecter</MudButton>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </MudPaper>
+</MudContainer>

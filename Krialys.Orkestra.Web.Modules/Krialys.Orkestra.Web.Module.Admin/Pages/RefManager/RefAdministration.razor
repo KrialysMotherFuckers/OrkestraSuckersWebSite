@@ -1,0 +1,346 @@
+﻿@page "/RefManager_Administration"
+
+@using FluentValidation
+@using Krialys.Orkestra.Web.Common.ApiClient
+@using Krialys.Orkestra.Web.Common.Models
+
+<SfGrid @ref="_refGrid"
+        TValue="TM_RFS_ReferentialSettings"
+        class="e-large-filter"
+        Width="calc(100vw - 1.75rem)"
+        AllowPaging="true" AllowSorting="true" Toolbar="@(new string[] { "Add", "Edit", "Delete"  })">
+
+    <SfDataManager Url=@($"{Config[Litterals.ProxyUrl]}TM_RFS_ReferentialSettingsListPagedResponse")
+                   InsertUrl="@($"{Config[Litterals.ProxyUrl]}TM_RFS_ReferentialSettingsAdd")"
+                   UpdateUrl="@($"{Config[Litterals.ProxyUrl]}TM_RFS_ReferentialSettingsUpdate")"
+                   RemoveUrl="@($"{Config[Litterals.ProxyUrl]}TM_RFS_ReferentialSettingsRemove")"
+                   Adaptor="Adaptors.UrlAdaptor" />
+
+    <GridEvents TValue=TM_RFS_ReferentialSettings OnActionBegin=OnActionBegin RowSelected="OnRowSelected" />
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_TableName) HeaderText="@(Trad.Keys["RefManager:Settings_TableName"])" />
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_id) IsPrimaryKey=true IsIdentity=true Visible=false />
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_TableFunctionalName) HeaderText="@(Trad.Keys["RefManager:Settings_TableFunctionalName"])" />
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_Description) HeaderText="@(Trad.Keys["RefManager:Settings_Description"])" />
+
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_TableTypology) HeaderText="@(Trad.Keys["RefManager:Settings_Typology"])">
+            <Template>
+                @{
+                    @Trad.Keys[$"RefManager:Settings_Typology_{((context as TM_RFS_ReferentialSettings)!).Rfs_TableTypology.ToString()}"]
+                }
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Cnx_Id) HeaderText="@(Trad.Keys["RefManager:Settings_Connection"])">
+            <Template>
+                @{
+                    var settings = (context as TM_RFS_ReferentialSettings);
+                    @if (settings != null && _cnxList != null)
+                    {
+                        <span>
+                            @_cnxList.FirstOrDefault(x => x.Cnx_Id == settings.Cnx_Id)!.Cnx_Label
+                        </span>
+                    }
+                }
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TM_RFS_ReferentialSettings.Rfs_StatusCode) HeaderText="@(Trad.Keys["RefManager:Settings_StatusCode"])">
+            <Template>
+                @{
+                    @Trad.Keys[$"STATUS:{((context as TM_RFS_ReferentialSettings)!).Rfs_StatusCode}"]
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>
+
+    <GridEditSettings AllowAdding=true
+                      AllowEditing=true
+                      AllowDeleting="@_deleteAllowed"
+                      ShowConfirmDialog=true
+                      ShowDeleteConfirmDialog=true
+                      Mode=EditMode.Dialog
+                      Dialog="@(new DialogSettings { Width = "1200px", Height="auto", AllowDragging = false })">
+
+        <Validator>
+            <Krialys.Orkestra.Web.Module.ADM.Pages.RefManager.RefAdministrationValidator context="@(context as ValidatorTemplateContext)" isEditMode="@_isEditMode" />
+        </Validator>
+
+        <HeaderTemplate>
+            @{
+                var item = (context as TM_RFS_ReferentialSettings);
+                <span>@($"{Trad.Keys["RefManager:Settings_DetailTitle"]} {(item != null ? "" : " - " + @item?.Rfs_TableName)}")</span>
+            }
+        </HeaderTemplate>
+
+        <Template>
+            @{
+                _currentRecord = (context as TM_RFS_ReferentialSettings);
+                <br />
+                <div class="container" style="width:auto">
+                    <div class="row">
+                        <div class="col-4">
+                            <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:Settings_TableName"]} *") Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableName"
+                                          Margin="Margin.Dense" Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft || _isEditMode) />
+                            <ValidationMessage For="@(() => _currentRecord.Rfs_TableName)"></ValidationMessage>
+                        </div>
+                        <div class="col-5">
+                            <MudTextField T="string" Label=@($"{Trad.Keys["RefManager:Settings_TableFunctionalName"]} *") Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableFunctionalName"
+                                          Margin="Margin.Dense" Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                            <ValidationMessage For="@(() => _currentRecord.Rfs_TableFunctionalName)"></ValidationMessage>
+                        </div>
+                        <div class="col-3">
+                            <SfDropDownList @bind-Value="@_currentRecord.Rfs_TableTypology"
+                                            TItem="TypologyTypeItem" TValue="RefManagerTypologyType"
+                                            Placeholder="@(Trad.Keys["RefManager:Settings_Typology"])"
+                                            FloatLabelType="FloatLabelType.Always"
+                                            DataSource="@_typology"
+                                            Enabled="@(_currentRecord.Rfs_StatusCode == StatusLiteral.Draft)">
+                                <DropDownListEvents TItem="TypologyTypeItem"
+                                                    TValue="RefManagerTypologyType"
+                                                    OnValueSelect="@((args)=>OnTypologyChanged(args,_currentRecord))"></DropDownListEvents>
+                                <DropDownListFieldSettings Value=@nameof(TypologyTypeItem.Code)
+                                                           Text=@nameof(TypologyTypeItem.Label) />
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9">
+                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_Description"])" Lines="1" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_Description"
+                                          Margin="Margin.Dense"
+                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                        </div>
+                        <div class="col-3">
+                            <SfDropDownList @bind-Value="@_currentRecord.Rfs_ManagerId"
+                                            TItem="Krialys.Data.EF.Univers.TRU_USERS" TValue="string"
+                                            Placeholder="@(Trad.Keys["RefManager:Settings_DataStewart"])"
+                                            FloatLabelType="FloatLabelType.Always"
+                                            DataSource="@_userDataStewardList"
+                                            Enabled="@(_currentRecord.Rfs_StatusCode == StatusLiteral.Draft)">
+                                <DropDownListFieldSettings Value=@nameof(Krialys.Data.EF.Univers.TRU_USERS.TRU_LOGIN)
+                                                           Text=@nameof(Krialys.Data.EF.Univers.TRU_USERS.TRU_FULLNAME) />
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9">
+                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_Documentation"])" Lines="4" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_Documentation"
+                                          Margin="Margin.Dense"
+                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                        </div>
+                        <div class="col-3">
+                            <br />
+                            <SfDropDownList @bind-Value="@_currentRecord.Rfs_StatusCode"
+                                            TItem="StatusItem" TValue="string"
+                                            Placeholder="@(Trad.Keys["RefManager:Settings_StatusCode"])"
+                                            FloatLabelType="FloatLabelType.Always"
+                                            DataSource="@_statusList">
+                                <DropDownListEvents TItem="StatusItem"
+                                                    TValue="string"
+                                                    OnValueSelect="@((args)=>OnStatusChanged(args,_currentRecord))"></DropDownListEvents>
+                                <DropDownListFieldSettings Value=@nameof(StatusItem.Code)
+                                                           Text=@nameof(StatusItem.Label) />
+                            </SfDropDownList>
+                            <MudCheckBox @ref="_rollBackChkBox"
+                                         T="bool"
+                                         Label="@(Trad.Keys["RefManager:Settings_IsBackupNeeded"])"
+                                         @bind-Value="@_currentRecord.Rfs_IsBackupNeeded"
+                                         Size="Size.Small"
+                                         Color="Color.Primary"
+                                         Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft)
+                                         style="align-items: self-start;"></MudCheckBox>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-12">
+                            <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                <h6>@(Trad.Keys["RefManager:DbConnection_Database"])</h6>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <SfDropDownList @bind-Value="@_currentRecord.Cnx_Id"
+                                                            TItem="Krialys.Data.EF.RefManager.TR_CNX_Connections" TValue="int"
+                                                            Placeholder=@($"{Trad.Keys["RefManager:Settings_Connection"]} *")
+                                                            FloatLabelType="FloatLabelType.Always"
+                                                            DataSource="@_cnxList"
+                                                            Enabled="@(_currentRecord.Rfs_StatusCode == StatusLiteral.Draft)">
+                                                <DropDownListFieldSettings Value=@nameof(TR_CNX_Connections.Cnx_Id)
+                                                                           Text=@nameof(TR_CNX_Connections.Cnx_Code) />
+                                            </SfDropDownList>
+                                            <ValidationMessage For="@(() => _currentRecord.Cnx_Id)"></ValidationMessage>
+                                        </div>
+                                        <div class="col-6">
+                                            <MudTextField T="string"
+                                                          Label=@($"{Trad.Keys["RefManager:Settings_Schema"]} *")
+                                                          Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableSchema"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                            <ValidationMessage For="@(() => _currentRecord.Rfs_TableSchema)"></ValidationMessage>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-12">
+                            <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                <h6>@(Trad.Keys["RefManager:Settings_Title_Request"])</h6>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <MudTextField T="string"
+                                                          Label=@($"{Trad.Keys["RefManager:Settings_TableQuerySelect"]} *")
+                                                          Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQuerySelect"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                            <ValidationMessage For="@(() => _currentRecord.Rfs_TableQuerySelect)"></ValidationMessage>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_Rfs_TableQueryInsert"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQueryInsert"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_Rfs_TableQueryDelete"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQueryDelete"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-12">
+                            <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                <h6>@(Trad.Keys["RefManager:Settings_Title_Restriction"])</h6>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <MudNumericField T="int?" Min="0" Label="@(Trad.Keys["RefManager:Settings_TableDataMaxRowsExpectedToReceive"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableDataMaxRowsExpectedToReceive"
+                                                             Margin="Margin.Dense"
+                                                             Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <MudNumericField T="int?" Min="0" Label="@(Trad.Keys["RefManager:Settings_TableDataMinRowsExpectedToSend"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableDataMinRowsExpectedToSend"
+                                                             Margin="Margin.Dense"
+                                                             Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <MudNumericField T="int?" Min="0" Label="@(Trad.Keys["RefManager:Settings_TableDataMaxRowsExpectedToSend"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableDataMaxRowsExpectedToSend"
+                                                             Margin="Margin.Dense"
+                                                             Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-12">
+                            <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                <h6>@(Trad.Keys["RefManager:Settings_Title_Condition"])</h6>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_TableQueryUpdateColumns"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQueryUpdateColumns"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_TableQueryUpdateKeys"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQueryUpdateKeys"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_TableQueryCriteria"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_TableQueryCriteria"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row" style='@(_currentRecord.Rfs_TableTypology == Krialys.Orkestra.Web.Common.ApiClient.RefManagerTypologyType.WithLabel ? "" : "display:none")'>
+                        <div class="col-12">
+                            <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                                <h6>@(Trad.Keys["RefManager:Settings_Title_Labeling"])</h6>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_ParamLabelCodeObject"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_ParamLabelObjectCode"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_LabelCodeFieldName"])" Variant="Variant.Outlined" @bind-Value="_currentRecord.Rfs_LabelCodeFieldName"
+                                                          Margin="Margin.Dense"
+                                                          Disabled=@(_currentRecord.Rfs_StatusCode != StatusLiteral.Draft) />
+                                        </div>
+                                        <div class="col-4">
+                                            <SfDropDownList @bind-Value="_currentRecord.Rfs_ScenarioId"
+                                                            TValue=int?
+                                                            TItem=Krialys.Data.EF.Univers.TS_SCENARIOS
+                                                            Placeholder=@Trad.Keys["RefManager:Settings_Scenario"]
+                                                            FloatLabelType="FloatLabelType.Always"
+                                                            DataSource="@_scenariosList"
+                                                            AllowFiltering="true"
+                                                            ShowClearButton=true
+                                                            Enabled="@(_currentRecord.Rfs_StatusCode == StatusLiteral.Draft)">
+                                                <DropDownListTemplates TItem="Krialys.Data.EF.Univers.TS_SCENARIOS" Context="ctx">
+                                                    <GroupTemplate>
+                                                        <span class="group">@(ctx.Text)</span>
+                                                    </GroupTemplate>
+                                                    <ItemTemplate>
+                                                        @(ctx.TS_NOM_SCENARIO)
+                                                    </ItemTemplate>
+                                                </DropDownListTemplates>
+                                                <DropDownListFieldSettings GroupBy=@($"{nameof(Krialys.Data.EF.Univers.TS_SCENARIOS.TE_ETAT)}.{nameof(Krialys.Data.EF.Univers.TS_SCENARIOS.TE_ETAT.TE_FULLNAME)}")
+                                                                           Text="@nameof(Krialys.Data.EF.Univers.TS_SCENARIOS.TS_NOM_SCENARIO)"
+                                                                           Value=@nameof(Krialys.Data.EF.Univers.TS_SCENARIOS.TS_SCENARIOID)></DropDownListFieldSettings>
+                                            </SfDropDownList>
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row" style='@(_isEditMode ? "" : "display:none")'>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-3">
+                                    <MudTextField T="DateTimeOffset" Label="@(Trad.Keys["RefManager:Settings_CreationDate"])" Format="g" @bind-Value="_currentRecord.Rfs_CreationDate" Disabled />
+                                 </div>
+                                 <div class="col-3">
+                                     <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_CreatedBy"])" @bind-Value="_currentRecord.Rfs_CreatedBy" Disabled />
+                                 </div>
+                                 <div class="col-3" style='@(!string.IsNullOrEmpty(_currentRecord.Rfs_UpdateBy) ? "" : "display:none")'>
+                                     <MudTextField T="DateTimeOffset?" Label="@(Trad.Keys["RefManager:Settings_UpdateDate"])" Format="g" @bind-Value="_currentRecord.Rfs_UpdateDate" Disabled />
+                                 </div>
+                                 <div class="col-3" style='@(!string.IsNullOrEmpty(_currentRecord.Rfs_UpdateBy) ? "" : "display:none")'>
+                                     <MudTextField T="string" Label="@(Trad.Keys["RefManager:Settings_UpdateBy"])" @bind-Value="_currentRecord.Rfs_UpdateBy" Disabled />
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+            }
+        </Template>
+
+    </GridEditSettings>
+
+</SfGrid>
+

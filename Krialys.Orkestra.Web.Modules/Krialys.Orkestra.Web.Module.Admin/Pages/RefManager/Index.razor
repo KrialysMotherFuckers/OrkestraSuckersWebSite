@@ -1,0 +1,42 @@
+﻿@page "/RefManager"
+
+<OrkaTab Identifier=@(Litterals.Portail + "RefManager_Referentiels")>
+    <TabItems>
+        <span>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text=@(Trad.Keys["RefManager:Historic"]) />
+                </ChildContent>
+                <ContentTemplate>
+                    <RefHistorical />
+                </ContentTemplate>
+            </TabItem>
+        </span>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text=@(Trad.Keys["RefManager:Exploitation"]) />
+            </ChildContent>
+            <ContentTemplate>
+                <RefExploitation />
+            </ContentTemplate>
+        </TabItem>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text=@(Trad.Keys["RefManager:Settings"]) />
+            </ChildContent>
+            <ContentTemplate>
+                <RefAdministration />
+            </ContentTemplate>
+        </TabItem>
+        <span>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text=@(Trad.Keys["RefManager:DbConnection"]) />
+                </ChildContent>
+                <ContentTemplate>
+                    <RefDatabaseConnectionSettings />
+                </ContentTemplate>
+            </TabItem>
+        </span>
+    </TabItems>
+</OrkaTab>

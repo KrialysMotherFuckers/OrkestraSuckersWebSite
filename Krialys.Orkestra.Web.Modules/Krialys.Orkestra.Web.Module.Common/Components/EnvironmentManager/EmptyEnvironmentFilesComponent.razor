@@ -1,0 +1,17 @@
+﻿<div class="col-12" style="text-align: center;">
+    <MudButton EndIcon="@Icons.Material.Filled.FileUpload" Size="Size.Medium" OnClick="()=>ItemSelected()">@(EnvId)</MudButton>
+</div>
+
+@code {
+
+    [Parameter] public string EnvId { get; set; }
+    [Parameter] public EventCallback OnEnvironmentClosed { get; set; }
+
+    private void ItemSelected()
+    {
+        _dialogService.Show<EmptyEnvironmentFilesSetupDialog>(
+                Trad.Keys["COMMON:Register"],
+                new DialogParameters { { "EnvId", EnvId }, { "OnEnvironmentClosed", OnEnvironmentClosed } },
+                new MudBlazor.DialogOptions { DisableBackdropClick = true, CloseOnEscapeKey = false, CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true });
+    }
+}

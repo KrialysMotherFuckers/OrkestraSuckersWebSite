@@ -1,0 +1,50 @@
+﻿<SfDropDownList TItem=TCMD_COMMANDES
+                TValue=int
+                Query=_dropdownQuery
+                Placeholder=@Trad.Keys["DTF:AssociatedOrder"]
+                FloatLabelType=FloatLabelType.Always
+                ShowClearButton=true>
+    <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TCMD_COMMANDES>)
+                   Adaptor=Adaptors.CustomAdaptor />
+    <DropDownListFieldSettings Value=@nameof(TCMD_COMMANDES.TCMD_COMMANDEID) />
+    <DropDownListTemplates TItem=TCMD_COMMANDES>
+        <HeaderTemplate>
+            <div class="dropdown__header-template">
+                @Trad.Keys["DTF:AssociatedOrderDropdownHeader"]
+            </div>
+        </HeaderTemplate>
+        <ValueTemplate>
+            @((context as TCMD_COMMANDES).TCMD_COMMANDEID)
+            (@((context as TCMD_COMMANDES).TRU_COMMANDITAIRE?.TRU_FULLNAME))
+        </ValueTemplate>
+        <ItemTemplate>
+            @((context as TCMD_COMMANDES).TCMD_COMMANDEID)
+            (@((context as TCMD_COMMANDES).TRU_COMMANDITAIRE?.TRU_FULLNAME))
+        </ItemTemplate>
+    </DropDownListTemplates>
+    <DropDownListEvents TItem=TCMD_COMMANDES
+                        TValue=int
+                        ValueChange=ValueChangeAsync />
+</SfDropDownList>
+
+@if (_orderComment is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:OrderComment"]</span>&nbsp;
+            @_orderComment
+        </div>
+    </div>
+}
+
+<style>
+    .dropdown__header-template {
+        height: 34px;
+        padding: 5px 0 0 10px;
+        color: rgba(0, 0, 0, .54);
+        background-color: #f5f5f5;
+        font-family: "Segoe UI", "GeezaPro", "DejaVu Serif";
+        font-size: 14px;
+        font-weight: 600;
+    }
+</style>

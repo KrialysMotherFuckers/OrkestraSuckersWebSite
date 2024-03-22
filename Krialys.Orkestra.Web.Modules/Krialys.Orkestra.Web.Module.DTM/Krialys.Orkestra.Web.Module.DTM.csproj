@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <ProjectReference Include="..\Krialys.Orkestra.Web.Module.Common\Krialys.Orkestra.Web.Module.Common.csproj" />
+      <ProjectReference Include="..\Krialys.Orkestra.Web.Module.Misc\Krialys.Orkestra.Web.Module.Misc.csproj" />
+  </ItemGroup>
+
+</Project>

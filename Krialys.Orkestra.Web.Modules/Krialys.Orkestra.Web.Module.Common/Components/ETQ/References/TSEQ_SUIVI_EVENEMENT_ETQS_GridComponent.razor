@@ -1,0 +1,95 @@
+﻿@using Krialys.Data.EF.Etq
+@using Krialys.Data.EF.Univers
+@* Customisable datagrid parameters *@
+
+<OrkaGenericGridComponent TEntity="TSEQ_SUIVI_EVENEMENT_ETQS"
+                          @ref="Ref_TSEQ_SUIVI_EVENEMENT_ETQS"
+                          IsWithinTab=true
+                          AllowResizing="true"
+                          AllowPdfExport="false"
+                          AllowExcelExport="true"
+                          AllowCsvExport="false"
+                          EnablePersistence="true"
+                          AllowTracking="true"
+                          AutoGenerateColumns=false
+                          Query=@GridQuery>
+
+    <GridColumns>
+        <GridColumn Field="TSEQ_SUIVI_EVENEMENT_ETQID" Visible="false" AllowAdding="false" AllowEditing="false" IsPrimaryKey="true" />
+        @{
+            var fieldEtq = nameof(TSEQ_SUIVI_EVENEMENT_ETQS.TETQ_ETIQUETTEID);
+            var propEtq = Ref_TSEQ_SUIVI_EVENEMENT_ETQS.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == fieldEtq);
+            <GridForeignColumn Field="@propEtq?.Field"
+                               HeaderText="@propEtq?.HeaderText"
+                               ForeignKeyField="Id"
+                               ForeignKeyValue="Label"
+                               ForeignDataSource="@propEtq?.ForeignValuesList"
+                               AutoFit="@propEtq!.Autofit"
+                               Visible=@(EtiquetteId is null)
+                               AllowEditing="false"
+                               AllowAdding="false" />
+
+            var fieldTypeEvt = nameof(TSEQ_SUIVI_EVENEMENT_ETQS.TTE_TYPE_EVENEMENTID);
+            var propTypeEvt = Ref_TSEQ_SUIVI_EVENEMENT_ETQS.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == fieldTypeEvt);
+            <GridForeignColumn Field="@propTypeEvt?.Field"
+                               HeaderText="@propTypeEvt?.HeaderText"
+                               ForeignKeyField="Id"
+                               ForeignKeyValue="Label"
+                               ForeignDataSource="@propTypeEvt?.ForeignValuesList"
+                               AutoFit="@propTypeEvt!.Autofit"
+                               Visible="true"
+                               AllowEditing="false"
+                               AllowAdding="false" />
+        }
+
+        <GridColumn Field=@nameof(TSEQ_SUIVI_EVENEMENT_ETQS.TSEQ_DATE_EVENEMENT) Visible="true" MinWidth="115" AllowAdding="false" AllowEditing="true" />
+
+        <GridForeignColumn Field=@nameof(TSEQ_SUIVI_EVENEMENT_ETQS.TRU_ACTEURID)
+                           HeaderText="Acteur"
+                           TValue=TRU_USERS
+                           ForeignKeyField=@nameof(TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)
+                           MinWidth=100
+                           Width=160>
+
+            <SfDataManager AdaptorInstance="@typeof(IWasmDataAdaptor<TRU_USERS>)" Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+
+        <GridColumn Field="TSEQ_DESC" Visible="true" AllowAdding="false" AllowEditing="false" MinWidth="300" />
+
+        <GridColumn Field="TSEQ_COMMENTAIRE" Visible="true" AllowAdding="false" AllowEditing="false" />
+    </GridColumns>
+
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TSEQ_SUIVI_EVENEMENT_ETQS"
+                    DataBound=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.DataBoundHander
+                    OnToolbarClick="@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.OnContextMenuItemClickedAsync"
+                    OnActionFailure=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.ActionFailureAsync OnLoad=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.OnLoadHandler Destroyed=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="false"
+                          AllowEditing="false"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="false"
+                          ShowDeleteConfirmDialog="false"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.DataGrid.EndEditAsync>
+                    @Ref_TSEQ_SUIVI_EVENEMENT_ETQS.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@Ref_TSEQ_SUIVI_EVENEMENT_ETQS.DataGrid.CloseEditAsync>
+                    @Ref_TSEQ_SUIVI_EVENEMENT_ETQS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

@@ -1,0 +1,69 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <NeutralLanguage>en</NeutralLanguage>
+
+        <AssemblyVersion>1.0.43.0</AssemblyVersion>
+        <Version>1.0.43.0</Version>
+        <Company>Krialys</Company>
+        <Product>OrKestra</Product>
+
+        <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) Orkestra</Copyright>
+        <SourceRevisionId>releaseDate$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</SourceRevisionId>
+
+        <ImplicitUsings>enable</ImplicitUsings>
+        <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+        <TrimMode>Link</TrimMode>
+
+        <Deterministic>true</Deterministic>
+        <SignAssembly>false</SignAssembly>
+        <DelaySign>false</DelaySign>
+        <AccelerateBuildsInVisualStudio>false</AccelerateBuildsInVisualStudio>
+
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+
+        <!-- Issue workaround: https://github.com/RicoSuter/NSwag/issues/4633 -->
+        <NSwagGenerateExceptionClasses>true</NSwagGenerateExceptionClasses>
+        
+        <!--<CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)dotnet.ruleset</CodeAnalysisRuleSet>-->
+        <!--<TreatWarningsAsErrors>false</TreatWarningsAsErrors>-->
+        <!--<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>-->
+        <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+        <!--<DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>-->
+        <!--<NoDefaultExcludes>true</NoDefaultExcludes>-->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Any CPU'">
+		<PlatformTarget>Any CPU</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Any CPU'">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Any CPU'">
+		<PlatformTarget>Any CPU</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+    <!--<ItemGroup>-->
+        <!--<PackageReference Include="Roslynator.Analyzers" Version="4.1.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>-->
+        <!--<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>-->
+        <!--<AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="Properties\stylecop.json" />-->
+        <!--<AdditionalFiles Include="$(MSBuildThisFileDirectory).editorconfig" Link="Properties\.editorconfig" />-->
+    <!--</ItemGroup>-->
+
+</Project>

@@ -1,0 +1,309 @@
+﻿@using Krialys.Common.Literals;
+
+@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent @ref="Ref_TE_ETATS"
+                          TEntity=TE_ETATS
+                          SuffixId=@GetSuffixId
+                          AllowResizing="true"
+                          AllowPdfExport="false"
+                          AllowExcelExport="true"
+                          AllowCsvExport="false"
+                          EnablePersistence="false"
+                          AllowGrouping="false"
+                          Query="GridQuery"
+                          AutoGenerateColumns="false">
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TE_ETATS.TE_ETATID) IsPrimaryKey=true IsIdentity=true Visible=false />
+        <GridColumn Field=@nameof(TE_ETATS.TE_NOM_ETAT) Uid=@nameof(TE_ETATS.TE_NOM_ETAT) AllowAdding=false MinWidth=100 Width=170 />
+        <GridColumn Field=@nameof(TE_ETATS.TE_VERSION) Uid=@nameof(TE_ETATS.TE_VERSION) MinWidth=50 Width=100 />
+
+        <GridColumn HeaderText="Gestion Env. vierge"
+                    Uid="GestionEnvViergeColumn"
+                    MinWidth=100
+                    Width=160>
+            <Template>
+                @{
+                    var etat = (context as TE_ETATS);
+                    if (StatusLiteral.Draft.Equals(etat.TRST_STATUTID))
+                    {
+                        <EmptyEnvironmentFilesComponent OnEnvironmentClosed=@OnEnvironmentClosedAsync EnvId="@($"E{etat.TE_ETATID.ToString().PadLeft(6, '0')}")" />
+                    }
+                }
+            </Template>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTM:PristineEnvironment"] TextAlign=TextAlign.Left MinWidth=80 Width=112>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["COMMON:Download"]
+                                   ID=CommandEnvViergeDownload
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-download", CssClass = "e-flat e-download" }) />
+            </GridCommandColumns>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTM:Catalog"] TextAlign=TextAlign.Left MinWidth=80 Width=112>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTM:Catalog"]
+                                   ID="CommandCatalogue"
+                                   ButtonOption="@(new CommandButtonOptions { IconCss = "e-icons e-folder-open", CssClass = "e-flat" })" />
+            </GridCommandColumns>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTM:Scheduling"]
+                    TextAlign=TextAlign.Left
+                    Visible="false">
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTM:Scheduling"]
+                                   ID="commandPlanification"
+                                   ButtonOption="@(new CommandButtonOptions { IconCss = "e-icons e-date-time", CssClass = "e-flat" })" />
+            </GridCommandColumns>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TE_ETATS.TE_DATE_REVISION) Uid=@nameof(TE_ETATS.TE_DATE_REVISION) AllowFiltering=false MinWidth=100 Width=170 />
+
+        <GridColumn Field=@nameof(TE_ETATS.TRST_STATUTID) Uid=@nameof(TE_ETATS.TRST_STATUTID) MinWidth=100 Width=112>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as TE_ETATS)!).TRST_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TE_ETATS.TE_DATE_DERNIERE_PRODUCTION) Uid=@nameof(TE_ETATS.TE_DATE_DERNIERE_PRODUCTION) AllowFiltering=false MinWidth=100 Width=185 />
+
+        <GridColumn HeaderText="@Trad.Keys["DTM:Softwares"]" MinWidth=100 Width=120>
+            <Template>
+                <div>@GetLogicielsNames(((context as TE_ETATS)!).TE_ETATID)</div>
+            </Template>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTM:CubeGeneration"] Uid="GenereCubeColumn" Visible=false />
+        <GridColumn Field=@nameof(TE_ETATS.TE_COMMENTAIRE) Uid=@nameof(TE_ETATS.TE_COMMENTAIRE) MinWidth=100 Width=170 />
+        <GridColumn Field=@nameof(TE_ETATS.TE_INFO_REVISION) Uid=@nameof(TE_ETATS.TE_INFO_REVISION) MinWidth=100 Width=170 />
+        <GridColumn HeaderText=@Trad.Keys["DTM:Actions"] TextAlign=TextAlign.Left MinWidth=100 Width=138>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTM:DuplicateUtd"]
+                                   ID=DuplicateVersionCommand
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-copy", CssClass = "e-flat e-duplicate" }) />
+            </GridCommandColumns>
+        </GridColumn>
+    </GridColumns>
+
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TE_ETATS"
+                    OnToolbarClick="@Ref_TE_ETATS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TE_ETATS.OnContextMenuItemClickedAsync"
+                    CommandClicked="OnCommandClicked"
+                    RowSelected="OnRowSelected"
+                    RowDataBound="OnRowDataBound"
+                    OnActionBegin="OnActionBeginAsync"
+                    OnActionComplete="OnActionCompleteAsync"
+                    OnActionFailure="@Ref_TE_ETATS.ActionFailureAsync"
+                    OnLoad=Ref_TE_ETATS.OnLoadHandler Destroyed=Ref_TE_ETATS.OnDestroyed />
+
+        @* Hierarchy grid: Display versions linked to this UTD. *@
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    @* Get current object Id. *@
+                    @if (context is TE_ETATS etat)
+                    {
+                        <UtdVersionScenarios GridQuery='@(new Query().Where("TE_ETATID", "equal", etat.TE_ETATID).Sort(nameof(TS_SCENARIOS.TS_NOM_SCENARIO), "Ascending"))'
+                                             Job="@Job"
+                                             JobVersion="@etat"
+                                             EtatId="@etat.TE_ETATID"
+                                             StatutEtat="@etat.TRST_STATUTID"
+                                             AllowModify=@(AllowModify && (etat.TRST_STATUTID == StatusLiteral.Draft || etat.TRST_STATUTID == StatusLiteral.DraftMode || etat.TRST_STATUTID == StatusLiteral.Prototype)) />
+                    }
+                }
+            </DetailTemplate>
+        </GridTemplates>
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            <HeaderTemplate>
+                <span>@GetHeader(context as TE_ETATS)</span>
+            </HeaderTemplate>
+
+            <Template>
+                @{
+                    var etat = (context as TE_ETATS);
+
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <label>UTD versionnée</label>
+                                <SfTextBox TValue="string" Enabled=false @bind-Value="@etat.TE_NOM_ETAT" />
+                            </div>
+                        </div>
+                        <br />
+                        <VersionNumberComponent AllowModify=@((etat.TRST_STATUTID == StatusLiteral.Draft || etat.TRST_STATUTID == StatusLiteral.DraftMode || etat.TRST_STATUTID == StatusLiteral.Prototype))
+                                                @bind-MajeurVersion="@etat.TE_INDICE_REVISION_L1"
+                                                @bind-MinorVersion="@etat.TE_INDICE_REVISION_L2"
+                                                @bind-BuildVersion="@etat.TE_INDICE_REVISION_L3" />
+
+                        @if (etat!.TE_ETATID != 0)
+                        {
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>@Trad.Keys["DTM:TRST_STATUTS_TITLE"] :</label>
+                                </div>
+                            </div>
+                            <StatusComponent @bind-ItemStatus="@etat.TRST_STATUTID"
+                                             Module="StatusComponent.ModuleType.Version"
+                                             JobStatus="@Job.TRST_STATUTID"></StatusComponent>
+                        }
+
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <SfTooltip @ref="_logicielsTooltipObj"
+                                           OpensOn="Custom"
+                                           CssClass="e-griderror"
+                                           Target="#LogicielsMultiSelect">
+                                    <ContentTemplate>
+                                        <label class="e-error">@Trad.Keys["COMMON:RequiredField"]</label>
+                                    </ContentTemplate>
+                                </SfTooltip>
+                                <SoftwareSelectionComponent @bind-SelectedLogiciels="SelectedLogiciels"
+                                                            EtatId="@(((context as TE_ETATS)!).TE_ETATID)"
+                                                            Logiciels="_logiciels"
+                                                            EtatLogiciels="_etatLogiciels" />
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <SfCheckBox Name="SfCheckBoxGenereCube" Label=@Trad.Keys["DTM:CubeGeneration"] Checked="SfCheckBoxGenereCubeIsChecked" @onchange="SfCheckBoxGenereCubeOnChange" Disabled="false" />
+                            </div>
+                        </div>
+
+                        @if (context is TE_ETATS)
+                        {
+                            <br />
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>@Trad.Keys["DTM:Database"]</label>
+                                    <SfTextBox TValue="string" @bind-Value="@etat.TE_NOM_DATABASE" />
+                                </div>
+                                <div class="col-6">
+                                    <label>@Trad.Keys["DTM:Server"]</label>
+                                    <SfTextBox TValue="string" @bind-Value="@etat.TE_NOM_SERVEUR_CUBE" />
+                                </div>
+                            </div>
+                        }
+
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Comentaire</label>
+                                <SfTextBox TValue="string" @bind-Value="@etat.TE_COMMENTAIRE" />
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Info révision</label>
+                                <SfTextBox TValue="string" @bind-Value="@etat.TE_INFO_REVISION" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TE_ETATS, entity))">
+                    @Ref_TE_ETATS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TE_ETATS.DataGrid.CloseEditAsync())">
+                    @Ref_TE_ETATS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+
+    </ChildContent>
+
+</OrkaGenericGridComponent>
+
+<style>
+    /* NOT USED? */
+    .e-removecommanddownload .e-unboundcell .e-unboundcelldiv button.e-download {
+        display: none;
+    }
+
+    .e-removecommandduplicate .e-unboundcell .e-unboundcelldiv button.e-duplicate {
+        display: none;
+    }
+</style>
+
+<SfDialog @bind-Visible="@InfoDialogIsVisible" Width="465px" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["COMMON:Error"]</Header>
+        <Content>
+            <br />
+            <div>
+                <p>
+                    @Trad.Keys["DTM:ComplianceControl"]
+                </p>
+            </div>
+            <div style="height: 40px; width: 100%; border: 1px solid #4CAF50;background-color: #e0dcc1eb; text-align: center; word-break:break-word;">
+                <span><b>@_errorMsg</b></span>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkInfoClick" Content=@Trad.Keys["COMMON:Ok"] />
+    </DialogButtons>
+</SfDialog>
+
+<SfDialog @ref="_confirmActiveDialog" @bind-Visible="@ConfirmActiveDialogIsVisible" Width=75% Height=88% ShowCloseIcon="true" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["DTM:ActivationConfirmation"]</Header>
+        <Content>
+            <br />
+            <div>
+                <code><b>@SelectedData.TE_NOM_ETAT</b></code>
+                <p></p>
+                <code><b>@SelectedData.TE_VERSION</b></code>
+            </div>
+            <hr />
+            <div style="background-color: #ffca1c; text-align: center;">
+                <pre><b>@Trad.Keys["DTM:VersionAlreadyExistsMsg"]</b></pre>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkConfirmActiveDialogClickAsync" IsPrimary="true" Content=@Trad.Keys["COMMON:Ok"] />
+        <DialogButton OnClick="@CancelConfirmActiveDialogClick" Content="@Ref_TE_ETATS.CancelButtonText" />
+    </DialogButtons>
+</SfDialog>
+
+
+@if (_isCatalogDisplayed)
+{
+    <Krialys.Orkestra.Web.Module.DTM.Pages.Utd.Dialogs.CatalogDetailDialog @bind-IsDisplayed="_isCatalogDisplayed"
+                                                                           Header=@CatalogHeader
+                                                                           EtatId=@_catalogEtatId
+                                                                           EtatStatusId=@_catalogEtatStatusId
+                                                                           AllowModify=AllowModify />
+}

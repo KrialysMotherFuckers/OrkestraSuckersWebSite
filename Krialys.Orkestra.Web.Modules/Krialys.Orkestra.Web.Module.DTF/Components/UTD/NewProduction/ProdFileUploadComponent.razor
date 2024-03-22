@@ -1,0 +1,111 @@
+﻿@if (_etatRessources.Any())
+{
+    <div class="files-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-filename">@Trad.Keys["DTF:ExpectedSourceFiles"]</th>
+                    <th class="col-model">@Trad.Keys["DTF:Model"]</th>
+                    <th class="col-upload">@Trad.Keys["DTF:ImportYourFiles"]</th>
+                    <th class="col-info">@Trad.Keys["DTF:Information"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var etatRessource in _etatRessources)
+                {
+                    <tr>
+                        <td>
+                            <span class=@GetFileNameClass(etatRessource)>@etatRessource.TER_NOM_FICHIER</span>
+                        </td>
+
+                        <td>
+                            <SfButton IconCss="e-icons e-download"
+                                      title=@Trad.Keys["DTF:ModelDownload"]
+                                      OnClick=@(_ => DownloadModel(etatRessource))
+                                      Disabled=DownloadModelDisabled(etatRessource)>
+                                @Trad.Keys["COMMON:Download"]
+                            </SfButton>
+                        </td>
+
+                        <td>
+                            <SfUploader ID=UploadFiles
+                                        SequentialUpload=AllowMultipleFiles(etatRessource)
+                                        AllowMultiple=AllowMultipleFiles(etatRessource)
+                                        AllowedExtensions=@(Path.GetExtension(etatRessource.TER_NOM_FICHIER))
+                                        MaxFileSize=@(double.Parse(Config["Uploading:DemandeResourceMaxSize"]))>
+
+                                <UploaderAsyncSettings SaveUrl=@_saveUrl
+                                                       RemoveUrl=@_removeUrl
+                                                       RetryAfterDelay=@(double.Parse(Config["Uploading:RetryAfterDelay"]))
+                                                       RetryCount=@(int.Parse(Config["Uploading:RetryCount"])) />
+
+                                <UploaderEvents FileSelected=@(async args => await FileSelectedHandlerAsync(args, etatRessource))
+                                                Success=@(async args => await UploadFileSuccessHandlerAsync(args, etatRessource))
+                                                OnFailure=OnUploadFileFailureAsync
+                                                BeforeRemove=UploaderBeforeRemove />
+                            </SfUploader>
+                        </td>
+
+                        <td>
+                            @etatRessource.TER_COMMENTAIRE
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<style>
+    .files-table {
+        text-align: center;
+        margin: 15px 0px 0px;
+        overflow-x: auto;
+    }
+
+        .files-table table {
+            margin: 0px;
+        }
+
+        .files-table .e-upload-files {
+            text-align: left;
+        }
+
+            .files-table th {
+                font-weight: normal;
+                color: white;
+                background-color: #6DA8BA;
+                text-transform: uppercase;
+            }
+
+            .files-table th.col-filename {
+                white-space: nowrap;
+                width: 1px;
+            }
+
+            .files-table th.col-model {
+                width: 1px;
+            }
+
+            .files-table th.col-upload {
+                width: 380px;
+                min-width: 380px;
+            }
+
+            .files-table th.col-info {
+                min-width: 380px;
+            }
+
+        .files-table td {
+            vertical-align: middle;
+        }
+
+    .filename {
+        font-size: 15px;
+        white-space: nowrap;
+    }
+
+    .mandatory {
+        color: crimson;
+    }
+</style>

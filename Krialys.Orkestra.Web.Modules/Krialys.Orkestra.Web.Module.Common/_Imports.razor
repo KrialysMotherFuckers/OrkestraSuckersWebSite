@@ -1,0 +1,75 @@
+﻿@* Ajout des librairies .Net Core pour RazorLib. *@
+@using Blazored.LocalStorage
+@using Krialys.Data.EF.Resources;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.JSInterop
+@using System.ComponentModel.DataAnnotations
+@using System.ComponentModel.DataAnnotations.Schema
+@using System.Linq
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Runtime.ExceptionServices
+@using System.Security.Claims
+@using System.Threading
+@using System.Timers
+@using System.Text.Json
+@using BlazorComponentBus
+
+@* Ajout des librairies communes. *@
+@using Krialys.Common.Literals
+@using Krialys.Orkestra.Web.Module.Common.Authentication
+@using Krialys.Orkestra.Web.Module.Common.Shared
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.Models
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.ETQ
+@using Krialys.Common.Localization;
+@using Krialys.Orkestra.WebApi.Proxy
+
+@* Ajout des librairies SyncFusion pour RazorLib. *@
+@using MudBlazor;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.FileManager
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.SplitButtons
+
+@* NE PAS ajouter de librairie contenant les entities ici, mais seulement dans le fichier _Imports.razor du projet SyncFusion. *@
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject IDownloadServices Download
+@inject NavigationManager NavigationManager
+
+@inject IJSInProcessRuntime JsInProcessRuntime
+@inject IJSRuntime JsInteropRuntime
+@inject ISfJsInteropServices JsInterop
+@inject IUserSessionStatus SessionStatus
+@inject ISfGridColumnParameterServices GridColumnParameters
+@inject ISyncLocalStorageService LocalStorage
+@inject ISnackbar Snackbar
+@inject MudBlazor.IDialogService _dialogService

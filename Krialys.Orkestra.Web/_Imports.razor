@@ -1,0 +1,55 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+
+
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+
+@* Application Component *@
+@using Krialys.Orkestra.Web.Common.ApiClient;
+@using Krialys.Orkestra.Web.Infrastructure.Preferences;
+@using Krialys.Orkestra.Web.Infrastructure.User;
+@using Krialys.Common.Localization;
+
+@* WebSite Components *@
+@using Krialys.Orkestra.Web
+@using Krialys.Orkestra.Web.Components
+@using Krialys.Orkestra.Web.Components.Common
+@using Krialys.Orkestra.Web.Components.Dialogs
+@using Krialys.Orkestra.Web.Components.Localization
+@using Krialys.Orkestra.Web.Components.Notifications
+
+@using Krialys.Orkestra.Web.Shared
+
+@* SyncFusion Components *@
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.SplitButtons
+
+@* Misc Components *@
+@using Blazored.LocalStorage
+@using MudBlazor
+@using BlazorComponentBus
+
+@* OrKestra Global Injection *@
+@inject IComponentBus Bus
+@inject ILanguageContainerService Trad
+@inject NavigationManager Navigation
+@inject IConfiguration Config
+@inject IClientPreferenceManager ClientPreferences
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+@attribute [Authorize]

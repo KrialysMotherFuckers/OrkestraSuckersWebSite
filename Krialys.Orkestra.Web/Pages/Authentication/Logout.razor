@@ -1,0 +1,30 @@
+﻿@page "/logout"
+@using Krialys.Orkestra.Web.Module.Common.Authentication;
+@using Krialys.Orkestra.Web.Module.Common.Models;
+@using Krialys.Orkestra.WebApi.Proxy;
+@using System.Security.Claims
+
+@inject IAuthenticationService AuthService
+@inject IHttpProxyCore ProxyCore
+@inject IUserSessionStatus State
+@inject ILocalStorageService LocalStorage
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Defer logout execution to avoid error 401 when the page is redirected to login because logout executes immediately
+        if (State.IsConnected)
+        {
+            State.IsConnected = false;
+            State.Claims = Enumerable.Empty<Claim>();
+            await LocalStorage.RemoveItemsAsync(await LocalStorage.KeysAsync());
+            ProxyCore.CacheClear();
+            await AuthService.LogOut();
+        }
+        else
+        {
+            Navigation.NavigateTo("login");
+        }
+    }
+}

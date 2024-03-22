@@ -1,0 +1,27 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width=1175px
+          MinHeight=285px
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @string.Format(Trad.Keys["DTS:AssociatedProductions"], OrderId)
+        </Header>
+
+        <Content>
+            @if (_productions.Any())
+            {
+                <VDE_DEMANDES_ETENDUES_GridComponent Productions=_productions
+                                                 DisplayedColumns=_displayedColumns />
+            }
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=CloseDialogAsync
+                      Content=@Trad.Keys["COMMON:Back"] />
+    </DialogButtons>
+</SfDialog>

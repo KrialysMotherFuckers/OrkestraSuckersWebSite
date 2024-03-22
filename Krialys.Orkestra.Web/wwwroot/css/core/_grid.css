@@ -1,0 +1,217 @@
+﻿/*** DataGrid. ***/
+/* Datagrid CSS classes:
+ * https://blazor.syncfusion.com/documentation/datagrid/how-to/grid-styling */
+
+.e-grid {
+    border-style: hidden;
+}
+
+    .e-grid .e-gridheader tr th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .e-grid .e-gridheader tr th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+/* To be aligned with common rounded windows */
+.e-popup-header {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.e-quick-popup-wrapper {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Fix vertical bar when grid is well sized to the screen height */
+.e-grid .e-toolbar {
+    border-top: 0px !important;
+}
+
+/* Fix twisty icon by overriding its last padding to 0px instead of 14px */
+.e-grid .e-icon-gdownarrow {
+    padding: 7px 9px 7px 10px !important;
+}
+
+.e-grid .e-icon-grightarrow {
+    padding: 7px 9px 7px 10px !important;
+}
+
+/* Fix, borders were not always visible. */
+.e-grid .e-rowcell {
+    height:32px;
+    border-width: 1px 0px 0px 1px;
+    border-color: #c9c3c3;
+    font-size: .875rem !important;
+    font-weight: 400 !important;
+}
+
+    /* Default size icons in grid. */
+    .e-grid .e-rowcell .e-icons {
+        font-size: 18px;
+    }
+
+.e-grid .e-groupdroparea {
+    border-radius: 10px;
+    background-color: #6433c938;
+}
+    .e-grid .e-groupdroparea.e-grouped {
+        background-color: #7986cb;
+    }
+
+/* Header column */
+.e-grid .e-headercell {
+    color: white;
+}
+
+    /* Header column text */
+    .e-grid .e-headercell .e-headertext {
+        color: white !important;
+    }
+
+    /* Header sorted column icon */
+    .e-grid .e-headercell .e-sortfilterdiv::before {
+        color: greenyellow;
+    }
+
+    /* Columns filters icon. */
+    .e-grid .e-headercell .e-filtermenudiv::before {
+        color: white;
+    }
+
+    /* Applied columns filters icon. */
+    .e-grid .e-headercell .e-filtermenudiv.e-filtered::before {
+        color: orange;
+    }
+
+/** Grid first level **/
+/* Color one line out of two. */
+.e-grid .e-altrow {
+    background-color: #a8d4e145;
+}
+
+/* Color header. */
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+    background-color: #60A2B9;
+}
+
+/** Hierarchy grid second level **/
+/* Add left border. */
+.e-grid .e-grid {
+    border-left-color: #6DA8BA;
+    border-left-width: medium;
+}
+
+    /* Color one line out of two. */
+    .e-grid .e-grid .e-altrow {
+        background-color: #a8d4e145;
+    }
+
+    /* Color header. */
+    .e-grid .e-grid .e-headercell,
+    .e-grid .e-grid .e-detailheadercell {
+        background-color: #6DA8BA;
+    }
+
+    /*** Hierarchy grid third level ***/
+    /* Add left border. */
+    .e-grid .e-grid .e-grid {
+        border-left-color: #DCA849;
+        border-left-width: medium;
+    }
+
+        /* Color one line out of two. */
+        .e-grid .e-grid .e-grid .e-altrow {
+            background-color: #e2b66885;
+        }
+
+        /* Color header. */
+        .e-grid .e-grid .e-grid .e-headercell,
+        .e-grid .e-grid .e-grid .e-detailheadercell {
+            background-color: #DCA849;
+        }
+
+/* Wasm datagrid template Id */
+div.mainDataGridPosition {
+    background-color: #FAFAFA;
+    border-radius: 8px;
+    float: left;
+    top: 0;
+}
+
+/* Calendar icon onto datagrid column header */
+.e-icons.e-timeline-week:before {
+    color: greenyellow !important;
+}
+
+.e-toolbar .e-toolbar-items {
+    border-top-left-radius: 10px;
+}
+
+.e-pager {
+    /*height: 3rem;*/
+}
+
+.e-grid .e-pager {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 3rem;
+}
+
+.e-toolbar.e-control[class*=e-toolbar] {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.e-pager .e-pagercontainer {
+    margin: 2px 6px 5px 18px;
+}
+
+.e-pager div.e-parentmsgbar {
+    padding-top: 13px;
+}
+
+.e-toolbar .e-toolbar-items.e-tbar-pos {
+    display: block;
+    border-top-right-radius: 10px;
+}
+
+.e-schedule {
+    border-radius: 8px;
+}
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {    
+    height: 36px;
+}
+
+.e-grid .e-rowcell {
+    padding: 4px 21px;
+}
+
+.e-upload {
+    border-radius: 8px;
+}
+
+    .e-upload .e-file-select-wrap, .e-bigger.e-small .e-upload .e-file-select-wrap {
+        padding: 8px 0 8px 8px;
+    }
+
+        .e-upload .e-file-select-wrap .e-btn, .e-upload .e-upload-actions .e-btn, .e-bigger.e-small .e-upload .e-file-select-wrap .e-btn, .e-bigger.e-small .e-upload .e-upload-actions .e-btn {
+            background-color: #a8d4e17a;
+        }
+
+.e-toolbar .e-toolbar-item .e-tbar-btn {
+    border-radius: 5px;
+}
+
+.e-filemanager {
+    border-radius: 8px;
+}
+
+    .e-filemanager .e-toolbar .e-toolbar-item .e-tbar-btn {
+        background: #a8d4e17a;
+        border-radius: 5px;
+    }

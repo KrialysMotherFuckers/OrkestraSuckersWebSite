@@ -1,0 +1,50 @@
+﻿<div class="mud-navGroup">
+    <!--!-->
+    <button tabindex="0" class="mud-nav-link mud-ripple" @onclick="ExpandedToggle">
+
+        <img src="@PicturePath" Style="height:30px;" alt=""/>
+
+        <div class="mud-nav-link-text">@Title</div>
+
+        @if (_expanded)
+        {
+            <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium mud-nav-link-expand-icon mud-transform"
+             focusable="false"
+             viewBox="0 0 24 24" aria-hidden="true">
+                <!--!-->
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M7 10l5 5 5-5z"></path>
+            </svg>
+        }
+        else
+        {
+            <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium mud-nav-link-expand-icon"
+             focusable="false"
+             viewBox="0 0 24 24" aria-hidden="true">
+                <!--!-->
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M7 10l5 5 5-5z"></path>
+            </svg>
+        }
+    </button>
+    <!--!-->
+    <!--!-->
+    <div id="nav-menu-content" hidden="@_expanded">
+        @ChildContent
+    </div>
+</div>
+
+<style>
+    #nav-menu-content {
+        transition-property: visibility, opacity;
+        transition-duration: 0s, 1s;
+    }
+
+        #nav-menu-content.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition-property: opacity, visibility;
+            transition-duration: 1s, 0s;
+            transition-delay: 0s, 1s;
+        }
+</style>

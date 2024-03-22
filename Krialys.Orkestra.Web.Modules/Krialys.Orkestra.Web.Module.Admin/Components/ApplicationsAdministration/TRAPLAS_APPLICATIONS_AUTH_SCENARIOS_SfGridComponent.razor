@@ -1,0 +1,87 @@
+﻿@inherits OrkaGenericGridComponent<Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS>
+
+@if (GridColumnParametersList is not null)
+{
+	<div class="row no-gutters">
+		<div class="col-12">
+			@*Affiche la data grid.*@
+            <OrkaGenericGridComponent TEntity="Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS"
+							   @ref=_refGrid
+							   SuffixId=@ClientApplicationId.ToString()
+							   AllowResizing="true"
+							   AllowPdfExport="false"
+							   AllowExcelExport="true"
+							   AllowCsvExport="false"
+							   EnableColumnMenu="false"
+							   AutoGenerateColumns="false"
+							   Query="@GridQuery"
+							   OnLoadFields="@_displayedFields"
+							   EnablePersistence=false>
+				<ChildContent>
+
+					@* Customisable datagrid events *@
+                    <GridEvents TValue=Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS
+							DataBound=_refGrid.DataBoundHander
+							OnToolbarClick=_refGrid.OnToolbarClickAsync
+							ContextMenuItemClicked=_refGrid.OnContextMenuItemClickedAsync
+							OnActionFailure=_refGrid.ActionFailureAsync OnLoad=_refGrid.OnLoadHandler Destroyed=_refGrid.OnDestroyed />
+
+					<GridEditSettings AllowAdding=true
+								  AllowEditing=true
+								  AllowDeleting=false
+								  ShowConfirmDialog=true
+								  ShowDeleteConfirmDialog=true
+								  Mode=EditMode.Dialog
+								  Dialog="@Extends.GridEditSettingDialog">
+
+						@* Customisable edit/save/cancel dialog events *@
+						<FooterTemplate>
+							<SfButton IsPrimary=true
+								  CssClass="e-success"
+                                      OnClick=@(() => FooterSaveEditAsync(context as Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS))>
+								@_refGrid.EditButtonText
+							</SfButton>
+							<SfButton OnClick=@(() => _refGrid.DataGrid.CloseEditAsync())>
+								@_refGrid.CancelButtonText
+							</SfButton>
+						</FooterTemplate>
+					</GridEditSettings>
+
+				</ChildContent>
+			</OrkaGenericGridComponent>
+		</div>
+	</div>
+}
+
+@code
+{
+	/// <summary>
+	/// Id of the selected client application.
+	/// </summary>
+	[Parameter]	public int ClientApplicationId { get; set; }
+
+	[Parameter] public Query GridQuery { get; set; }
+
+    private OrkaGenericGridComponent<Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS> _refGrid;
+
+	/// <summary>
+	/// List of the displayed fields in grid columns.
+	/// </summary>
+	private string[] _displayedFields = {
+        nameof(Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS.TRAPLAS_APPLICATIONS_AUTH_SCENARIOID),
+        nameof(Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS.TRAS_AUTH_SCENARIOID)
+	};
+
+	/// <summary>
+    /// Event called when user save an edition.
+    /// </summary>
+    /// <param name="clientApplicationsAuthScenarios">Item to update.</param>
+    private Task FooterSaveEditAsync(Data.EF.Univers.TRAPLAS_APPLICATIONS_AUTH_SCENARIOS clientApplicationsAuthScenarios)
+	{
+		// Set the ID of selected object.
+		clientApplicationsAuthScenarios.TRCLI_CLIENTAPPLICATIONID = ClientApplicationId;
+
+		// Save grid data.
+		return _refGrid.DataGrid.EndEditAsync();
+	}
+}

@@ -1,0 +1,83 @@
+﻿@using System.Globalization
+@using Krialys.Common.Literals
+
+<div id="DropDownId">
+	<SfDropDownList ID="BlazorCulture"
+					TValue="string"
+					TItem="Cultures"
+					DataSource="@_cultureList"
+					Width="100px"
+					Index="@CultureIndex"
+					EnablePersistence="true"
+					PopupWidth="100px"
+					CssClass="localization-combo">
+		<DropDownListEvents TItem="Cultures"
+							TValue="string"
+							ValueChange="OnSelected">
+		</DropDownListEvents>
+		<DropDownListFieldSettings Value="Code"
+								   Text="Text">
+		</DropDownListFieldSettings>
+	</SfDropDownList>
+</div>
+
+@code {
+	private int CultureIndex { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		CultureIndex = CultureInfo.CurrentCulture.Name switch
+		{
+            CultureLiterals.EnglishUS => 0,
+            CultureLiterals.FrenchFR => 1,
+			_ => 0
+	    };
+	}
+
+	private CultureInfo[] _supportedCultures = {
+        new CultureInfo(CultureLiterals.EnglishUS),
+        new CultureInfo(CultureLiterals.FrenchFR),
+	};
+
+	private CultureInfo Culture
+	{
+		get => CultureInfo.CurrentCulture;
+		set
+		{
+			if (!Equals(CultureInfo.CurrentCulture, value))
+			{
+                var js = (IJSInProcessRuntime)JsInteropRuntime;
+				js.InvokeVoid("cultureInfo.set", value.Name);
+
+				NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+			}
+		}
+	}
+
+	private void OnSelected(ChangeEventArgs<string, Cultures> e)
+	{
+	    CultureIndex = e.Value switch
+	    {
+            CultureLiterals.EnglishUS => 0,
+	        CultureLiterals.FrenchFR => 1,
+	        _ => 0
+	        };
+
+	    Culture = new CultureInfo(e.Value);
+	}
+
+	public class Cultures
+	{
+		public string Text { get; set; }
+
+		public string Code { get; set; }
+	}
+
+	private List<Cultures> _cultureList = new List<Cultures>
+	{
+        new Cultures { Text = nameof(CultureLiterals.English), Code = CultureLiterals.EnglishUS },
+        new Cultures { Text = nameof(CultureLiterals.French), Code = CultureLiterals.FrenchFR },
+	};
+}

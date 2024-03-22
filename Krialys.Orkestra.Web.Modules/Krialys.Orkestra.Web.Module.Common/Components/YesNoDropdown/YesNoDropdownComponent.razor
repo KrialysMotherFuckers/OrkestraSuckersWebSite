@@ -1,0 +1,17 @@
+﻿@typeparam TItem
+
+<SfDropDownList ID=@Field
+                TItem=BooleanAsText
+                TValue=string
+                @bind-Value=Value
+                DataSource=_yesNoData
+                Placeholder=@(DataAnnotations.Display<TItem>(Field))
+                FloatLabelType=@FloatLabelType.Always
+                ShowClearButton=true
+                Enabled=Enabled>
+    <DropDownListEvents TItem=BooleanAsText
+                        TValue=string
+                        ValueChange=ValueChangeAsync />
+    <DropDownListFieldSettings Text=@nameof(BooleanAsText.Label)
+                               Value=@nameof(BooleanAsText.Value) />
+</SfDropDownList>

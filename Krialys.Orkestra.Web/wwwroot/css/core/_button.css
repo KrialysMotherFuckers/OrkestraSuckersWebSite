@@ -1,0 +1,69 @@
+﻿
+.mud-button-text {
+    padding: 2px 8px;
+}
+
+.e-btn {
+    border-radius: 6px;
+}
+
+    .e-btn.e-primary, .e-css.e-btn.e-primary {
+        background: rgb(116, 171, 191);
+        border-color: transparent;
+        color: #fff;
+    }
+
+    .e-btn.e-flat, .e-css.e-btn.e-flat {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: rgba(0, 0, 0, 0.87);
+    }
+
+        .e-btn.e-flat.e-primary, .e-css.e-btn.e-flat.e-primary {
+            background: rgba(0,0,0,0);
+            border-color: rgba(0,0,0,0);
+            color: #74abbf;
+            background-color: aliceblue;
+        }
+
+            .e-btn.e-flat.e-primary:hover, .e-css.e-btn.e-flat.e-primary:hover {
+                background-color: aliceblue;
+                background: rgba(227,22,91,.04);
+                border-color: rgba(0,0,0,0);
+                color: white;
+                background-color: #74abbf;
+            }
+
+
+.e-checkbox-wrapper .e-frame.e-check, .e-css.e-checkbox-wrapper .e-frame.e-check {
+    background-color: rgb(116, 171, 191);
+    border-color: transparent;
+    color: #fff;
+}
+
+
+/* Button style. */
+.highlighted .e-tbar-btn {
+    background: rgba(96,162,185,1) !important;
+    border-radius: 10px !important;
+    padding: 1.5px 10px !important;
+}
+
+    .highlighted .e-tbar-btn span {
+        color: #fafafa !important;
+    }
+
+        .highlighted .e-tbar-btn span:before {
+            color: #fafafa;
+        }
+
+    .highlighted .e-tbar-btn:hover {
+        background: rgba(48,97,114,1) !important;
+        border-radius: 8px;
+        padding: 1.5px 10px !important;
+    }
+
+.mud-button-label .mud-button-icon-start {
+    margin-top: -4px;
+}

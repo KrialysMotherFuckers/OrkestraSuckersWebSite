@@ -1,0 +1,10 @@
+[{	"Guid":"aaaa",
+ 	"CodeObjEtq": "OFFRE_SERVICE", 
+	"Version": 1,
+	"CodePerimetre": "CAS_GENERANT_ERREUR", 
+	"DemandeId": 1},
+{	"Guid":"bbbb",
+ 	"CodeObjEtq": "OFFRE_SERVICE", 
+ 	"Version": 1,
+ 	"CodePerimetre": "2021ETE",
+ 	"DemandeId": 1}]

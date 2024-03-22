@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits BaseLayout
+
+<CascadingAuthenticationState>
+    <MudAppBar Elevation="0" Dense Fixed>
+        <MudTooltip Text="">
+            <MudIconButton Color="Color.Inherit" Edge="Edge.Start" Size="MudBlazor.Size.Medium"
+                           OnClick="@((e) => DrawerToggle())">
+                <img src="icons/HomePage/menu_hamburger.svg" Style="height:25px;" />
+            </MudIconButton>
+        </MudTooltip>
+        <MudImage Src="@_imageHeaderSource" Width="250" Height="45" Elevation="0" />
+        <span Style="margin-left:10px;">
+            <Breadcrumb />
+        </span>
+        
+        <MudSpacer />
+        <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+            <NotificationConnectionStatus></NotificationConnectionStatus>
+            <Notification />
+            <MudTooltip Text="@darkModeTooltipText">
+                <MudIconButton Icon="@_darkModeIcon" Color="Color.Inherit" OnClick="@((e) => DarkModeToggle())" />
+            </MudTooltip>
+        </MudHidden>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <NotificationConnectionStatus></NotificationConnectionStatus>
+            <Notification />
+            <MudTooltip Text="@darkModeTooltipText">
+                <MudIconButton Icon="@_darkModeIcon" Color="Color.Inherit" OnClick="@((e) => DarkModeToggle())" />
+            </MudTooltip>
+        </MudHidden>
+
+        <MudMenu AnchorOrigin="Origin.BottomRight" LockScroll="true" TransformOrigin="Origin.TopRight" ActivationEvent="@MouseEvent.MouseOver">
+            <ActivatorContent>
+                <MudIconButton Icon="@Icons.Material.Filled.Person" Color="Color.Inherit" />
+            </ActivatorContent>
+            <ChildContent>
+                <div class="py-2" style="min-width: 120px;width: 200px;">
+                    <div class="mt-4 mx-4">
+                        <MudButton Size="MudBlazor.Size.Small" FullWidth="true" StartIcon="@Icons.Material.Outlined.ManageAccounts" OnClick="@((e) => Profile())"
+                                   Variant="Variant.Text">
+                            @_trad.Keys["Administration:Profil"]
+                        </MudButton>
+                        <MudButton Size="MudBlazor.Size.Small" FullWidth="true" StartIcon="@Icons.Material.Outlined.Announcement" OnClick="@((e) => About())"
+                                   Variant="Variant.Text">
+                            @_trad.Keys["COMMON:About"]
+                        </MudButton>
+                        <MudButton Size="MudBlazor.Size.Small" FullWidth="true" StartIcon="@Icons.Material.Outlined.Announcement" OnClick="@((e) => RegisterLicenseKey())"
+                                   Variant="Variant.Text">
+                            Register
+                        </MudButton>
+                        <MudButton Size="MudBlazor.Size.Small" Color="Color.Error" FullWidth="true" StartIcon="@Icons.Material.Filled.Logout" OnClick="@((e) => LogOut())"
+                                   Variant="Variant.Filled">
+                            @_trad.Keys["COMMON:Logout"]
+                        </MudButton>
+                    </div>
+                </div>
+            </ChildContent>
+        </MudMenu>
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
+        <NavMenu MenuOnChanged="@((e) => OnMenuChanged(e))" />
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.False" Class="mt-4" Style="margin-top: 0px!important;">
+            @ChildContent
+            <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+                <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary" />
+            </MudScrollToTop>
+        </MudContainer>
+    </MudMainContent>
+
+    <UpdateAvailableDetector />
+</CascadingAuthenticationState>

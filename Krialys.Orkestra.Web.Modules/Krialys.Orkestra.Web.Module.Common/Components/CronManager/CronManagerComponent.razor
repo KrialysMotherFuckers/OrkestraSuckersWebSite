@@ -1,0 +1,200 @@
+﻿<div class="row">
+    <div class="col-12">
+        <code class="@_cronDescriptionCssClass">@_cronDescription</code>
+    </div>
+</div>
+<p></p>
+<div class="row">
+    <div class="col-6 custom-box">
+        <div class="text-truncate">
+            <SfIcon Name="IconName.Clock" Size="IconSize.Large" Title=@($"{Trad.Keys["CronManager:PossibleValues"]} 0-23 * / ,") />
+            <SfDropDownButton Content=@Trad.Keys["CronManager:Hours"]
+                              Title=@Trad.Keys["CronManager:HoursExamples"]>
+                <DropDownMenuItems>
+                    @foreach (var example in _examplesHours)
+                    {
+                        <DropDownMenuItem Text=@example Title=@GetHoursDescription(example) />
+                    }
+                </DropDownMenuItems>
+                <DropDownButtonEvents ItemSelected=HoursHelperSelectedAsync />
+            </SfDropDownButton>
+            <small class=@_hours.CssClass>@_hours.Description</small>
+        </div>
+        <SfTextBox Input="@InputHandlerHoursAsync"
+                   Placeholder="0 - 23"
+                   Enabled="@EnableTextBox"
+                   Value="@_hours.Value"
+                   CssClass="@_hours.CssClass" />
+    </div>
+    <div class="col-6 custom-box">
+        <div class="text-truncate">
+            <SfIcon Name="IconName.Clock" Size="IconSize.Large" Title=@($"{Trad.Keys["CronManager:PossibleValues"]} 0-59 * / ,") />
+            <SfDropDownButton Content=@Trad.Keys["CronManager:Minutes"]
+                              Title=@Trad.Keys["CronManager:MinutesExamples"]>
+                <DropDownMenuItems>
+                    @foreach (var example in _examplesMinutes)
+                    {
+                        <DropDownMenuItem Text=@example Title=@GetMinutesDescription(example) />
+                    }
+                </DropDownMenuItems>
+                <DropDownButtonEvents ItemSelected=MinutesHelperSelectedAsync />
+            </SfDropDownButton>
+            <small class=@_minutes.CssClass>@_minutes.Description</small>
+        </div>
+        <SfTextBox Input="@InputHandlerMinutesAsync"
+                   Placeholder="0 - 59"
+                   Enabled="@EnableTextBox"
+                   Value="@_minutes.Value"
+                   CssClass="@_minutes.CssClass" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 custom-box">
+        <div class="text-truncate">
+            <SfIcon Name="IconName.Day" Size="IconSize.Large" Title=@($"{Trad.Keys["CronManager:PossibleValues"]} 1-31 * / ,") />
+            <SfDropDownButton Content=@Trad.Keys["CronManager:DaysOfMonth"]
+                              Title=@Trad.Keys["CronManager:DaysOfMonthExamples"]>
+                <DropDownMenuItems>
+                    @foreach (var example in _examplesDays)
+                    {
+                        <DropDownMenuItem Text=@example Title=@GetDaysDescription(example) />
+                    }
+                </DropDownMenuItems>
+                <DropDownButtonEvents ItemSelected=DaysHelperSelectedAsync />
+            </SfDropDownButton>
+            <small class=@_days.CssClass>@_days.Description</small>
+        </div>
+        <SfTextBox Input="@InputHandlerDaysAsync"
+                   Placeholder="1 - 31"
+                   Enabled="@EnableTextBox"
+                   Value="@_days.Value"
+                   CssClass="@_days.CssClass" />
+    </div>
+    <div class="col-6 custom-box">
+        <div class="text-truncate">
+            <SfIcon Name="IconName.TimelineWorkWeek" Size="IconSize.Large" Title=@($"{Trad.Keys["CronManager:PossibleValues"]} 0-6 MON-SUN / , ") />
+            <SfDropDownButton Content=@Trad.Keys["CronManager:Weekdays"]
+                              Title=@Trad.Keys["CronManager:WeekdaysExamples"]>
+                <DropDownMenuItems>
+                    @foreach (var example in _examplesWeekdays)
+                    {
+                        <DropDownMenuItem Text=@example Title=@GetWeekdaysDescription(example) />
+                    }
+                </DropDownMenuItems>
+                <DropDownButtonEvents ItemSelected=WeekdaysHelperSelectedAsync />
+            </SfDropDownButton>
+            <small class=@_weekDdays.CssClass>@_weekDdays.Description</small>
+        </div>
+        <SfTextBox Input="@InputHandlerWeekDaysAsync"
+                   Placeholder="MON - SUN"
+                   Enabled="@EnableTextBox"
+                   Value="@_weekDdays.Value"
+                   CssClass="@_weekDdays.CssClass" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 custom-box">
+        <div class="text-truncate">
+            <SfIcon Name="IconName.TimelineMonth" Size="IconSize.Large" Title=@($"{Trad.Keys["CronManager:PossibleValues"]} 1-12 JAN-DEC / ,") />
+            <SfDropDownButton Content=@Trad.Keys["CronManager:Months"]
+                              Title=@Trad.Keys["CronManager:MonthsExamples"]>
+                <DropDownMenuItems>
+                    @foreach (var example in _examplesMonths)
+                    {
+                        <DropDownMenuItem Text=@example Title=@GetMonthsDescription(example) />
+                    }
+                </DropDownMenuItems>
+                <DropDownButtonEvents ItemSelected=MonthsHelperSelectedAsync />
+            </SfDropDownButton>
+            <small class=@_months.CssClass>@_months.Description</small>
+        </div>
+        <SfTextBox Input="@InputHandlerMonthsAsync"
+                   Placeholder="JAN - DEC"
+                   Enabled="@EnableTextBox"
+                   Value="@_months.Value"
+                   CssClass="@_months.CssClass" />
+    </div>
+    <div class="col-6 col-xl-3 custom-box">
+        <span>
+            <SfIcon Name="IconName.TimelineWorkWeek" Size="IconSize.Large" />
+            &nbsp;@Trad.Keys["CronManager:DateTimeStart"] :
+        </span>
+        <SfDateTimePicker TValue=DateTime
+                          Placeholder=@Trad.Keys["CronManager:DateTime"]
+                          @bind-Value=StartDate
+                          EnableMask=true
+                          Format="g"
+                          Step=15
+                          StrictMode=false
+                          WeekNumber=true
+                          ShowClearButton=false
+                          Enabled=EnableTextBox>
+            <DateTimePickerEvents TValue=DateTime ValueChange=DatePickerValueChangeHandlerStartAsync />
+        </SfDateTimePicker>
+    </div>
+    <div class="col-6 col-xl-3 custom-box">
+        <span>
+            <SfIcon Name="IconName.TimelineWorkWeek" Size="IconSize.Large" />
+            &nbsp;@Trad.Keys["CronManager:DateTimeEnd"] :
+        </span>
+        <SfDateTimePicker TValue=DateTime?
+                          Placeholder=@Trad.Keys["CronManager:DateTime"]
+                          @bind-Value=EndDate
+                          Min=StartDate
+                          EnableMask=true
+                          Format="g"
+                          Step=15
+                          StrictMode=true
+                          WeekNumber=true
+                          ShowClearButton=EnableTextBox
+                          Enabled=EnableTextBox
+                          CssClass=@_endDateCssClass>
+            <DateTimePickerEvents TValue=DateTime? ValueChange=DatePickerValueChangeHandlerStopAsync />
+        </SfDateTimePicker>
+    </div>
+</div>
+
+<div class="row">
+    <div class="custom-box">
+        <span>
+            <SfIcon Name="IconName.TimelineWorkWeek" Size="IconSize.Large" Title=@_nextCronOccurencesTitle />
+            &nbsp;@Trad.Keys["CronManager:NextSchedules"] :
+        </span>
+        <br />
+        <br />
+        <small class="@_nextCronOccurencesCssClass">@_nextCronOccurences</small>
+    </div>
+</div>
+@*	<div class="row">
+    <div class="col-8 border border-dark">
+    <br />
+    <pre>
+    > <b>Format: DD  MM  HH MI DM  </b>[Jours-Mois-Heures-Minutes-Jours du mois]
+    > #00001: 0-6 JAN 00 00 01 [À 00:00, le 01 du mois, de dimanche à samedi, uniquement en janvier]
+    > #00002: 0-6 FEB 00 00 29 [À 00:00, le 29 du mois, de dimanche à samedi, uniquement en février]
+    > #00003: MON JAN 00 00 15 [À 00:00, le 15 du mois, uniquement le lundi, uniquement en janvier]
+    </pre>
+    </div>
+    </div>*@
+
+<style>
+    button.right {
+        float: right;
+        min-width: 195px;
+        height: 28px;
+        margin: 0;
+        border-radius: 4px;
+    }
+
+    /* Align icons with text. */
+    .e-icons {
+        vertical-align: middle;
+    }
+
+    /* Applied on CRON descriptions. */
+    .description-text {
+        color: darkviolet;
+    }
+</style>

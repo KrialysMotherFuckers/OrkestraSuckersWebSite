@@ -1,0 +1,32 @@
+﻿@page "/dtf_planifications"
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence=true
+       ID=@(Litterals.Portail + "Univers_DTF_dtf_planifications")
+	   LoadOn="ContentLoad.Dynamic"
+	   OverflowMode=OverflowMode.Popup
+	   ScrollStep=150>
+
+	<TabAnimationSettings>
+		<TabAnimationPrevious Effect=AnimationEffect.None />
+		<TabAnimationNext Effect=AnimationEffect.None />
+	</TabAnimationSettings>
+
+	<TabEvents Selecting="OnTabSelecting" />
+
+	<TabItems>
+
+		<TabItem Disabled=@Disabled>
+			<ChildContent>
+				<TabHeader Text=@Trad.Keys["DTF:RecurrentSchedules"] />
+			</ChildContent>
+			<ContentTemplate>
+				@* Gestion des récurrences *@
+				<RecurrentScheduledComponent />
+			</ContentTemplate>
+		</TabItem>
+
+	</TabItems>
+</SfTab>
+

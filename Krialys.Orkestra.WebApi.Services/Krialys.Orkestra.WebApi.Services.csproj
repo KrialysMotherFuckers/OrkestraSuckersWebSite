@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <RootNamespace>Krialys.Orkestra.WebApi.Services</RootNamespace>
+        <AssemblyName>Krialys.Orkestra.WebApi.Services</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Ardalis.Specification" Version="8.0.0" />
+        <!--<PackageReference Include="EFCore.BulkExtensions" Version="7.1.6" />-->
+        <PackageReference Include="FluentValidation" Version="11.9.0" />
+        <PackageReference Include="Hangfire.Core" Version="1.8.11" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
+        <PackageReference Include="LdapForNet" Version="2.7.15" />
+        <PackageReference Include="MailKit" Version="4.4.0" />
+        <PackageReference Include="SqlKata" Version="2.4.0" />
+        <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
+        <PackageReference Include="Standard.Licensing" Version="1.1.7" />
+        <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.2" />
+        <PackageReference Include="AuthenticatedEncryption" Version="2.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Etq\Krialys.Data.EF.Etq.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.FileStorage\Krialys.Data.EF.FileStorage.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Logs\Krialys.Data.EF.Logs.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Mso\Krialys.Data.EF.Mso.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.RefManager\Krialys.Data.EF.RefManager.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Univers\Krialys.Data.EF.Univers.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Common\Krialys.Orkestra.Common.csproj" />
+    </ItemGroup>
+
+</Project>

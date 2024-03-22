@@ -1,0 +1,9 @@
+﻿global using Blazored.LocalStorage;
+global using Krialys.Orkestra.Common.Constants;
+global using Krialys.Orkestra.Web.Infrastructure.Common;
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using MudBlazor;
+global using System.Net.Http.Headers;
+global using System.Text.Json;

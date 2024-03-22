@@ -1,0 +1,277 @@
+﻿@using Krialys.Data.EF.Univers
+@using Krialys.Orkestra.Web.Module.Common.Components.DTF.UTD.Dialogs.Qualifs
+@using Krialys.Orkestra.Web.Module.Common.Components.DTF.UTD.Dialogs.Ressources
+@using Krialys.Orkestra.Web.Module.Common.Components.DTF.UTD.Dialogs.Informations
+
+<OrkaGenericGridComponent TEntity=VDE_DEMANDES_ETENDUES
+                       @ref="Ref_VDE_DEMANDES_ETENDUES"
+                       AutoGenerateColumns="false"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true"
+                       AllowGrouping="false"
+                       AllowTracking="false"
+                       DataSource=Productions
+                       Query=@gridQuery>
+
+    <ChildContent>
+        <GridEvents TValue=VDE_DEMANDES_ETENDUES
+                    OnLoad=Ref_VDE_DEMANDES_ETENDUES.OnLoadHandler Destroyed=Ref_VDE_DEMANDES_ETENDUES.OnDestroyed
+                    OnToolbarClick=OnToolbarClickAsync
+                    ContextMenuItemClicked=ContextMenuItemClickedAsync
+                    ContextMenuOpen=ContextMenuOpen
+                    OnActionBegin=OnActionBegin
+                    OnActionFailure=@Ref_VDE_DEMANDES_ETENDUES.ActionFailureAsync
+                    RowDataBound=OnRowDataBound
+                    CommandClicked=CommandClickedAsync />
+
+        <GridEditSettings AllowAdding="false"
+                          AllowEditing="false"
+                          AllowDeleting="false" />
+    </ChildContent>
+
+    <GridColumns>
+        @foreach (var column in DisplayedColumns)
+        {
+            if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TD_DEMANDEID), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TD_DEMANDEID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=true
+                    Width=129 />
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.STATUT_DEMANDE_FR), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.STATUT_DEMANDE_FR)
+                    TextAlign=Syncfusion.Blazor.Grids.TextAlign.Center
+                    Width=141>
+                    <Template>
+                        @{
+                            var demande = (context as VDE_DEMANDES_ETENDUES);
+                            var codeStatut = demande?.CODE_STATUT_DEMANDE;
+                            var title = Trad.Keys[$"STATUS:{codeStatut}"];
+                            switch (codeStatut)
+                            {
+                                case StatusLiteral.Stopping:
+                                    <SfIcon IconCss="e-icons e-recurrence-edit" Title=@title />
+                                    break;
+
+                                case StatusLiteral.CanceledRequest:
+                                    <SfIcon IconCss="e-icons e-changes-reject" style='color: red' Title=@title />
+                                    break;
+
+                                case StatusLiteral.CreatedRequestAndWaitForExecution:
+                                    <SfIcon IconCss="e-icons e-clock" Title=@title />
+                                    break;
+
+                                case StatusLiteral.ScheduledRequest:
+                                    <SfIcon IconCss="e-icons e-date-time" Title=@title />
+                                    break;
+
+                                case StatusLiteral.ValidatedResult:
+                                case StatusLiteral.RealizedRequest:
+                                    <SfIcon IconCss="e-icons e-check-2" style='color: green' Title=@title />
+                                    break;
+
+                                case StatusLiteral.InProgress:
+                                    <SfIcon IconCss="e-icons e-repeat" Title=@title />
+                                    break;
+
+                                case StatusLiteral.InError:
+                                    <SfIcon IconCss="e-icons e-close-2" style='color: red' Title=@title />
+                                    break;
+
+                                case StatusLiteral.WaitingTriggerFileTimeout:
+                                    <SfIcon IconCss="e-icons e-clear-form" style='color: red' Title=@title />
+                                    break;
+
+                                case StatusLiteral.WaitingTriggerFile:
+                                    <SfIcon IconCss="e-icons e-page-setup" Title=@title />
+                                    break;
+
+                                default:
+                                    @codeStatut
+                                    break;
+                            }
+
+                            if (StatusLiteral.Yes.Equals(demande?.TD_IGNORE_RESULT))
+                            {
+                                <SfIcon IconCss="e-icons e-pan" Title=@Trad.Keys["DTF:IgnoreDemandeResult"] />
+                            }
+                        }
+                    </Template>
+                    <FilterTemplate>
+                        <SfDropDownList TItem=Status
+                                TValue=string
+                                @bind-Value=@(((PredicateModel<string>)context).Value)
+                                Placeholder=@Trad.Keys["COMMON:ChooseValue"]
+                                DataSource=StatusList>
+                            <DropDownListFieldSettings Value=@nameof(Status.Code)
+                                               Text=@nameof(Status.Label) />
+                        </SfDropDownList>
+                    </FilterTemplate>
+                </GridColumn>
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TD_QUALIF_BILAN), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TD_QUALIF_BILAN)
+                    TextAlign=Syncfusion.Blazor.Grids.TextAlign.Left
+                    Width=152>
+                    <GridCommandColumns>
+                        <GridCommandColumn Title=@Trad.Keys["DTF:QualifTooltip"]
+                                   ID=QualifsDialogCommand
+                                   ButtonOption=@(new CommandButtonOptions { CssClass="e-light e-flat" }) />
+                    </GridCommandColumns>
+                </GridColumn>
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.CATEGORIE), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.CATEGORIE)
+                    Width=160 />
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TE_NOM_ETAT), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TE_NOM_ETAT)
+                    Width=150 />
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TS_NOM_SCENARIO), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TS_NOM_SCENARIO)
+                    Width=150 />
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.DEMANDEUR), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.DEMANDEUR)
+                    Width=170 />
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_PIVOT), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TD_DATE_PIVOT)
+                    AutoFit=true>
+                    <Template>
+                        @{
+                            var demande = (context as VDE_DEMANDES_ETENDUES);
+                            switch (demande!.CODE_STATUT_DEMANDE)
+                            {
+                                case StatusLiteral.CanceledRequest:
+                                case StatusLiteral.InError:
+                                case StatusLiteral.WaitingTriggerFileTimeout:
+                                case StatusLiteral.CreatedRequestAndWaitForExecution:
+                                case StatusLiteral.ScheduledRequest:
+                                case StatusLiteral.InProgress:
+                                case StatusLiteral.WaitingTriggerFile:
+                                    <div>(@demande.TD_DATE_PIVOT?.ToString("g"))</div>
+                                    break;
+                                default:
+                                    <div>@demande.TD_DATE_PIVOT?.ToString("g")</div>
+                                    break;
+                            }
+                        }
+                    </Template>
+                </GridColumn>
+            }
+            else if (column.Equals(nameof(VDE_DEMANDES_ETENDUES.TD_COMMENTAIRE_UTILISATEUR), StringComparison.Ordinal))
+            {
+                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TD_COMMENTAIRE_UTILISATEUR)
+
+                    Width=180 />
+            }
+            else if (column.Equals(RessourcesColumn, StringComparison.Ordinal))
+            {
+                <GridColumn HeaderText=@Trad.Keys["DTF:Resource"]
+                    TextAlign=Syncfusion.Blazor.Grids.TextAlign.Left
+                    Width=156>
+                    <GridCommandColumns>
+                        <GridCommandColumn Title=@Trad.Keys["DTF:ResourceTooltip"]
+                                   ID=ResourcesDialogCommand
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-open-link", CssClass = "e-flat e-open-link" }) />
+                    </GridCommandColumns>
+                </GridColumn>
+            }
+            else if (column.Equals(ResultsColumn, StringComparison.Ordinal))
+            {
+                <GridColumn HeaderText=@Trad.Keys["DTF:Result"]
+                    TextAlign=Syncfusion.Blazor.Grids.TextAlign.Left
+                    Width=138>
+                    <GridCommandColumns>
+                        <GridCommandColumn Title=@Trad.Keys["DTF:InfoTooltip"]
+                                   ID=InfosDialogCommand
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-circle-info", CssClass = "e-flat" }) />
+
+                        <GridCommandColumn Title=@Trad.Keys["DTF:ResultTooltip"]
+                                   ID=DownloadResultCommand
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-download", CssClass = "e-flat e-download" }) />
+                    </GridCommandColumns>
+                </GridColumn>
+            }
+        }
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (_isInfosDialogDisplayed)
+{
+    <VDE_DEMANDES_ETENDUES_Informations DemandeId=CommandData.TD_DEMANDEID
+                                    @bind-IsDisplayed=_isInfosDialogDisplayed />
+}
+
+@if (_isResourcesDialogDisplayed)
+{
+    <VDE_DEMANDES_RESSOURCES_Resources DemandeId=CommandData.TD_DEMANDEID
+                                   DemandeOrigineId=CommandData.TD_DEMANDE_ORIGINEID
+                                   @bind-IsDisplayed=_isResourcesDialogDisplayed />
+}
+
+@if (_isQualifsDialogDisplayed)
+{
+    <TDQ_DEMANDE_QUALIFS_Recueil DemandeId=CommandData.TD_DEMANDEID @bind-IsDisplayed=_isQualifsDialogDisplayed />
+}
+
+<style>
+    /* Style used to hide "Qualifs" command column. */
+    .e-remove-qualifs-command .e-unboundcell .e-unboundcelldiv button.e-light {
+        display: none;
+    }
+
+    /* Green light icon on "Qualifs" command column. */
+    .e-greenlight .e-unboundcell .e-unboundcelldiv button.e-light {
+        background-image: url('@QualifsLiterals.Green');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        height: 30px;
+        width: 64px;
+    }
+
+    /* Orange light icon on "Qualifs" command column. */
+    .e-orangelight .e-unboundcell .e-unboundcelldiv button.e-light {
+        background-image: url('@QualifsLiterals.Orange');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        height: 30px;
+        width: 64px;
+    }
+
+    /* Red light icon on "Qualifs" command column. */
+    .e-redlight .e-unboundcell .e-unboundcelldiv button.e-light {
+        background-image: url('@QualifsLiterals.Red');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        height: 30px;
+        width: 64px;
+    }
+
+    /* Style used to hide "Open resources" command column. */
+    .e-remove-open-resources-command .e-unboundcell .e-unboundcelldiv button.e-open-link {
+        display: none;
+    }
+
+    /* Style used to hide "Download result" command column. */
+    .e-remove-download-result-command .e-unboundcell .e-unboundcelldiv button.e-download {
+        display: none;
+    }
+</style>

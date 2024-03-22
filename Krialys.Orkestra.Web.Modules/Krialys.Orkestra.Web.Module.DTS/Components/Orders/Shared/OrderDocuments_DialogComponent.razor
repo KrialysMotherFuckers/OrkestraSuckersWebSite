@@ -1,0 +1,71 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width="840px"
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @string.Format(Trad.Keys["DTS:OrderDocumentsTitle"], Order.TCMD_COMMANDEID)
+        </Header>
+
+        <Content>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="min-width:150px">
+                            @(DataAnnotations.Display<TCMD_DOC_DOCUMENTS>(nameof(TCMD_DOC_DOCUMENTS.TCMD_DOC_FILENAME)))
+                        </th>
+                        <th scope="col" style="width:120px">
+                            @(DataAnnotations.Display<TCMD_DOC_DOCUMENTS>(nameof(TCMD_DOC_DOCUMENTS.TCMD_DOC_TAILLE)))
+                        </th>
+                        <th scope="col" style="width:150px">
+                            @(DataAnnotations.Display<TCMD_DOC_DOCUMENTS>(nameof(TCMD_DOC_DOCUMENTS.TCMD_DOC_DATE)))
+                        </th>
+                        <th scope="col" style="width:100px">
+                            @Trad.Keys["COMMON:Download"]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var document in Order.TCMD_DOC_DOCUMENTS)
+                    {
+                        var docsize = document.TCMD_DOC_TAILLE < 1024 ? 1 : document.TCMD_DOC_TAILLE / 1024;
+
+                        <tr>
+                            <td>@document.TCMD_DOC_FILENAME</td>
+                            <td>@docsize Kb</td>
+                            <td>@document.TCMD_DOC_DATE.ToLocalTime().ToString("g")</td>
+                            <td>
+                                <a download
+                                   class="e-icons e-download"
+                                   href=@GetDownloadDocumentUrl(document.TCMD_DOC_FILENAME)
+                                   style="text-decoration: none;"
+                                   title=@($"{Trad.Keys["COMMON:Download"]} {document.TCMD_DOC_FILENAME}") />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=CloseDialogAsync
+                      Content=@Trad.Keys["COMMON:Back"]
+                      IsPrimary=true
+                      CssClass=e-success />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    th {
+        vertical-align: middle
+    }
+
+    td {
+        word-break: break-word
+    }
+</style>

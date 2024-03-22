@@ -1,0 +1,206 @@
+﻿/*** DataShop CSS ***/
+.etq-layout {
+    display: grid;
+    grid-template-areas:
+        "aside breadcrumb"
+        "aside content";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 0em 1fr; /* Hide Breadcumb */
+}
+
+.etq-aside {
+    border-right-width: thin;
+    border-right-color: #E7F3F7;
+    grid-area: aside;
+    height: calc(100vh - 65px);
+}
+
+/*** DTF Calendar CSS ***/
+.cal-aside {
+    grid-area: aside;
+    height: inherit;
+}
+
+.etq-filterblock {
+    height: inherit;
+    /*background: white;*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+    .etq-filterblock h1 {
+        color: white;
+        background-color: rgba(96,162,185,1);
+        font-size: 1.1em;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    .etq-filterblock .etq-filteritem {
+        margin-bottom: 10px;
+    }
+
+        .etq-filterblock .etq-filteritem .e-chip-set {
+            max-width: 100%;
+        }
+
+        .etq-filterblock .etq-filteritem .e-chip {
+            max-width: 100%;
+        }
+
+.etq-breadcrumb {
+    grid-area: breadcrumb;
+    visibility: hidden; /* Hide Breadcumb */
+}
+
+.etq-content {
+    grid-area: content;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: start;
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+}
+
+    .etq-content .etq-message {
+        padding: 10px;
+    }
+
+.etq-card {
+    z-index: 0;
+    position: relative;
+    font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+    background-color: white;
+    flex: 1 1 500px;
+    min-width: 0px;
+    max-height: 10em;
+    margin: 10px;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+    border-left: solid;
+    border-left-color: #00AFA5;
+}
+
+    .etq-card:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.22);
+    }
+
+    .etq-card.alert-warning {
+        background-color: rgb(255, 243, 205);
+        color: rgb(102, 77, 3);
+    }
+
+    .etq-card .header {
+        padding-bottom: 12px;
+    }
+
+        .etq-card .header .title {
+            font-size: 13px;
+            color: rgba(0,0,0,0.87);
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .etq-card .header .subtitle {
+            font-size: 12px;
+            color: rgba(0,0,0,.54);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+            .etq-card .header .subtitle:after {
+                /* Add unicode space to avoid empty div. */
+                content: '\200b';
+            }
+
+    .etq-card .content {
+        color: rgba(0,0,0,0.54);
+    }
+
+        .etq-card .content table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .etq-card .content th {
+            width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .etq-card .content td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+.etq-details-layout {
+    display: grid;
+    grid-template-areas:
+        "aside header"
+        "aside main";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+.etq-details-header {
+    grid-area: header;
+    font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+    color: #60a2b9;
+    padding: 0px 10px;
+    margin: 5px;
+}
+
+    .etq-details-header .title {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .etq-details-header .subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+        .etq-details-header .subtitle:after {
+            /* Add unicode space to avoid empty div. */
+            content: '\200b';
+        }
+
+.etq-details-content {
+    grid-area: main;
+    padding: 0px 10px;
+    margin: 5px;
+}
+
+.etq-info {
+    font-size: 14px;
+    color: rgba(0,0,0,0.54);
+}
+
+    .etq-info table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .etq-info th {
+        width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .etq-info td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 3px;
+    }

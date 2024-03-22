@@ -1,0 +1,229 @@
+﻿@using AnimationEffect = Syncfusion.Blazor.AnimationEffect
+@using FilterType = Syncfusion.Blazor.DropDowns.FilterType
+@using Krialys.Data.EF.Etq
+<div class="etq-filterblock">
+
+    <h1>@EtiquettesCount @Trad.Keys["DTS:Datasets"]</h1>
+
+    @if (!IsSortHidden)
+    {
+        <div class="etq-filteritem">
+            <SfTab @bind-SelectedItem=_filters.SelectedSort>
+                <TabAnimationSettings>
+                    <TabAnimationPrevious Effect=AnimationEffect.None />
+                    <TabAnimationNext Effect=AnimationEffect.None />
+                </TabAnimationSettings>
+
+                <TabEvents Selecting=OnTabSelecting
+                           Selected=SortSelectedAsync />
+
+                <TabItems>
+
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text=@Trad.Keys["DTS:CreationDatesOrderShort"] />
+                        </ChildContent>
+
+                        <ContentTemplate>
+                            <b>@Trad.Keys["DTS:DatasetsSorting"]</b>
+                            @Trad.Keys["DTS:CreationDatesOrder"]
+                        </ContentTemplate>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text=@Trad.Keys["DTS:AlphabeticalOrderShort"] />
+                        </ChildContent>
+
+                        <ContentTemplate>
+                            <b>@Trad.Keys["DTS:DatasetsSorting"]</b>
+                            @Trad.Keys["DTS:AlphabeticalOrder"]
+                        </ContentTemplate>
+
+                    </TabItem>
+
+                </TabItems>
+            </SfTab>
+        </div>
+    }
+
+    <h1>@Trad.Keys["DTS:Filters"]</h1>
+
+    <div class="etq-filteritem">
+        <SfTextBox @bind-Value=_filters.SearchedValue
+                   Placeholder=@Trad.Keys["DTS:EtiquetteSearch"]
+                   FloatLabelType=FloatLabelType.Always
+                   ValueChange=SearchValueChangeAsync
+                   ShowClearButton=true />
+    </div>
+
+    <div class="etq-filteritem">
+        <SfDateRangePicker TValue=DateTime?
+                           Placeholder=@Trad.Keys["DTS:CreationDateFilter"]
+                           FloatLabelType=FloatLabelType.Always
+                           @bind-StartDate=_filters.CreationDateMin
+                           @bind-EndDate=_filters.CreationDateMax
+                           ShowClearButton=true
+                           StrictMode=true>
+            <DateRangePickerEvents TValue=DateTime? ValueChange=RangePickerValueChangedAsync />
+            <DateRangePickerPresets>
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:ThisWeek"]
+                                       Start=_weekStart End=_weekEnd />
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:ThisMonth"]
+                                       Start=_monthStart End=_monthEnd />
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:LastMonth"]
+                                       Start=_lastMonthStart End=_lastMonthEnd />
+            </DateRangePickerPresets>
+        </SfDateRangePicker>
+    </div>
+
+    <div class="etq-filteritem">
+        <SfMultiSelect TValue=TDOM_DOMAINES[]
+                       TItem=TDOM_DOMAINES
+                       Query=_domainsSelectQuery
+                       Value=_filters.SelectedDomains.ToArray()
+                       Mode=@VisualMode.CheckBox
+                       Placeholder=@Trad.Keys["DTS:DomainFilter"]
+                       FloatLabelType=@FloatLabelType.Always
+                       ShowClearButton=true
+                       ShowDropDownIcon=true
+                       AllowFiltering=true
+                       FilterType=@FilterType.Contains
+                       EnableVirtualization=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TDOM_DOMAINES>)
+                           Adaptor=Adaptors.CustomAdaptor />
+            <MultiSelectFieldSettings Text=@nameof(TDOM_DOMAINES.TDOM_LIB) />
+            <MultiSelectEvents TValue=TDOM_DOMAINES[]
+                               TItem=TDOM_DOMAINES
+                               OnValueSelect=DomainFilterOnValueSelectAsync
+                               ValueRemoved=DomainFilterValueRemovedAsync
+                               Cleared=DomainFilterClearedAsync />
+            <MultiSelectTemplates TItem=TDOM_DOMAINES>
+                <ItemTemplate>
+                    @{
+                        var domain = context;
+                        <span title="@domain.TDOM_LIB (@domain.TDOM_CODE)">
+                            @domain.TDOM_LIB
+                        </span>
+                    }
+                </ItemTemplate>
+            </MultiSelectTemplates>
+        </SfMultiSelect>
+
+        @if (_filters.SelectedDomains is not null && _filters.SelectedDomains.Any())
+        {
+            <SfChip @ref=_domainSfChipRef
+                EnableDelete=false>
+                <ChipItems>
+                    @foreach (var domain in _filters.SelectedDomains)
+                    {
+                        var title = $"{domain.TDOM_LIB} ({domain.TDOM_CODE})";
+                        <ChipItem @key=domain.TDOM_DOMAINEID
+                          Text=@domain.TDOM_LIB
+                          title=@title />
+                    }
+                </ChipItems>
+            </SfChip>
+        }
+    </div>
+
+    <div class="etq-filteritem">
+        <SfMultiSelect TValue=TPRCP_PRC_PERIMETRES[]
+                       TItem=TPRCP_PRC_PERIMETRES
+                       Query=_perimetersSelectQuery
+                       Value=_filters.SelectedPerimeters.ToArray()
+                       Mode=@VisualMode.CheckBox
+                       Placeholder=@Trad.Keys["DTS:PerimeterFilter"]
+                       FloatLabelType=@FloatLabelType.Always
+                       ShowClearButton=true
+                       ShowDropDownIcon=true
+                       AllowFiltering=true
+                       FilterType=@FilterType.Contains
+                       EnableVirtualization=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TPRCP_PRC_PERIMETRES>) Adaptor=Adaptors.CustomAdaptor />
+            <MultiSelectFieldSettings Text=@nameof(TPRCP_PRC_PERIMETRES.TPRCP_LIB) />
+            <MultiSelectEvents TValue=TPRCP_PRC_PERIMETRES[]
+                               TItem=TPRCP_PRC_PERIMETRES
+                               OnValueSelect=PerimeterFilterOnValueSelectAsync
+                               ValueRemoved=PerimeterFilterValueRemovedAsync
+                               Cleared=PerimeterFilterClearedAsync />
+            <MultiSelectTemplates TItem=TPRCP_PRC_PERIMETRES>
+                <ItemTemplate>
+                    @{
+                        var perimeter = context;
+                        <span title="@perimeter.TPRCP_LIB (@perimeter.TPRCP_CODE)">
+                            @perimeter.TPRCP_LIB
+                        </span>
+                    }
+                </ItemTemplate>
+            </MultiSelectTemplates>
+        </SfMultiSelect>
+
+        @if (_filters.SelectedPerimeters is not null && _filters.SelectedPerimeters.Any())
+        {
+            <SfChip @ref=_perimeterSfChipRef
+                EnableDelete=false>
+                <ChipItems>
+                    @foreach (var perimeter in _filters.SelectedPerimeters)
+                    {
+                        var title = $"{perimeter.TPRCP_LIB} ({perimeter.TPRCP_CODE})";
+                        <ChipItem @key=perimeter.TPRCP_PRC_PERIMETREID
+                          Text=@perimeter.TPRCP_LIB
+                          title=@title />
+                    }
+                </ChipItems>
+            </SfChip>
+        }
+    </div>
+
+    <div class="etq-filteritem">
+        <SfMultiSelect TValue=TOBJE_OBJET_ETIQUETTES[]
+                       TItem=TOBJE_OBJET_ETIQUETTES
+                       Query=_objectsSelectQuery
+                       Value=_filters.SelectedObjects.ToArray()
+                       Mode=@VisualMode.CheckBox
+                       Placeholder=@Trad.Keys["DTS:ObjectFilter"]
+                       FloatLabelType=@FloatLabelType.Always
+                       ShowClearButton=true
+                       ShowDropDownIcon=true
+                       AllowFiltering=true
+                       FilterType=@FilterType.Contains
+                       EnableVirtualization=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TOBJE_OBJET_ETIQUETTES>)
+                           Adaptor=Adaptors.CustomAdaptor />
+            <MultiSelectFieldSettings Text=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_LIB) />
+            <MultiSelectEvents TValue=TOBJE_OBJET_ETIQUETTES[]
+                               TItem=TOBJE_OBJET_ETIQUETTES
+                               OnValueSelect=ObjectFilterOnValueSelectAsync
+                               ValueRemoved=ObjectFilterValueRemovedAsync
+                               Cleared=ObjectFilterClearedAsync />
+            <MultiSelectTemplates TItem=TOBJE_OBJET_ETIQUETTES>
+                <ItemTemplate>
+                    @{
+                        var objectEtq = context;
+                        <span title="@objectEtq.TOBJE_LIB (@objectEtq.TOBJE_CODE)">
+                            @objectEtq.TOBJE_LIB
+                        </span>
+                    }
+                </ItemTemplate>
+            </MultiSelectTemplates>
+        </SfMultiSelect>
+
+        @if (_filters.SelectedObjects is not null && _filters.SelectedObjects.Any())
+        {
+            <SfChip @ref=_objectSfChipRef
+                EnableDelete=false>
+                <ChipItems>
+                    @foreach (var objectEtq in _filters.SelectedObjects)
+                    {
+                        var title = $"{objectEtq.TOBJE_LIB} ({objectEtq.TOBJE_CODE})";
+                        <ChipItem @key=objectEtq.TOBJE_OBJET_ETIQUETTEID
+                          Text=@objectEtq.TOBJE_LIB
+                          title=@title />
+                    }
+                </ChipItems>
+            </SfChip>
+        }
+    </div>
+</div>

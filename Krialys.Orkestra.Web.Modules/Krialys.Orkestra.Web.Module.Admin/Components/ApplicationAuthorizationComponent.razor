@@ -1,0 +1,94 @@
+﻿@*Affiche la data grid.*@
+<OrkaGenericGridComponent TEntity="Data.EF.Univers.TRCLI_CLIENTAPPLICATIONS"
+                       @ref=Ref_Grid
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnableColumnMenu="false"
+                       OnLoadFields="@DisplayedFields"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue=Data.EF.Univers.TRCLI_CLIENTAPPLICATIONS
+                    DataBound=Ref_Grid.DataBoundHander
+                    OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=true
+                          AllowEditing=true
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => Ref_Grid.DataGrid.EndEditAsync())>
+                    @Ref_Grid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => Ref_Grid.DataGrid.CloseEditAsync())>
+                    @Ref_Grid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+        @* Hierarchy grid: Display planifications linked to this row. *@
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    @* Get current application Id. *@
+                    var clientApplicationId = ((Data.EF.Univers.TRCLI_CLIENTAPPLICATIONS)context).TRCLI_CLIENTAPPLICATIONID;
+                    @* Query to filter child grid with the current application Id. *@
+                    var gridQuery = new Query().Where("TRCLI_CLIENTAPPLICATIONID", "equal", clientApplicationId);
+
+                    <SfTab EnablePersistence="true"
+                       ID=@(Litterals.Portail + "ADM_clientapplications")
+                       LoadOn="ContentLoad.Dynamic"
+                       OverflowMode="OverflowMode.Popup"
+                       ScrollStep="150">
+
+                        <TabAnimationSettings>
+                            <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+                            <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+                        </TabAnimationSettings>
+
+                        <TabEvents Selecting="OnTabSelecting" />
+
+                        <TabItems>
+                            <TabItem Disabled=@Disabled>
+                                <ChildContent>
+                                    <TabHeader Text="@Trad.Keys["Administration:Claims"]"></TabHeader>
+                                </ChildContent>
+                                <ContentTemplate>
+                                    @* Grid of the claims linked to this client application. *@
+                                    <span><b>@Trad.Keys["Administration:ClaimsLinkedToApp"]</b></span>
+                                    <TRCLICL_CLIENTAPPLICATIONS_CLAIMS_SfGridComponent ClientApplicationId=clientApplicationId
+                                                                                   GridQuery=gridQuery />
+                                </ContentTemplate>
+                            </TabItem>
+                            <TabItem Disabled=@Disabled>
+                                <ChildContent>
+                                    <TabHeader Text="@Trad.Keys["Administration:AuthScenarios"]"></TabHeader>
+                                </ChildContent>
+                                <ContentTemplate>
+                                    @* Grid of the authentication scenarios linked to this client application. *@
+                                    <span><b>@Trad.Keys["Administration:ScenariosLinkedToApp"]</b></span>
+                                    <TRAPLAS_APPLICATIONS_AUTH_SCENARIOS_SfGridComponent ClientApplicationId=clientApplicationId
+                                                                                     GridQuery=gridQuery />
+                                </ContentTemplate>
+                            </TabItem>
+                        </TabItems>
+                    </SfTab>
+                }
+            </DetailTemplate>
+        </GridTemplates>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

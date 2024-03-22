@@ -1,0 +1,11 @@
+﻿@inject NavigationManager Nav
+
+@code {
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            Nav.NavigateTo("login", false, true);
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

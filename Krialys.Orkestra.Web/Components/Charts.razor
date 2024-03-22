@@ -1,0 +1,160 @@
+﻿@using ValueType = Syncfusion.Blazor.Charts.ValueType
+@using LabelPosition = Syncfusion.Blazor.Charts.LabelPosition
+@attribute [Authorize]
+@inject ILanguageContainerService Trad
+
+@* Charts reports *@
+<div class="w3-panel" style="margin-top: 3.95rem;">
+    <div class="row">
+        @* Jeux de données produits (en nombre) *@
+        <div class="column e-chart-matrix-40">
+            <SfChart CustomClass="e-flat"
+                     Title=@(Trad.Keys["CHARTS:ProductDataSets"] + " " + Trad.Keys["CHARTS:Number"])>
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Title=@Trad.Keys["CHARTS:ProductDataSets"] Minimum="0" Interval="20" LabelFormat="{value}">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                    <ChartAxisTitleStyle Size="13px"></ChartAxisTitleStyle>
+                </ChartPrimaryYAxis>
+
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
+
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@_dataEtiquettes" Name=@Trad.Keys["CHARTS:ProductDataSets"] Fill="#174e62" XName="PERIODE" YName="NB_ETQ" Type="ChartSeriesType.Column">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                                <ChartDataLabelFont Color="darkgrey" FontWeight="Bold"></ChartDataLabelFont>
+                            </ChartDataLabel>
+                        </ChartMarker>
+                        <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
+
+        @* Productions (en nombre) *@
+        <div class="column e-chart-matrix-40">
+            <SfChart CustomClass="e-flat"
+                     Title=@(Trad.Keys["CHARTS:Productions"] + " " + Trad.Keys["CHARTS:Number"])>
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Title=@Trad.Keys["CHARTS:Productions"] Minimum="0" Interval="20" LabelFormat="{value}">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                    <ChartAxisTitleStyle Size="13px"></ChartAxisTitleStyle>
+                </ChartPrimaryYAxis>
+
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
+
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@_dataDemandes" Name=@Trad.Keys["CHARTS:Requests"] Fill="#174e62" XName="PERIODE" YName="NB_DEMANDES" Type="ChartSeriesType.StackingColumn">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                                <ChartDataLabelFont Color="white" FontWeight="Bold"></ChartDataLabelFont>
+                            </ChartDataLabel>
+                        </ChartMarker>
+                        <ChartCornerRadius TopLeft="0" TopRight="0"></ChartCornerRadius>
+                    </ChartSeries>
+                    <ChartSeries DataSource="@_dataDemandes" Name=@Trad.Keys["CHARTS:Productions"] Fill="#4dc3b9" XName="PERIODE" YName="NB_REUSSITES" Type="ChartSeriesType.StackingColumn">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                                <ChartDataLabelFont Color="white" FontWeight="Bold"></ChartDataLabelFont>
+                            </ChartDataLabel>
+                        </ChartMarker>
+                        <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
+
+        @* Qualité des données (en pourcentage) *@
+        <div class="column e-chart-matrix-20">
+            <SfChart CustomClass="e-flat"
+                     Title=@(Trad.Keys["CHARTS:DataQuality"] + " " + Trad.Keys["CHARTS:Percentage"])>
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+
+                <ChartPrimaryXAxis ValueType="ValueType.Category">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis Title=@Trad.Keys["CHARTS:DataQuality"] Minimum="0" Maximum="100" Interval="20" LabelFormat="{value}%">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                    <ChartAxisTitleStyle Size="13px"></ChartAxisTitleStyle>
+                </ChartPrimaryYAxis>
+
+                <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
+
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@_dataQuality" Name=@Trad.Keys["CHARTS:DataQuality"] Fill="#174e62" XName="@("QUALIF_" + Culture)" YName="RATIO" Type="ChartSeriesType.Column">
+                        <ChartMarker>
+                            <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                                <ChartDataLabelFont Color="darkgrey" FontWeight="Bold"></ChartDataLabelFont>
+                            </ChartDataLabel>
+                        </ChartMarker>
+                        <ChartCornerRadius TopLeft="8" TopRight="8"></ChartCornerRadius>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
+    </div>
+</div>
+@*</div>*@
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .column {
+        float: left;
+        width: 150px;
+    }
+
+    /* Clearfix (clear floats) */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .e-flat {
+        border-radius: 8px;
+    }
+
+    .e-chart-matrix-40 {
+        width: 40%;
+        height: calc(75vh - 125px);
+        padding: 4px;
+    }
+
+    .e-chart-matrix-20 {
+        width: 20%;
+        height: calc(75vh - 125px);
+        padding: 4px;
+    }
+</style>

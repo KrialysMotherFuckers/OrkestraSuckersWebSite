@@ -1,0 +1,34 @@
+﻿@if (_phases.Any())
+{
+    <SfKanban @ref=KanbanReference
+          TValue=TCMD_COMMANDES
+          KeyField=@($"{nameof(TCMD_COMMANDES.TCMD_PH_PHASE)}.{nameof(TCMD_PH_PHASES.TCMD_PH_CODE)}")>
+        <SfDataManager AdaptorInstance=@typeof(IOrderKanbanDataAdaptorServices)
+                   Adaptor=Adaptors.CustomAdaptor />
+        <KanbanColumns>
+            @foreach (var column in _kanbanColumns)
+            {
+                <KanbanColumn HeaderText=@column.HeaderText
+                      KeyField=column.KeyField
+                      TransitionColumns=column.TransitionColumns
+                      AllowDrag=column.AllowDrag
+                      AllowToggle=true />
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField=@nameof(TCMD_COMMANDES.TCMD_COMMANDEID)
+                        ContentField=@nameof(TCMD_COMMANDES.TCMD_COMMENTAIRE) />
+        <KanbanSwimlaneSettings KeyField=@($"{nameof(TCMD_COMMANDES.TCMD_MC_MODE_CREATION)}.{nameof(TCMD_MC_MODE_CREATIONS.TCMD_MC_CODE)}")
+                            TextField=@_swimlaneTextField />
+        <KanbanEvents TValue=TCMD_COMMANDES
+                  CardDoubleClick=CardDoubleClick />
+        @*<KanbanEvents TValue=TCMD_COMMANDES
+    SwimlaneSorting=SwimlaneSorting />*@
+    </SfKanban>
+}
+
+@if (_isOrderEditorDisplayed)
+{
+    <OrderKanbanEdit_DialogComponent @bind-IsVisible=_isOrderEditorDisplayed
+                                 Order=_selectedOrder
+                                 IsDragAndDrop=_isDragAndDrop />
+}

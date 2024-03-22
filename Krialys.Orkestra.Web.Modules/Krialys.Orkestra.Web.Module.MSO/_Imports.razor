@@ -1,0 +1,58 @@
+﻿@* .Net and NuGet libraries. *@
+@using BlazorComponentBus
+@using Krialys.Data.EF.Resources;
+@using Krialys.Orkestra.Web.Module.MSO.DI;
+@using Krialys.Orkestra.WebApi.Proxy;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+
+@* Entities libraries. *@
+@using Krialys.Entities.COMMON
+@using Krialys.Data.EF.Mso
+@using Krialys.Data.EF.Univers
+
+@* Syncfusion libraries. *@
+@using Microsoft.JSInterop;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Schedule
+
+@* Ajout des librairies communes et personnelles. *@
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.CronManager
+@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders
+@using Krialys.Orkestra.Web.Module.Common.Shared
+
+@* MSO libraries. *@
+@using Krialys.Orkestra.Web.Module.MSO.Components
+@using Krialys.Orkestra.Web.Module.MSO.Components.Rapprochements
+@using Krialys.Orkestra.Web.Module.MSO.Components.References
+@using Krialys.Orkestra.Web.Module.MSO.Pages
+@using Krialys.Common.Localization
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject NavigationManager NavigationManager
+@inject IJSInProcessRuntime JsInProcessRuntime
+
+@inject IAppointmentServices Appointments

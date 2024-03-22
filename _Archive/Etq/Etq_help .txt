@@ -1,0 +1,34 @@
+Fichier en entrées et en sortie au format UTF8, le contenu est formaté en json. Les fichiers peuvent etre au format windows ou Unix.
+
+Les fichiers de génération de code etiquette ou d'alimentation de suivi ressource sont a générer via ETL dans le dossier "IN"
+Les fichiers resultant de l'exploitation des fichiers IN sont générés par le moteur dans le dossier OUT. 
+Le moteur ne modifie pas les fichiers de IN, il ne les déplace pas non plus.
+Les fichiers générés dans le dossier OUT porte le nom du fichier d'origine du IN. 
+La structure du fichier de sortie sera différente du fichier d'entrée bien que le contenu soit au format json, la structure de chacun est différent du fichier d'origine.
+
+
+Fichier attendu pour un générer un code etiquette : fichier avec prefixe ETQ_GET ex : ETQ_GETxxxx.json
+Dans ce fichier n'est attendu qu'un seul enregistrement donc il faut que l'ETL fournisse autant de fichiers que de code etiquette 
+
+Un code etiquette est à générer via un bat. L'exploitation du fichier de sortie a faire dans un 2nd bat.
+Le fichier de sortie ne sera garantie d'être dispo qu'à l'issu du bat.
+Le bat ne se terminera qu'à l'issu de ce qu'il doit faire que ce soit generation de code etiquete ou le reste.  
+Le bat restera en suspend jusqu'à obtention du code etiquette. Il ne passera donc au bat suivant qu'a la fin de la reception du traitement de génération du code etiquette.
+
+
+Le moteur scrute le dossier IN donc va essayer d'exploiter les fichiers des leur apparition dans le dossier, il convient pour ces fichiers de n'écrire leur contenu qu'en une seule fois et de ne pas mettre de fichiers temporaire dans le IN ni de renommer des fichiers s'il porte une entete parmis les fichiers que le moteur exploite.
+
+
+Les fichiers scrutés sont les fichiers présentant les préfixes : 
+ETQ_GET               pour la génération des code etiquette               (ex ETQ_GETxxxxx.json) 
+ETQ_SUIVI_RESSOURCE   pour l'alimentation de la table de suivi ressource  (ex ETQ_SUIVI_RESSOURCExxxx.json) 
+
+ 
+Les fichiers de sortie dispose d'une information Reussite qui prend la valeur true ou false pour indiquer si l'exécution a produit a resultat exploitable pour l'ETL.
+Chaque fichier de sortie ne comportera qu'un seul enregistrement en retour Echec ou Réussite 
+                    
+
+un fichier ETQ_SUIVI_RESSOURCE peut contenir 1 a N enregistrements pourvu qu'ils ne concernent qu'une seule etiquette.
+Créer autant de fichier ETQ_SUIVI_RESSOURCExxxx.json que de code etq différents concernés.   
+ 
+ETQ_GET: demandeId et Version sont des numériques, ils ne doivent pas apparaitre dans le fichier json avec des cotes.            

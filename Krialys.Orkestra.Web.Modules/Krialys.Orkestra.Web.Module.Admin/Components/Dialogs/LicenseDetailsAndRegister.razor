@@ -1,0 +1,135 @@
+﻿@using Krialys.Orkestra.Web.Common.ApiClient;
+@using Krialys.Orkestra.Web.Common.Models;
+@using Krialys.Orkestra.WebApi.Proxy
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Class="mr-3 mb-n1" />
+            License Management
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (RegisterOnlyMode)
+        {
+            <div class="container" style="height:350px">
+                <div class="row">
+                    <div class="col-12">
+                        <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@_licenseKey" Lines="10" />
+                        <br />
+                        <MudAlert Severity="@_severityMessage">@_registerMessage</MudAlert>
+                        <br />
+                        <MudButton StartIcon="@Icons.Material.Filled.AppRegistration" Variant="Variant.Filled" OnClick="Register" Disabled="@(string.IsNullOrEmpty(_licenseKey))">Register</MudButton>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <MudTabs Outlined="true" Rounded="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+                <MudTabPanel Text="Details">
+                    <ChildContent>
+                        <div class="container" style="height:350px">
+                            <div class="row">
+                                <div class="col-4" style="margin-top: 12px;">
+                                    Expiration date
+                                </div>
+                                <div class="col-8">
+                                    <MudTextField @bind-Value="@_licenseEncrypt.Expirationdate" Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="true"></MudTextField>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4" style="margin-top: 12px;">
+                                    Customer name
+                                </div>
+                                <div class="col-8">
+                                    <MudTextField @bind-Value="@_licenseEncrypt.CustomerName" Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="true"></MudTextField>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4" style="margin-top: 12px;">
+                                    Trial Version
+                                </div>
+                                <div class="col-8">
+                                    <MudCheckBox @bind-Checked="@_licenseEncrypt.IsTrialVersion" Size="Size.Small" Color="Color.Primary" Disabled="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </ChildContent>
+                </MudTabPanel>
+                <MudTabPanel Text="Register">
+                    <ChildContent>
+                        <div class="container" style="height:350px">
+                            <div class="row">
+                                <div class="col-12">
+                                    <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="@_licenseKey" Lines="10" />
+                                    <br />
+                                    <MudAlert Severity="@_severityMessage">@_registerMessage</MudAlert>
+                                    <br />
+                                    <MudButton StartIcon="@Icons.Material.Filled.AppRegistration" Variant="Variant.Filled" OnClick="Register" Disabled="@(string.IsNullOrEmpty(_licenseKey))">Register</MudButton>
+                                </div>
+                            </div>
+                        </div>
+                    </ChildContent>
+                </MudTabPanel>
+            </MudTabs>
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (!RegisterOnlyMode)
+        {
+            <MudButton StartIcon="@Icons.Material.Filled.Close" OnClick="Close">Close</MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public bool RegisterOnlyMode { get; set; } = false;
+
+    [Inject] private ILicenseClient _iLicenseClient { get; set; }
+
+    private LicenseEncryption _licenseEncrypt { get; set; } = new();
+
+    private string _registerMessage = string.Empty;
+    private string _licenseKey = string.Empty;
+    private MudBlazor.Severity _severityMessage = Severity.Warning;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (RegisterOnlyMode)
+        {
+            _severityMessage = Severity.Error;
+            _registerMessage = "The software is not registered. To register, paste your license key into the box above.";
+        }
+        else
+        {
+            var lic = await _iLicenseClient.IsActualLicenseValidAsync();
+            if (lic != null)
+            {
+                _licenseEncrypt.IsTrialVersion = lic.IsTrialVersion;
+                _licenseEncrypt.Expirationdate = lic.EndValidationDate.Value.DateTime;
+                _licenseEncrypt.CustomerName = lic.CustomerName;
+            }
+
+            _severityMessage = Severity.Warning;
+            _registerMessage = "The software is already registered. To change the license, paste a replacement key into the box above.";
+        }
+    }
+
+    private async Task Register()
+    {
+        if (_licenseKey.Trim() == string.Empty) return;
+
+        var result = await _iLicenseClient.UpdateLicenseAsync(_licenseKey);
+        if (result)
+            await Toast.DisplaySuccessAsync("Success", "License registered.");
+        else
+            await Toast.DisplayErrorAsync("Error", "License unregistered.");
+
+        if (RegisterOnlyMode && result) MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Close() => MudDialog.Close();
+}

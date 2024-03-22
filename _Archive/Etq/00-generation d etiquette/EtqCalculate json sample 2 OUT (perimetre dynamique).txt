@@ -1,0 +1,9 @@
+[
+  {
+    "Guid": "aaaa",
+    "CodeEtq": "valMaison_PRS_PRESTA_01",
+    "Success": true,
+    "Message": null,
+    "Source": "CalculateEtq"
+  }
+]

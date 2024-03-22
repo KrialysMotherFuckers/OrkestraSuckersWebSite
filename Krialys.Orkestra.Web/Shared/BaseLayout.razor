@@ -1,0 +1,33 @@
+﻿@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Microsoft.AspNetCore.Components.Authorization
+@inherits LayoutComponentBase
+
+<SfDialogProvider />
+<SfToastComponent />
+
+<MudRTLProvider RightToLeft="@_rightToLeft">
+    <MudThemeProvider Theme="_currentTheme" />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    <AuthorizeView>
+        <NotAuthorized>
+            @Body
+        </NotAuthorized>
+        <Authorized>
+            <ErrorBoundary Context=ex>
+                <ChildContent>
+                    <NotificationConnection>
+                        <MudLayout>
+                            <MainLayout OnDarkModeToggle="@(DarkModeToggle)">
+                                @Body
+                            </MainLayout>
+                        </MudLayout>
+                    </NotificationConnection>
+                </ChildContent>
+                <ErrorContent>
+                    <Error Exception="@ex" />
+                </ErrorContent>
+            </ErrorBoundary>
+        </Authorized>
+    </AuthorizeView>
+</MudRTLProvider>

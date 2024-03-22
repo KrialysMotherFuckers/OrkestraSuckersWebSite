@@ -1,0 +1,56 @@
+﻿<OrkaGenericGridComponent TEntity=VPE_PLANIF_ENTETES
+                       @ref=Ref_Grid
+                       IsWithinTab=true
+                       AutoGenerateColumns=false
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=true
+                       Query=GridQuery>
+    <ChildContent>
+
+        <GridEvents TValue=VPE_PLANIF_ENTETES
+                    DataBound=Ref_Grid.DataBoundHander
+                    OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync
+                    RowDataBound=OnRowDataBound OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=false
+                          AllowDeleting=false />
+
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    // Get current demande Id.
+                    var scenarioId = ((VPE_PLANIF_ENTETES)context).TS_SCENARIOID;
+                    // Query to filter child grid.
+                    // Add parameter to deactivate UTC/Locale date conversion.
+                    var query = new Query().Where(nameof(VPD_PLANIF_DETAILS.TS_SCENARIOID), "equal", scenarioId)
+                    .Sort(nameof(VPD_PLANIF_DETAILS.PLANIF_STATUTID), "ascending")
+                    .AddParams(Litterals.ConvertToUTtc, false);
+                    <PlanifsGridComponent Query=query AllowInteract=@AllowInteract
+                                      ExpandedRowId=scenarioId />
+                }
+            </DetailTemplate>
+        </GridTemplates>
+
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(VPE_PLANIF_ENTETES.CATEGORIE)
+                    MinWidth=100
+                    Width=235 />
+        <GridColumn Field=@nameof(VPE_PLANIF_ENTETES.TEM_NOM_ETAT_MASTER)
+                    MinWidth=100
+                    Width=235 />
+        <GridColumn Field=@nameof(VPE_PLANIF_ENTETES.VERSION)
+                    MinWidth=100
+                    Width=235 />
+        <GridColumn Field=@nameof(VPE_PLANIF_ENTETES.TS_NOM_SCENARIO)
+                    MinWidth=100
+                    Width=235 />
+    </GridColumns>
+</OrkaGenericGridComponent>

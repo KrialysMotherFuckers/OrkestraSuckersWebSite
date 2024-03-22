@@ -1,0 +1,74 @@
+﻿/*** Dialog. ***/
+/* Header of the dialog edit background */
+
+.e-popup.e-popup-open.e-dialog {
+    border-radius: 8px;
+}
+
+.e-dialog .e-dlg-header-content + .e-dlg-content {
+    padding-top: 10px;
+}
+
+.e-dialog .e-dlg-header-content {
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.e-dlg-header-content {
+    background-color: #74abbfdb;
+    color: white;
+}
+
+.e-dialog .e-footer-content {
+    padding: 4px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* To separate each item of a custom dialog. */
+.dlg-content-item {
+    padding: 6px;
+}
+
+/*** Custom classes ***/
+.custom-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid lightgrey;
+}
+
+label.custom-title {
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px;
+    background-color: #6DA8BA;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 8px;
+}
+
+.custom-info {
+    width: fit-content;
+    margin: 10px 10px 0px 10px;
+    color: rgba(0,0,0,.74);
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+.mud-dialog .mud-dialog-title {
+    border-block-width: 1px;
+    padding: 6px 12px;
+    border-bottom-color: #74abbf;
+    background-color: #74abbff5;
+}

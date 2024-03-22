@@ -1,0 +1,208 @@
+﻿<OrkaGenericGridComponent @ref=Ref_Grid
+                          TEntity=TCMD_COMMANDES
+                          IsWithinTab=true
+                          AllowTracking=true
+                          AutoGenerateColumns=false
+                          AutoGenerateColumnProperties=false
+                          AllowResizing=true
+                          AllowExcelExport=true
+                          EnablePersistence=true
+                          Query=_gridQuery>
+    <ChildContent>
+        <SfSpinner @bind-Visible=_isBusy
+                   Size=50 />
+
+        <GridEvents TValue=TCMD_COMMANDES
+                    OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed
+                    OnToolbarClick=OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync
+                    RowDataBound=OnRowDataBound
+                    CommandClicked=CommandClickedAsync
+                    OnRecordDoubleClick=OnRecordDoubleClick />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=false
+                          Mode=EditMode.Dialog
+                          Dialog=@Extends.GridEditSettingDialog />
+    </ChildContent>
+    <GridColumns>
+        <GridColumn Field=@nameof(TCMD_COMMANDES.TCMD_COMMANDEID)
+                    Visible=true
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    MinWidth=100
+                    Width=155 />
+
+        <GridColumn Field=@($"{nameof(TCMD_COMMANDES.TE_ETAT)}.{nameof(TE_ETATS.TE_NOM_ETAT)}")
+                    HeaderText=@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TE_ETATID)))
+                    MinWidth=100
+                    Width=160 />
+
+        <GridColumn Field=@($"{nameof(TCMD_COMMANDES.TS_SCENARIO)}.{nameof(TS_SCENARIOS.TS_NOM_SCENARIO)}")
+                    HeaderText=@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TS_SCENARIOID)))
+                    MinWidth=100
+                    Width=160 />
+
+        <GridForeignColumn Field=@nameof(TCMD_COMMANDES.TDOM_DOMAINEID)
+                           TValue=TDOM_DOMAINES
+                           ForeignKeyField=@nameof(TDOM_DOMAINES.TDOM_DOMAINEID)
+                           ForeignKeyValue=@nameof(TDOM_DOMAINES.TDOM_LIB)
+                           MinWidth=100
+                           Width=160>
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TDOM_DOMAINES>)"
+                           Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+
+        <GridColumn Field=@($"{nameof(TCMD_COMMANDES.TRU_COMMANDITAIRE)}.{nameof(TRU_USERS.TRU_FULLNAME)}")
+                    HeaderText=@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TRU_COMMANDITAIREID)))
+                    MinWidth=100
+                    Width=170 />
+
+        <GridColumn Field=@nameof(TCMD_COMMANDES.TCMD_DATE_CREATION)
+                    MinWidth=100
+                    Width=152 />
+
+        <GridColumn HeaderText=@Trad.Keys["DTS:Documents"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=80
+                    Width=120>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTS:DocumentsTooltip"]
+                                   ID=@CommandsIds.DisplayDocuments
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-open-link", CssClass = "e-flat e-documents-command" }) />
+            </GridCommandColumns>
+        </GridColumn>
+
+        @if (Trad.IsCultureFr)
+        {
+            <GridColumn Field=@($"{nameof(TCMD_COMMANDES.TCMD_PH_PHASE)}.{nameof(TCMD_PH_PHASES.TCMD_PH_LIB_FR)}")
+                        HeaderText=@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TCMD_PH_PHASEID)))
+                        MinWidth=100
+                        Width=160 />
+        }
+        else
+        {
+            <GridColumn Field=@($"{nameof(TCMD_COMMANDES.TCMD_PH_PHASE)}.{nameof(TCMD_PH_PHASES.TCMD_PH_LIB_EN)}")
+                        HeaderText=@(DataAnnotations.Display<TCMD_COMMANDES>(nameof(TCMD_COMMANDES.TCMD_PH_PHASEID)))
+                        MinWidth=100
+                        Width=160 />
+        }
+
+        <GridColumn HeaderText=@Trad.Keys["DTS:Details"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=100
+                    Width=117>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTS:DetailsTooltip"]
+                                   ID=@CommandsIds.DisplayDetails
+                                   ButtonOption=@(new CommandButtonOptions{
+                                   IconCss="e-icons e-circle-info",
+                                   CssClass = "e-flat" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTS:AssociationsTooltip"]
+                                   ID=@CommandsIds.DisplayAssociations
+                                   ButtonOption=@(new CommandButtonOptions{
+                                   IconCss="e-icons e-replace",
+                                   CssClass = "e-flat e-associations-command" }) />
+            </GridCommandColumns>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTS:Actions"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=100
+                    Width=207>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTS:EditOrderTooltip"]
+                                   ID=@CommandsIds.Edit
+                                   ButtonOption=@(new CommandButtonOptions {
+                                   IconCss = "e-icons e-edit",
+                                   CssClass="e-flat e-edit-command" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTS:CancelOrderTooltip"]
+                                   ID=@CommandsIds.Cancel
+                                   ButtonOption=@(new CommandButtonOptions {
+                                   IconCss = "e-icons e-error-treeview",
+                                   CssClass="e-flat e-cancel-command" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTS:DuplicateOrderTooltip"]
+                                   ID=@CommandsIds.Duplicate
+                                   ButtonOption=@(new CommandButtonOptions {
+                                   IconCss = "e-icons e-copy",
+                                   CssClass="e-flat e-duplicate-command" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTS:CloseOrderTooltip"]
+                                   ID=@CommandsIds.Close
+                                   ButtonOption=@(new CommandButtonOptions {
+                                   IconCss = "e-icons e-check",
+                                   CssClass="e-flat e-close-command" }) />
+            </GridCommandColumns>
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (_isOrderEditorDisplayed)
+{
+    <OrderEdit_DialogComponent @bind-IsVisible=_isOrderEditorDisplayed
+                               Order=_selectedOrder />
+}
+
+@if (_isOrderDocumentsDialogDisplayed)
+{
+    <OrderDocuments_DialogComponent @bind-IsVisible=_isOrderDocumentsDialogDisplayed
+                                    Order=_selectedOrder />
+}
+
+@if (_isOrderDetailsDialogDisplayed)
+{
+    <OrderDetails_DialogComponent @bind-IsVisible=_isOrderDetailsDialogDisplayed
+                                  Order=_selectedOrder />
+}
+
+@if (_isOrderAssociationsDialogDisplayed)
+{
+    <OrderAssociations_DialogComponent @bind-IsVisible=_isOrderAssociationsDialogDisplayed
+                                       OrderId=_selectedOrder.TCMD_COMMANDEID />
+}
+
+<style>
+    /* Style used to hide "Documents" command column. */
+    .e-remove-documents-command .e-unboundcell .e-unboundcelldiv button.e-documents-command {
+        display: none;
+    }
+
+    /* Style used to hide "Associations" command column. */
+    .e-remove-associations-command .e-unboundcell .e-unboundcelldiv button.e-associations-command {
+        display: none;
+    }
+
+    /* Style used to hide "Edit" command column. */
+    .e-remove-edit-command .e-unboundcell .e-unboundcelldiv button.e-edit-command {
+        display: none;
+    }
+
+    /* Style used to hide "Cancel" command column. */
+    .e-remove-cancel-command .e-unboundcell .e-unboundcelldiv button.e-cancel-command {
+        display: none;
+    }
+
+    /* Style used to hide "Duplicate" command column. */
+    .e-remove-duplicate-command .e-unboundcell .e-unboundcelldiv button.e-duplicate-command {
+        display: none;
+    }
+
+    /* Style used to hide "Close" command column. */
+    .e-remove-close-command .e-unboundcell .e-unboundcelldiv button.e-close-command {
+        display: none;
+    }
+</style>
+
+@code {
+    /// <summary>
+    /// Prepare content of the confirmation dialog.
+    /// </summary>
+    /// <param name="confirmationQuestion">Message used to request confirmation.</param>
+    /// <param name="confirmationDetail">Message with additional details.</param>
+    /// <returns>Content of the confirmation dialog.</returns>
+    RenderFragment GetDuplicationConfirmation(string confirmationQuestion,
+        string confirmationDetail)
+    {
+        return @<div><b style="font-size:15px">@confirmationQuestion</b><br /><br />@confirmationDetail</div>;
+    }
+}

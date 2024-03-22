@@ -1,0 +1,133 @@
+﻿<div class="etq-filterblock">
+    <h1>@LabelsCount @Trad.Keys["DTS:Datasets"]</h1>
+
+    <h1>@Trad.Keys["DTS:Filters"]</h1>
+
+    <div class="etq-filteritem">
+        <SfTextBox @bind-Value=_filters.SearchedValue
+                   Placeholder=@Trad.Keys["DTS:EtiquetteSearch"]
+                   FloatLabelType=FloatLabelType.Always
+                   ValueChange=SearchValueChangeAsync
+                   ShowClearButton=true />
+    </div>
+
+    <div class="etq-filteritem">
+        <SfDateRangePicker TValue=DateTime?
+                           Placeholder=@Trad.Keys["DTS:CreationDateFilter"]
+                           FloatLabelType=FloatLabelType.Always
+                           ShowClearButton=true
+                           StrictMode=true>
+            <DateRangePickerEvents TValue=DateTime?
+                                   ValueChange=CreationDateRangeChangeAsync />
+            <DateRangePickerPresets>
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:ThisWeek"]
+                                       Start=_weekStart End=_weekEnd />
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:ThisMonth"]
+                                       Start=_monthStart End=_monthEnd />
+                <DateRangePickerPreset Label=@Trad.Keys["DTS:LastMonth"]
+                                       Start=_lastMonthStart End=_lastMonthEnd />
+            </DateRangePickerPresets>
+        </SfDateRangePicker>
+    </div>
+
+    <div class="etq-filteritem">
+        <SfMultiSelect @bind-Value=_selectedModules
+                       TValue=TS_SCENARIOS[]
+                       TItem=TS_SCENARIOS
+                       Query=_moduleQuery
+                       Mode=VisualMode.CheckBox
+                       EnableGroupCheckBox=true
+                       Placeholder=@Trad.Keys["ETQ:ByModule"]
+                       FloatLabelType=FloatLabelType.Always
+                       AllowFiltering=true
+                       FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+                       EnableVirtualization=true
+                       ItemsCount=20
+                       ShowClearButton=true
+                       ShowDropDownIcon=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TS_SCENARIOS>)
+                           Adaptor=Adaptors.CustomAdaptor />
+            <MultiSelectFieldSettings Text=@nameof(TS_SCENARIOS.TS_NOM_SCENARIO)
+                                      GroupBy=@($"{nameof(TS_SCENARIOS.TE_ETAT)}.{nameof(TE_ETATS.TE_FULLNAME)}") />
+            <MultiSelectEvents TValue=TS_SCENARIOS[]
+                               TItem=TS_SCENARIOS
+                               ValueChange=ModuleChangeAsync />
+        </SfMultiSelect>
+
+        @if (_selectedModules is not null && _selectedModules.Any())
+        {
+            <div class="e-chip-list">
+                <div class="e-chip-set">
+                    @foreach (var module in _selectedModules)
+                    {
+                        <div class="e-chip"
+                             title=@($"{module.TS_NOM_SCENARIO} ({module.TE_ETAT.TE_FULLNAME})")>
+                            <span class="e-chip-text">
+                                @(module.TS_NOM_SCENARIO)
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="etq-filteritem">
+        <SfMultiSelect @bind-Value=_selectedRuleValues
+                       TValue=TRGLRV_REGLES_VALEURS[]
+                       TItem=TRGLRV_REGLES_VALEURS
+                       Query=_ruleValueQuery
+                       Mode=VisualMode.CheckBox
+                       EnableGroupCheckBox=true
+                       Placeholder=@Trad.Keys["ETQ:ByRuleValue"]
+                       FloatLabelType=FloatLabelType.Always
+                       AllowFiltering=true
+                       FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+                       EnableVirtualization=true
+                       ItemsCount=20
+                       ShowClearButton=true
+                       ShowDropDownIcon=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TRGLRV_REGLES_VALEURS>)
+                           Adaptor=Adaptors.CustomAdaptor />
+            <MultiSelectFieldSettings Text=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_VALEUR)
+                                      GroupBy=@($"{nameof(TRGLRV_REGLES_VALEURS.TRGL_REGLE)}.{nameof(TRGL_REGLES.TRGL_LIB_REGLE)}") />
+            <MultiSelectEvents TValue=TRGLRV_REGLES_VALEURS[]
+                               TItem=TRGLRV_REGLES_VALEURS
+                               ValueChange=RuleValueChangeAsync />
+        </SfMultiSelect>
+
+        @if (_selectedRuleValues is not null && _selectedRuleValues.Any())
+        {
+            <div class="e-chip-list">
+                <div class="e-chip-set">
+                    @foreach (var ruleValue in _selectedRuleValues)
+                    {
+                        <div class="e-chip"
+                             title=@($"{ruleValue.TRGLRV_VALEUR} ({ruleValue.TRGL_REGLE.TRGL_LIB_REGLE})")>
+                            <span class="e-chip-text">
+                                @(ruleValue.TRGLRV_VALEUR)
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="etq-filteritem">
+        <SfDropDownList @bind-Value=_filters.ActionLabel
+                        TItem=TACT_ACTIONS
+                        TValue=string
+                        Query=_actionDropDownQuery
+                        Placeholder=@Trad.Keys["ETQ:ByAction"]
+                        FloatLabelType=FloatLabelType.Always
+                        ShowClearButton=true>
+            <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TACT_ACTIONS>)
+                           Adaptor=Adaptors.CustomAdaptor />
+            <DropDownListFieldSettings Value=@nameof(TACT_ACTIONS.TACT_LIB) />
+            <DropDownListEvents TItem=TACT_ACTIONS
+                                TValue=string
+                                ValueChange=ValueChangeAsync />
+        </SfDropDownList>
+    </div>
+</div>

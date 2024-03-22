@@ -1,0 +1,13 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <label for="checked" style="padding: 10px 10px 10px 0">File Storage in Database</label>
+            <SfSwitch @bind-Checked="isChecked" OnLabel="On" OffLabel="Off"></SfSwitch>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private bool isChecked = true;
+}

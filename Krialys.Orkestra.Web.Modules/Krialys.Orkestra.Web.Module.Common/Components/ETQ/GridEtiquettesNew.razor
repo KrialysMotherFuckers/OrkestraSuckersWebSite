@@ -1,0 +1,294 @@
+﻿@page "/etiquettes_arbo_new"
+@using AnimationEffect = Syncfusion.Blazor.AnimationEffect
+@using TextAlign = Syncfusion.Blazor.Grids.TextAlign
+@using Krialys.Data.EF.Etq
+@using Krialys.Data.EF.Univers
+
+@attribute [Authorize]
+
+<div class="@(!HideDataGrid ? "e-hidden" : string.Empty)">
+
+    <SfTab EnablePersistence="true"
+           ID=@(Litterals.Portail + "Etq_etiquettes_arbo")
+           LoadOn="ContentLoad.Dynamic"
+           OverflowMode="OverflowMode.Popup"
+           ScrollStep="150">
+
+        <header class="etq-details-header">
+            @* Show/hide datagrid *@
+            <SfButton OnClick=@ShowDataGrid
+                      IconCss="e-icons e-previous"
+                      CssClass="e-flat e-background w3-round-xxlarge e-rounded"
+                      Content=@Trad.Keys["DTS:BackToEtqList"] />
+
+            @* Show/hide toolbox *@
+            <SfCheckBox @bind-Checked=@isChecked
+                        id="chkPortail_ETQ_etiquettes_arbo"
+                        CssClass="subtitle"
+                        EnablePersistence=true>
+                @Trad.Keys["DTS:ToolBoxHideOrShow"]
+            </SfCheckBox>
+        </header>
+
+        <TabAnimationSettings>
+            <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+            <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+        </TabAnimationSettings>
+
+        <TabEvents Selecting="OnTabSelecting" />
+
+        <TabItems>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text=@Trad.Keys["DTS:Production"] />
+                </ChildContent>
+                <ContentTemplate>
+                    @if (HideDataGrid)
+                    {
+                        <ArboEtiquette EtiquetteId=@_etq.TETQ_ETIQUETTEID
+                                       Mode=ArboEtiquettes.Mode.Production
+                                       SidebarToggle=@isChecked />
+                    }
+                </ContentTemplate>
+            </TabItem>
+
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text=@Trad.Keys["DTS:Consumption"] />
+                </ChildContent>
+                <ContentTemplate>
+                    @if (HideDataGrid)
+                    {
+                        <ArboEtiquette EtiquetteId=@_etq.TETQ_ETIQUETTEID
+                                       Mode=ArboEtiquettes.Mode.Consommation
+                                       SidebarToggle=@isChecked />
+                    }
+                </ContentTemplate>
+            </TabItem>
+        </TabItems>
+    </SfTab>
+</div>
+
+<div class="@(HideDataGrid ? "e-hidden" : string.Empty)">
+
+    <MudExpansionPanels>
+        <MudExpansionPanel>
+            <TitleContent>
+                <div class="row">
+                    <div class="col-11" style="text-align:left">
+                        <h5><span class="e-badge e-badge-info">@(_etiquettesCount) @Trad.Keys["DTS:Datasets"]</span></h5>
+                    </div>
+                    <div class="col-1" style="text-align-last:end; padding-top: 12px;">
+                        <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Medium" Color="Color.Primary"></MudIcon>
+                        Filtre(s)
+                    </div>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <hr />
+                <EtiquettesSearchComponent EtiquettesCount=_etiquettesCount
+                                           CacheKey="TETQ_ETIQUETTES_FILTERS"
+                                           OnlyAllowedPerimeters=false
+                                           OnOrderByChanged=OnOrderByChangedAsync
+                                           OnFilterChanged=OnFilterChangedAsync
+                                           IsSortHidden=true />
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+    <br />
+
+    @* Affiche la data grid *@
+    <OrkaGenericGridComponent TEntity="TETQ_ETIQUETTES"
+                              SuffixId="ARBO"
+                              @ref=Ref_Grid
+                              AllowResizing=true
+                              AllowPdfExport=false
+                              AllowExcelExport=true
+                              AllowGrouping=false
+                              AllowCsvExport=false
+                              EnableColumnMenu=false
+                              AutoGenerateColumns=false
+                              EnablePersistence=true
+                              Query="@GridQuery">
+
+        <ChildContent>
+            @* Customisable datagrid events *@
+            <GridEvents TValue=TETQ_ETIQUETTES
+                        DataBound=OnDataBound
+                        OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                        ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                        OnActionFailure=Ref_Grid.ActionFailureAsync
+                        CommandClicked=CommandClicked OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+            @* Hierarchy grid: Display ETQ linked to these rows. NO PERSISTENCE *@
+            <GridTemplates>
+                <DetailTemplate>
+                    @{
+                        var etq = (context as TETQ_ETIQUETTES);
+                        <OrkaGenericGridComponent TEntity="VDE_DEMANDES_ETENDUES"
+                        @ref=Ref_GridView
+                                                  AllowResizing=true
+                                                  AllowPdfExport=false
+                                                  AllowExcelExport=true
+                                                  AllowGrouping=false
+                                                  AllowCsvExport=false
+                                                  EnableColumnMenu=true
+                                                  AutoGenerateColumns=false
+                                                  EnablePersistence=true
+                                                  Query="@GetEtqViewQuery(etq)">
+
+                            <ChildContent>
+                                @* Customisable datagrid events *@
+                                <GridEvents TValue=VDE_DEMANDES_ETENDUES
+                                            OnToolbarClick=Ref_GridView.OnToolbarClickAsync
+                                            ContextMenuItemClicked=Ref_GridView.OnContextMenuItemClickedAsync
+                                            OnActionFailure=Ref_GridView.ActionFailureAsync OnLoad=Ref_GridView.OnLoadHandler Destroyed=Ref_GridView.OnDestroyed />
+                            </ChildContent>
+
+                            <GridColumns>
+                                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TD_DEMANDEID)
+                                            IsPrimaryKey=true
+                                            IsIdentity=true
+                                            MinWidth=100
+                                            Width=100
+                                            AllowAdding=false
+                                            AllowEditing=false
+                                            Visible=true />
+
+                                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TE_NOM_ETAT_VERSION)
+                                            MinWidth=100
+                                            Width=100
+                                            AllowAdding=false
+                                            AllowEditing=false
+                                            Visible=true />
+
+                                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.TS_DESCR)
+                                            MinWidth=100
+                                            Width=160
+                                            AllowAdding=false
+                                            AllowEditing=false
+                                            Visible=true />
+
+                                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.DEMANDEUR)
+                                            MinWidth=100
+                                            Width=100
+                                            AllowAdding=false
+                                            AllowEditing=false
+                                            Visible=true />
+
+                                <GridColumn Field=@nameof(VDE_DEMANDES_ETENDUES.REFERENT)
+                                            MinWidth=100
+                                            Width=100
+                                            AllowAdding=false
+                                            AllowEditing=false
+                                            Visible=true />
+                            </GridColumns>
+                        </OrkaGenericGridComponent>
+                    }
+                </DetailTemplate>
+            </GridTemplates>
+        </ChildContent>
+
+        @* Columns *@
+        <GridColumns>
+            @foreach (var fieldName in CustomDisplayedFields)
+            {
+                if (fieldName.Equals(nameof(TETQ_ETIQUETTES.TETQ_ETIQUETTEID), StringComparison.Ordinal))
+                {
+                    <GridColumn Field=@fieldName
+                                IsPrimaryKey=true
+                                IsIdentity=true
+                                Visible=false
+                                MinWidth=0
+                                Width=0 />
+                }
+                else if (fieldName.Equals($"{nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTE)}.{nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTE.TDOM_DOMAINE)}.{nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTE.TDOM_DOMAINE.TDOM_LIB)}", StringComparison.Ordinal))
+                {
+                    <GridColumn Field=@fieldName
+                                HeaderText=@(DataAnnotations.Display<TDOM_DOMAINES>(nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTE.TDOM_DOMAINE.TDOM_LIB)))
+                                MinWidth=100
+                                Width=160
+                                AllowAdding=false
+                                AllowEditing=false
+                                AllowSearching=false
+                                AllowFiltering=false
+                                AllowSorting=false
+                                AllowGrouping=false
+                                Visible=true>
+                        <Template>
+                            @{
+                                <div>@(((TETQ_ETIQUETTES)context).TOBJE_OBJET_ETIQUETTE.TDOM_DOMAINE.TDOM_LIB)</div>
+                            }
+                        </Template>
+                    </GridColumn>
+                }
+                else
+                {
+                    <GridColumn Field=@fieldName
+                                MinWidth=100
+                                Width=160
+                                AllowAdding=false
+                                AllowEditing=false
+                                Visible=true />
+                }
+            }
+            <GridColumn Field="Arbo"
+                        TextAlign=TextAlign.Left
+                        AllowAdding=false
+                        AllowEditing=false
+                        AllowSearching=false
+                        AllowFiltering=false
+                        AllowSorting=false
+                        MinWidth=40
+                        Width=60>
+
+                <GridCommandColumns>
+                    <GridCommandColumn Title="Accéder à l'arborescence"
+                                       ID="EtqShowArborescence"
+                                       ButtonOption=@(new CommandButtonOptions { CssClass = "e-flat e-etiquette" }) />
+                </GridCommandColumns>
+            </GridColumn>
+        </GridColumns>
+
+    </OrkaGenericGridComponent>
+</div>
+
+<style>
+    /* Etiquette icon on "Etiquettes datagrid" command column. */
+    .e-etiquette {
+        background-image: url( 'Icons/Etiquettes/etiquette.png' ) !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-color: transparent;
+        height: 32px;
+        width: 32px;
+    }
+
+    .e-background {
+        background-color: #73adc1 !important;
+    }
+
+    .e-rounded {
+        border-radius: 8px;
+    }
+</style>
+
+<style scoped>
+    .mud-expand-panel .mud-expand-panel-header {
+        min-height: 40px;
+        padding: 5px 15px;
+        height: 40px;
+    }
+
+    /* .mud-collapse-entered {
+                                margin-top: -20px;
+                            }
+
+                            .mud-expand-panel .mud-expand-panel-header .mud-expand-panel-icon.mud-transform {
+                                margin-top: 5px;
+                            }
+
+                            .mud-expand-panel .mud-expand-panel-header .mud-expand-panel-icon {
+                                margin-top: 5px;
+                            } */
+</style>

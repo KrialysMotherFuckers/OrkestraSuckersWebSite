@@ -1,0 +1,128 @@
+﻿@using Krialys.Orkestra.WebApi.Proxy
+@using Microsoft.AspNetCore.Components.Authorization
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.Models
+@using Blazored.LocalStorage
+@using Krialys.Orkestra.Web.Module.Common.Authentication
+@using System.Security.Claims
+@using System.Reflection
+@using System.Globalization
+
+@inject ILocalStorageService LocalStorage
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @_trad.Keys["COMMON:About"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="content">
+            <div class="row">
+                <div class="col-12">
+                    <b>Support:</b> <MudLink Href="mailto:support@krialys.fr?subject=Support">lesupport@duclient.fr</MudLink>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <b>Site:</b> <MudLink Href="https://orkestra-data.com">Krialys</MudLink>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <b>Version:</b> @_getVersion
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <b>Release date:</b> @_buildDate
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12" style="text-align-last: end;">
+                    <MudButton Variant="Variant.Filled" Size="MudBlazor.Size.Small" Color="Color.Success" StartIcon="@Icons.Material.Filled.Cached">Clean Cache</MudButton>
+                    <MudButton Variant="Variant.Filled" Size="MudBlazor.Size.Small" Color="Color.Error" StartIcon="@Icons.Material.Filled.ClearAll" Style="margin-left:5px;">Clean Session</MudButton>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(Close)" Size="MudBlazor.Size.Small" StartIcon="@Icons.Material.Filled.Close">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<style scoped>
+    .mud-button-filled-size-small {
+        padding: 2px 5px;
+        font-size: smaller;
+    }
+</style>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    [Inject] private ILanguageContainerService _trad { get; set; }
+    [Inject] private IHttpProxyCore Proxy { get; set; }
+    [Inject] private ISfToastServices Toast { get; set; }
+    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
+    [Inject] private IUserSessionStatus State { get; set; }
+    [Inject] private IAuthenticationService AuthService { get; set; }
+
+    private string _getVersion;
+    private DateOnly _buildDate => GetBuildDate(Assembly.GetExecutingAssembly());
+
+    protected override async Task OnInitializedAsync()
+    {
+        var environment = (await Proxy.GetApiUniversAppSettings("Environment"))?.ToString();
+        _getVersion = $"{GetType().Assembly.GetName().Version?.ToString()} - {environment} - NetCore: {Environment.Version}";
+    }
+
+    void Close() => MudDialog.Close(DialogResult.Ok(true));
+    void ClearCacheAsync() => Proxy.CacheClear();
+
+    private static DateOnly GetBuildDate(Assembly assembly)
+    {
+        const string BuildVersionMetadataPrefix = "+releaseDate";
+
+        var attribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+        if (attribute?.InformationalVersion != null)
+        {
+            var value = attribute.InformationalVersion;
+            var index = value.IndexOf(BuildVersionMetadataPrefix);
+            if (index > 0)
+            {
+                value = value.Substring(index + BuildVersionMetadataPrefix.Length);
+                if (DateOnly.TryParseExact(value, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
+                    return result;
+            }
+        }
+
+        return default;
+    }
+
+    /// <summary>
+    /// Clear current session cache: remove all entries generated in the localStorage
+    /// </summary>
+    /// <returns></returns>
+    public async Task ClearCacheSessionAsync(bool force = false)
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+
+        if (authState.User.Identity != null && (force || (authState.User.Identity.IsAuthenticated)))
+        {
+            State.IsConnected = false;
+            State.Claims = Enumerable.Empty<Claim>();
+            await LocalStorage.RemoveItemsAsync(await LocalStorage.KeysAsync());
+            Proxy.CacheClear();
+
+            await AuthService.LogOut();
+
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+
+        Navigation.NavigateTo("login", false, true);
+    }
+}

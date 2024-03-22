@@ -1,0 +1,234 @@
+﻿@page "/referencesregles"
+@* Reférentiels MOE et système *@
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "Etq_referencesregles")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    @* Animation settings *@
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        @* Catégorie référentiels règles *@
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Règles de gouvernance" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TRGL_REGLES"
+                                       @ref="Ref_TRGL_REGLES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TRGL_REGLES"
+                                    DataBound=Ref_TRGL_REGLES.DataBoundHander
+                                    OnToolbarClick="@Ref_TRGL_REGLES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TRGL_REGLES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TRGL_REGLES.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TRGL_REGLES.OnLoadHandler Destroyed=Ref_TRGL_REGLES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TRGL_REGLES, entity))">
+                                    @Ref_TRGL_REGLES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TRGL_REGLES.DataGrid.CloseEditAsync())">
+                                    @Ref_TRGL_REGLES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Valeurs des règles" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TRGLRV_REGLES_VALEURS"
+                                       @ref="Ref_TRGLRV_REGLES_VALEURS"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true"
+                                       AutoGenerateColumns=false>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_REGLES_VALEURID)
+                                    IsPrimaryKey=true
+                                    IsIdentity=true
+                                    Visible=false />
+
+                        <GridForeignColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGL_REGLEID)
+                                           TValue=TRGL_REGLES
+                                           ForeignKeyField=@nameof(TRGL_REGLES.TRGL_REGLEID)
+                                           ForeignKeyValue=@nameof(TRGL_REGLES.TRGL_LIB_REGLE)
+                                           MinWidth=100>
+                            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TRGL_REGLES>)" Adaptor="Adaptors.CustomAdaptor" />
+                        </GridForeignColumn>
+
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_VALEUR)
+                                    MinWidth=100 />
+
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_ORDRE_AFFICHAGE)
+                                    MinWidth=100 />
+
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_DEPART_LIMITE_TEMPS)
+                                    MinWidth=100>
+                            <Template>
+                                @{
+                                    var limiteTemps = (context as TRGLRV_REGLES_VALEURS)?.TRGLRV_DEPART_LIMITE_TEMPS;
+                                    if (limiteTemps is not null)
+                                    {
+                                        @Trad.Keys[$"BOOL:{limiteTemps}"]
+                                    }
+                                }
+                            </Template>
+                            <EditTemplate>
+                                <YesNoDropdownComponent TItem=TRGLRV_REGLES_VALEURS
+                                                        Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_DEPART_LIMITE_TEMPS)
+                                                        @bind-Value=@(((context as TRGLRV_REGLES_VALEURS)!).TRGLRV_DEPART_LIMITE_TEMPS) />
+                            </EditTemplate>
+                        </GridColumn>
+
+                        <GridForeignColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TACT_ACTIONID)
+                                           TValue=TACT_ACTIONS
+                                           ForeignKeyField=@nameof(TACT_ACTIONS.TACT_ACTIONID)
+                                           ForeignKeyValue=@nameof(TACT_ACTIONS.TACT_LIB)
+                                           MinWidth=100>
+                            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TACT_ACTIONS>)" Adaptor="Adaptors.CustomAdaptor" />
+                        </GridForeignColumn>
+
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_VALEUR_ECHEANCE)
+                                    MinWidth=100 />
+
+                        <GridColumn Field=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_VALEUR_DEFAUT)
+                                    MinWidth=100 />
+                    </GridColumns>
+
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TRGLRV_REGLES_VALEURS"
+                                    DataBound=Ref_TRGLRV_REGLES_VALEURS.DataBoundHander
+                                    OnToolbarClick="@Ref_TRGLRV_REGLES_VALEURS.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TRGLRV_REGLES_VALEURS.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TRGLRV_REGLES_VALEURS.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TRGLRV_REGLES_VALEURS.OnLoadHandler Destroyed=Ref_TRGLRV_REGLES_VALEURS.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TRGLRV_REGLES_VALEURS, entity))">
+                                    @Ref_TRGLRV_REGLES_VALEURS.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TRGLRV_REGLES_VALEURS.DataGrid.CloseEditAsync())">
+                                    @Ref_TRGLRV_REGLES_VALEURS.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="Valeurs des règles liées" />
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TRGLI_REGLES_LIEES"
+                                       @ref="Ref_TRGLI_REGLES_LIEES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TRGLI_REGLES_LIEES"
+                                    DataBound=Ref_TRGLI_REGLES_LIEES.DataBoundHander
+                                    OnToolbarClick="@Ref_TRGLI_REGLES_LIEES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TRGLI_REGLES_LIEES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=@Ref_TRGLI_REGLES_LIEES.ActionFailureAsync
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TRGLI_REGLES_LIEES.OnLoadHandler Destroyed=Ref_TRGLI_REGLES_LIEES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TRGLI_REGLES_LIEES, entity))">
+                                    @Ref_TRGLI_REGLES_LIEES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TRGLI_REGLES_LIEES.DataGrid.CloseEditAsync())">
+                                    @Ref_TRGLI_REGLES_LIEES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+    </TabItems>
+</SfTab>

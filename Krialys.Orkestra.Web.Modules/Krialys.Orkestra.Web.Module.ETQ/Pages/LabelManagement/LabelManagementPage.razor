@@ -1,0 +1,95 @@
+﻿@page "/Label_Management"
+@* Etiquettes *@
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "Etq_referencesp2")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    @* Animation settings *@
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        @* Catégorie étiquettes *@
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Etiquettes" IconCss="e-icons e-paste"></TabHeader>
+            </ChildContent>
+
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.ETQ.Components.ReferencesP2.LabelsList />
+            </ContentTemplate>
+
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Evènements" IconCss="e-icons e-paste"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <TSEQ_SUIVI_EVENEMENT_ETQS_GridComponent />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Ressources" IconCss="e-icons e-paste"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent @ref=Ref_TSR_SUIVI_RESSOURCES
+                                       TEntity=TSR_SUIVI_RESSOURCES
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true"
+                                       AllowTracking="true">
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TSR_SUIVI_RESSOURCES"
+                                    DataBound=Ref_TSR_SUIVI_RESSOURCES.DataBoundHander
+                                    OnToolbarClick="@Ref_TSR_SUIVI_RESSOURCES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TSR_SUIVI_RESSOURCES.OnContextMenuItemClickedAsync"
+                                    OnActionFailure=Ref_TSR_SUIVI_RESSOURCES.ActionFailureAsync
+                                    OnLoad=Ref_TSR_SUIVI_RESSOURCES.OnLoadHandler Destroyed=Ref_TSR_SUIVI_RESSOURCES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="false"
+                                          AllowEditing="false"
+                                          AllowDeleting="false"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => Ref_TSR_SUIVI_RESSOURCES.DataGrid.EndEditAsync())">
+                                          @Ref_TSR_SUIVI_RESSOURCES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TSR_SUIVI_RESSOURCES.DataGrid.CloseEditAsync())">
+                                          @Ref_TSR_SUIVI_RESSOURCES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>

@@ -1,0 +1,72 @@
+﻿@page "/dts_etq"
+
+@attribute [Authorize]
+
+<section class="etq-layout">
+    <aside class="etq-aside">
+        <EtiquettesSearchComponent EtiquettesCount=_etiquettesCount
+                                   CacheKey="DTS_ETQ_FILTERS"
+                                   OnlyAllowedPerimeters=true
+                                   OnOrderByChanged=OnOrderByChangedAsync
+                                   OnFilterChanged=OnFilterChangedAsync />
+    </aside>
+
+    @* Hidden by CSS. *@
+    <nav class="etq-breadcrumb">Breadcrumb</nav>
+
+    <div class="etq-content">
+        @foreach (var etq in _etiquettes)
+        {
+            <div class="etq-card">
+                <a href="./DTS_ETQ_DETAILS?Id=@etq.TETQ_ETIQUETTEID" class="stretched-link"></a>
+
+                <div class="header">
+                    <div class="title">@etq.TETQ_CODE</div>
+                    <div class="subtitle">@etq.TETQ_LIB</div>
+                </div>
+
+                <div class="content">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th scope="row">@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_DATE_CREATION)))</th>
+                                <td>@etq.TETQ_DATE_CREATION.ToString("g")</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">@Trad.Keys["DTS:ProcessedBy"]</th>
+                                <td>@etq.DEMANDEUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.REFERENT)))</th>
+                                <td>@etq.REFERENT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+        @if (_etiquettesLoadedCount > _etiquettesMax && _etiquettesLoadedCount < _etiquettesCount)
+        {
+            <div class="etq-card alert-warning" role="alert">
+                @string.Format(Trad.Keys["DTS:MaxLabelsExceeded"], _etiquettesLoadedCount)
+            </div>
+        }
+        else if (_etiquettes.Count == _etiquettesLoadedCount)
+        {
+            if (_etiquettesLoadedCount > 0)
+            {
+                <InfiniteScrollComponent ObserverTargetId=@_observerTargetId
+                                 ObservableTargetReached=FetchEtiquettesAsync />
+            }
+
+            <div class="etq-card" id=@_observerTargetId>
+                <p>@Trad.Keys["DTS:Loading"]</p>
+            </div>
+        }
+        else if (!_etiquettes.Any())
+        {
+            <div class="etq-message">@Trad.Keys["DTS:NoLabelsFound"]</div>
+        }
+    </div>
+</section>

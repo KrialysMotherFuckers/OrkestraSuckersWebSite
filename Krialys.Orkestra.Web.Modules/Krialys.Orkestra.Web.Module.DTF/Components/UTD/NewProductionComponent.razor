@@ -1,0 +1,72 @@
+﻿<SfDialog @bind-Visible=IsVisible
+          Width="1200px"
+          MinHeight="520px"
+          ShowCloseIcon=true
+          IsModal=true>
+    <DialogEvents OnClose=DeleteProdAndCloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>@Trad.Keys["DTF:NewProduction"]</Header>
+
+        <Content>
+            <SfSpinner @bind-Visible=_isButtonClicked Size=50 />
+
+            <UTDSelectComponent OnScenarioChanged=@(async args => await OnScenarioChangedAsync(args.Item1,args.Item2,args.Item3))
+                                IsModuleRequired=true />
+
+            @if (!Demande.TS_SCENARIOID.Equals(default))
+            {
+                <ProdFileUploadComponent @ref=Ref_ProdFileUploadComponent
+                                         DemandeId=Demande.TD_DEMANDEID
+                                         ScenarioId=Demande.TS_SCENARIOID />
+
+                <div class="component">
+                    <SfTooltip @ref=Ref_CommentTooltip
+                               Target=#CommentTextBox
+                               OpensOn=Custom
+                               Content=@Trad.Keys["COMMON:RequiredField"]
+                               CssClass=e-griderror>
+                        <SfTextBox @bind-Value=Demande.TD_COMMENTAIRE_UTILISATEUR
+                                   ID=CommentTextBox
+                                   CssClass=e-outline
+                                   HtmlAttributes=_commentHtmlAttributes
+                                   Placeholder=@Trad.Keys["DTF:Comment*"]
+                                   FloatLabelType=@FloatLabelType.Always
+                                   Multiline=true
+                                   ValueChange=OnCommentChangeAsync />
+                    </SfTooltip>
+                </div>
+
+                <div class="component">
+                    <AssociatedOrder_DropDownComponent @bind-OrderId=_associatedOrderId />
+                </div>
+            }
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton Content=@Trad.Keys["DTF:LaunchNow"]
+                      OnClick=ProductionValidateAsync
+                      Disabled=IsValidateDisabled()
+                      IsPrimary=true
+                      CssClass=e-succes />
+        <DialogButton Content=@Trad.Keys["DTF:ScheduleLaunch"]
+                      OnClick=OpenProdSchedulingDialogAsync
+                      Disabled=IsValidateDisabled()
+                      IsPrimary=false />
+    </DialogButtons>
+</SfDialog>
+
+@if (IsProdSchedulingDisplayed)
+{
+    <ProdSchedulingComponent @bind-IsVisible=IsProdSchedulingDisplayed
+                             IsPrototype=_isPrototype
+                             LaunchDeferredProduction=LaunchDeferredProductionAsync
+                             LaunchRecurrentProduction=@(args => LaunchRecurrentProductionAsync(args.Item1,args.Item2,args.Item3)) />
+}
+
+<style>
+    .component {
+        margin-top: 20px;
+    }
+</style>

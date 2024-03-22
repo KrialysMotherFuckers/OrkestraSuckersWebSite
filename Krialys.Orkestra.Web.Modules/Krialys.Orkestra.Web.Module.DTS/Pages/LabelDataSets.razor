@@ -1,0 +1,95 @@
+﻿@page "/Dts_LabelDataSets"
+
+@attribute [Authorize]
+
+@if (_isLoading)
+{
+    <SpinnerComponent IsLoading="_isLoading" />
+}
+else
+{
+    <MudExpansionPanels>
+        <MudExpansionPanel>
+            <TitleContent>
+                <div class="row">
+                    <div class="col-11" style="text-align:left; padding-top: 3px;">
+                        <h5><span class="e-badge e-badge-info">@(_etiquetteDetailsList.Count) @Trad.Keys["DTS:Datasets"]</span></h5>
+                    </div>
+                    <div class="col-1" style="text-align-last:end; padding-top: 8px;">
+                        <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Medium" Color="Color.Primary"></MudIcon>
+                        Filtre(s)
+                    </div>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <hr />
+                <EtiquettesSearchComponent OnSearchCriteriaChanged="()=> GetData()"
+                                           @bind-SearchODataFilter="@_searchFilter"
+                                           KeyCache="DTS_ETQ_FILTERS"
+                                           EtiquettesCount=_etiquetteDetailsList.Count
+                                           CacheKey="DTS_ETQ_FILTERS"
+                                           OnlyAllowedPerimeters=true
+                                           OnOrderByChanged=OnOrderByChangedAsync
+                                           OnFilterChanged=OnFilterChangedAsync />
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+    <br />
+
+    @if ((bool)!_etiquetteDetailsList?.Any())
+    {
+        <div class="etq-message">@Trad.Keys["DTS:NoLabelsFound"]</div>
+    }
+
+    <div>
+        <div class="etq-content">
+            @foreach (var item in _etiquetteDetailsList)
+            {
+                <div class="etq-card" style="min-width: 150px;">
+                    <a href="./DTS_ETQ_DETAILS?Id=@item.TETQ_ETIQUETTEID" class="stretched-link"></a>
+
+                    <div class="header">
+                        <div class="title">@item.TETQ_CODE</div>
+                        <div class="subtitle">@item.TETQ_LIB</div>
+                    </div>
+
+                    <div class="content">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_DATE_CREATION)))</th>
+                                    <td>@item.TETQ_DATE_CREATION.ToString("g")</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">@Trad.Keys["DTS:ProcessedBy"]</th>
+                                    <td>@item.DEMANDEUR</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.REFERENT)))</th>
+                                    <td>@item.REFERENT</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<style scoped>
+    .mud-expand-panel .mud-expand-panel-header {
+        min-height: 40px;
+        padding: 5px 15px;
+        height: 40px;
+    }
+
+    .mud-icon-button {
+        padding: 0;
+    }
+
+    hr {
+        margin-top: 5px;
+    }
+
+</style>

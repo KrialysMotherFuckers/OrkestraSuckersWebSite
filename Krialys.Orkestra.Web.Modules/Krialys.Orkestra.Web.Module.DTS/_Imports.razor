@@ -1,0 +1,68 @@
+﻿@* .Net and NuGet libraries. *@
+@using BlazorComponentBus
+@using Blazored.LocalStorage;
+@using Krialys.Data.EF.Resources;
+@using Krialys.Orkestra.WebApi.Proxy;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+
+@* Entities libraries. *@
+@using Krialys.Entities.COMMON
+@using Krialys.Data.EF.Etq
+@using Krialys.Data.EF.Univers
+
+@* Syncfusion libraries. *@
+@using Microsoft.JSInterop;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Spinner
+
+@* Common librairies. *@
+@using Krialys.Common.Literals;
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.DTF.UTD
+@using Krialys.Orkestra.Web.Module.Common.Components.ETQ
+@using Krialys.Orkestra.Web.Module.Common.Components.ETQ.References
+@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders
+@using Krialys.Orkestra.Web.Module.Common.Shared
+@using Krialys.Common.Extensions
+@using Krialys.Common.Localization
+
+@* DTS libraries. *@
+@using Krialys.Orkestra.Web.Module.DTS.Components.Orders.Grid
+@using Krialys.Orkestra.Web.Module.DTS.Components.Orders.Kanban
+@using Krialys.Orkestra.Web.Module.DTS.Components.Orders.Shared
+@using Krialys.Orkestra.Web.Module.DTS.DI
+@using MudBlazor
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject IDownloadServices Download
+@inject NavigationManager NavigationManager
+@inject IJSInProcessRuntime JsInProcessRuntime
+@inject SfDialogService DialogService
+
+@inject ISyncLocalStorageService LocalStorage
+@inject IOrderManagementServices OrderManagement
+@inject AuthenticationStateProvider StateProvider

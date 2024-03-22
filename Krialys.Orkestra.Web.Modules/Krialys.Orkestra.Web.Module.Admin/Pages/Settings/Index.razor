@@ -1,0 +1,45 @@
+﻿@page "/Admin_Settings"
+
+@attribute [Authorize(Policy = PoliciesLiterals.Administrator)]
+
+<SfTab>
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["Administration:EmailTemplate"]"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <EmailTemplateSettings />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="Orkestra Settings"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <OrkestraSettings />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["Menu:MenuSettings"]"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <MenuSettings />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>
+
+@code {
+
+}

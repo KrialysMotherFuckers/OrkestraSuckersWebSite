@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<RootNamespace>Krialys.Data.EF</RootNamespace>
+		<AssemblyName>Krialys.Data.EF.Mso</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krialys.Data.EF.Common\Krialys.Data.EF.Common.csproj" />
+	</ItemGroup>
+
+</Project>

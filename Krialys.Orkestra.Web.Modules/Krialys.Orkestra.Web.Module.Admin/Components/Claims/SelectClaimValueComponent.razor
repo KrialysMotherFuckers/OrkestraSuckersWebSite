@@ -1,0 +1,27 @@
+﻿@if (_catalogClaims != null)
+{
+    <SfMultiSelect TValue="Data.EF.Univers.TRCCL_CATALOG_CLAIMS[]"
+                   TItem="Data.EF.Univers.TRCCL_CATALOG_CLAIMS"
+                   @bind-Value="@MultiselectValues"
+                   DataSource="@_catalogClaims"
+                   @ref="_multiselectRef"
+                   ID="CatalogClaimsMultiSelect"
+                   PopupHeight="350px"
+                   Mode="@VisualMode.CheckBox"
+                   Placeholder=@Trad.Keys["MSO:RapprochementsSelectCode"]
+                   AllowFiltering="true"
+                   FilterBarPlaceholder=@Trad.Keys["MSO:RapprochementsSearch"]
+                   ShowSelectAll="true"
+                   EnableSelectionOrder="true"
+                   ShowDropDownIcon="true"
+                   EnablePersistence="false"
+                   FloatLabelType='@FloatLabelType.Always'>
+
+        <MultiSelectFieldSettings Text="TRCCL_VALUE_LABEL" />
+
+        <MultiSelectEvents TValue="Data.EF.Univers.TRCCL_CATALOG_CLAIMS[]"
+                           TItem="Data.EF.Univers.TRCCL_CATALOG_CLAIMS"
+                           ValueChange="OnClaimValueChange"
+                           Cleared="OnClaimValueCleared" />
+    </SfMultiSelect>
+}

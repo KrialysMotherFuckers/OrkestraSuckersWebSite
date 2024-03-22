@@ -1,0 +1,39 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TPR_PROFILS"
+                       @ref="Ref_TPR_PROFILS"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TPR_PROFILS"
+                    OnToolbarClick="@Ref_TPR_PROFILS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TPR_PROFILS.OnContextMenuItemClickedAsync" OnLoad=Ref_TPR_PROFILS.OnLoadHandler Destroyed=Ref_TPR_PROFILS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TPR_PROFILS, entity))">
+                    @Ref_TPR_PROFILS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TPR_PROFILS.DataGrid.CloseEditAsync())">
+                    @Ref_TPR_PROFILS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

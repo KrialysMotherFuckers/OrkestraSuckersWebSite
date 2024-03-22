@@ -1,0 +1,28 @@
+﻿/*** Menu (top) ***/
+/* Menu color. */
+.e-menu-container,
+.e-menu-container.e-menu-popup {
+    background-color: lightgray;
+}
+
+    /* Menu color on focus. */
+    .e-menu-container .e-menu .e-menu-item.e-selected,
+    .e-menu-container .e-menu .e-menu-item.e-focused,
+    .e-menu-container .e-ul .e-menu-item.e-selected,
+    .e-menu-container .e-ul .e-menu-item.e-focused {
+        background-color: white;
+    }
+
+    /* Menu text color. */
+    .e-menu-container .e-menu,
+    .e-menu-container .e-ul .e-menu-item,
+    .e-menu-container ul .e-menu-item .e-menu-icon::before,
+    .e-menu-container ul .e-menu-item .e-caret::before,
+    .e-menu-container .e-ul .e-menu-item .e-menu-url {
+        color: black;
+    }
+
+.erp-nav-menu-child-active {
+    border-right-color: #3eaf7cff;
+    border-right-width: medium;
+}

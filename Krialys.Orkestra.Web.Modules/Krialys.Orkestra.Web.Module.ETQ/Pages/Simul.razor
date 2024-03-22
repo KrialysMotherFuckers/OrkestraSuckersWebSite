@@ -1,0 +1,124 @@
+﻿@page "/simul"
+@using MudBlazor
+@using static Krialys.Orkestra.Common.Shared.ETQ
+
+@attribute [Authorize]
+
+<div class="col-12">
+    <MudExpansionPanels>
+        <MudExpansionPanel IsExpanded>
+            <ChildContent>
+
+                <EditForm Model="_model" OnValidSubmit="ExecuteEtiquette" class="mud-container mud-container-maxwidth-false">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="CodeEtiquette" class="col-10 col-form-label"><b>Code objet d'étiquette</b></label>
+                            <InputSelect id="CodeEtiquette" class="form-control" @bind-Value="_model.CodeObjEtq">
+                                <option></option>
+                                @foreach (var value in _listObjetEtiquettes.Distinct().OrderBy(o => o))
+                                {
+                                    <option>@value</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-2">
+                            <label for="Version" class="col-10 col-form-label"><b>Version</b></label>
+                            <InputNumber id="Version" class="form-control" @bind-Value="_model.Version"></InputNumber>
+                        </div>
+                        <div class="col-2">
+                            <label for="CodePerimetre" class="col-10 col-form-label"><b>Code périmètre</b></label>
+                            <InputSelect id="CodePerimetre" class="form-control" @bind-Value="_model.CodePerimetre">
+                                <option></option>
+                                @foreach (var value in _listPerimetres.Distinct().OrderBy(o => o))
+                                {
+                                    <option>@value</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-2">
+                            <label for="Source" class="col-10 col-form-label"><b>Périmètre dynamique</b></label>
+                            <InputText id="Source" class="form-control" @bind-Value="_model.ValDynPerimetre"></InputText>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-10 col-form-label">
+                            <button type="submit" class="btn btn-success">Evaluer l'étiquette</button>
+                        </div>
+                        <div class="col-3">
+                            <InputText id="Etiquette" class="form-control" @bind-Value="_resultEtiquette" readonly></InputText>
+                        </div>
+                    </div>
+                    <br />
+                    <span style="font-size:16px;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                    </span>
+                </EditForm>
+
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</div>
+
+@code {
+    private readonly EtiquetteModel _model = new() { Simulation = true, DemandeId = 0, Source = "" };
+    private IEnumerable<string> _listPerimetres = Enumerable.Empty<string>();
+    private IEnumerable<string> _listObjetEtiquettes = Enumerable.Empty<string>();
+
+    private bool _isRunning;
+    private string _resultEtiquette;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TEST automated email => OK
+        //var ret = await ProxyCore.SendAutomatedMailForRequest(demandeId: 1, typeCode: OrderStatus.EndOfProduction);
+
+        _listPerimetres = (await ProxyCore.GetEnumerableAsync<TPRCP_PRC_PERIMETRES>())?.Select(p => p.TPRCP_CODE);
+        _listObjetEtiquettes = (await ProxyCore.GetEnumerableAsync<TOBJE_OBJET_ETIQUETTES>())?.Select(p => p.TOBJE_CODE);
+    }
+
+    private async Task ExecuteEtiquette()
+    {
+        // exemple de valeurs cf. test URL
+        // codeObjEtq      = "LISTE_PRESTA";
+        // version         = 1;
+        // codePerimetre   = "2021";
+        // valDynPerimetre = "mavaleur"
+        // demandeId       = 0;
+        // source          = "monid";
+        // simul           = true;
+        try
+        {
+            if (!_isRunning)
+            {
+                _isRunning = true;
+
+                if (_model != null)
+                {
+                    var etq = new List<CalculateEtqInput> {
+                        new CalculateEtqInput(
+                            _model.CodeObjEtq,
+                            _model.Version,
+                            _model.CodePerimetre,
+                            _model.ValDynPerimetre,
+                            _model.DemandeId.Value,
+                            "SIMUL",
+                            _model.Simulation
+                        )
+                    };
+
+                    var etqOutput = (await ProxyCore.EtqCalculate(etq))?.FirstOrDefault();
+
+                    _resultEtiquette = etqOutput!.Success ? etqOutput.CodeEtq : etqOutput.Message;
+
+                    StateHasChanged();
+                }
+                _isRunning = false;
+            }
+        }
+        catch
+        {
+            _isRunning = false;
+        }
+    }
+}

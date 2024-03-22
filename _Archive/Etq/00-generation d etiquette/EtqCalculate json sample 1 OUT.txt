@@ -1,0 +1,16 @@
+[
+  {
+    "Guid": "aaaa",
+    "CodeEtq": "",
+    "Success": false,
+    "Message": "Code et Version correctes mais périmètre non trouvé",
+    "Source": "CalculateEtq"
+  },
+  {
+    "Guid": "bbbb",
+    "CodeEtq": "2021ETE_OFS_ODS_70",
+    "Success": true,
+    "Message": null,
+    "Source": "CalculateEtq"
+  }
+]

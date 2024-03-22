@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Components\Datagrid\**" />
+	  <Compile Remove="Pages\**" />
+	  <Content Remove="Components\Datagrid\**" />
+	  <Content Remove="Pages\**" />
+	  <EmbeddedResource Remove="Components\Datagrid\**" />
+	  <EmbeddedResource Remove="Pages\**" />
+	  <None Remove="Components\Datagrid\**" />
+	  <None Remove="Pages\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="Syncfusion.Blazor.Cards" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Charts" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Diagram" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.FileManager" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Kanban" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Notifications" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Popups" Version="24.2.9" />
+		<PackageReference Include="Syncfusion.Blazor.Schedule" Version="24.2.9" />
+        <PackageReference Include="MudBlazor" Version="6.17.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+
+		<ProjectReference Include="..\..\Krialys.Orkestra.Web.Common\Krialys.Orkestra.Web.Common.csproj" />
+		<ProjectReference Include="..\..\Krialys.Orkestra.Web.Services\Krialys.Orkestra.Web.Services.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,39 @@
+﻿@attribute [Authorize]
+
+@* Accéder au recueil des qualifications (Popup) Paramètre attendu => DemandeId *@
+<div class="row">
+    <div class="table-responsive-md">
+        <SfDialog @bind-Visible="@IsDisplayed"
+                  ShowCloseIcon=true
+                  Width="1200px"
+                  MinHeight="170px"
+                  IsModal=true>
+
+            @*Height="calc(100vh - 130px)"*@
+
+            @*<DialogPositionData Y="65"></DialogPositionData>*@
+
+            <DialogEvents Closed=CloseQualifDialog />
+
+            <DialogTemplates>
+                <Header>
+                    Recueil des qualifications de la demande #@DemandeId
+                </Header>
+                <Content>
+                    <TDQ_DEMANDE_QUALIFS_TableComponent DemandeId=DemandeId />
+                </Content>
+            </DialogTemplates>
+
+            <DialogButtons>
+                <DialogButton OnClick=@(() => Download.DownloadQualif(DemandeId))
+                              IsPrimary=true
+                              Content=@Trad.Keys["DTF:RecueilDownload"] />
+
+                <DialogButton OnClick=CloseQualifDialog
+                              IsPrimary=false
+                              Content=@Trad.Keys["COMMON:Back"] />
+            </DialogButtons>
+
+        </SfDialog>
+    </div>
+</div>

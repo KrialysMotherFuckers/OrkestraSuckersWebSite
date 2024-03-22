@@ -1,0 +1,57 @@
+﻿@* .Net and NuGet libraries. *@
+@using BlazorComponentBus
+@using Krialys.Data.EF.Resources;
+@using Krialys.Common.Localization;
+@using Krialys.Orkestra.WebApi.Proxy;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+
+@* Entities libraries. *@
+@using Krialys.Entities.COMMON
+@using Krialys.Data.EF.Univers
+
+@* Syncfusion libraries. *@
+@using Microsoft.JSInterop;
+@using MudBlazor;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+
+@* RazorWasm common librairies. *@
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.EnvironmentManager
+@using Krialys.Orkestra.Web.Module.Common.Components.FilesAndBatchsManager
+@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Krialys.Orkestra.Web.Module.Common.Components.YesNoDropdown
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders
+@using Krialys.Orkestra.Web.Module.Common.Shared
+
+@* DTM libraries. *@
+@using Krialys.Orkestra.Web.Module.DTM
+@using Krialys.Orkestra.Web.Module.DTM.Components
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject NavigationManager NavigationManager
+@inject IJSInProcessRuntime JsInProcessRuntime
+@inject ISnackbar Snackbar
+
+@inject IAuthorizationService AuthorizationService
+@inject SfDialogService DialogService

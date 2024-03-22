@@ -1,0 +1,116 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width=800px
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @string.Format(Trad.Keys["ETQ:AuthorizationManagementTitle"], Label.TETQ_CODE)
+        </Header>
+
+        <Content>
+            <div class="radio-control">
+                <div>
+                    <SfRadioButton @bind-Checked=args.IsAccessPublic
+                                   Name=@_IsAccessPublicRadioButtonName
+                                   Label=@Trad.Keys["ETQ:PublicAccess"]
+                                   Value=true
+                                   CssClass="is-access-public__radio" />
+                </div>
+
+                <div>
+                    <SfRadioButton @bind-Checked=args.IsAccessPublic
+                                   Name=@_IsAccessPublicRadioButtonName
+                                   Label=@Trad.Keys["ETQ:NominativeAccess"]
+                                   Value=false
+                                   CssClass="is-access-public__radio is-access-public__radio--top" />
+                </div>
+            </div>
+
+            <div class="is-access-public__box">
+                <p>
+                    <SfMultiSelect @bind-Value=args.UsersIds
+                                   TValue=string[]
+                                   TItem=TRU_USERS
+                                   Mode=VisualMode.Default
+                                   Query=_userQuery
+                                   Placeholder=@Trad.Keys["COMMON:Users"]
+                                   FloatLabelType=FloatLabelType.Always
+                                   Enabled=@(!args.IsAccessPublic)
+                                   AllowFiltering=true
+                                   EnableVirtualization=true>
+                        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TRU_USERS>)
+                                       Adaptor=Adaptors.CustomAdaptor />
+                        <MultiSelectFieldSettings Text=@nameof(TRU_USERS.TRU_FULLNAME)
+                                                  Value=@nameof(TRU_USERS.TRU_USERID) />
+                    </SfMultiSelect>
+                </p>
+
+                <div class="authorize__radio">
+                    <label class="row authorize__radio--title">@Trad.Keys["ETQ:AuthorizationsAssignment"]</label>
+                    <p class="row">
+                        <SfRadioButton @bind-Checked=args.Authorize
+                                       Name=@_AuthorizeRadioButtonName
+                                       Label=@Trad.Keys["COMMON:NoChange"]
+                                       Value=null
+                                       Disabled=args.IsAccessPublic />
+                    </p>
+                    <p class="row">
+                        <SfRadioButton @bind-Checked=args.Authorize
+                                       Name=@_AuthorizeRadioButtonName
+                                       Label=@Trad.Keys["COMMON:Authorize"]
+                                       Value=true
+                                       Disabled=args.IsAccessPublic />
+                    </p>
+                    <p class="row">
+                        <SfRadioButton @bind-Checked=args.Authorize
+                                       Name=@_AuthorizeRadioButtonName
+                                       Label=@Trad.Keys["ETQ:Revoke"]
+                                       Value=false
+                                       Disabled=args.IsAccessPublic />
+                    </p>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=SaveAsync
+                      Content=@Trad.Keys["COMMON:Save"]
+                      IsPrimary=true
+                      CssClass=e-success />
+
+        <DialogButton OnClick=CloseDialogAsync
+                      Content=@Trad.Keys["COMMON:Cancel"] />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    .is-access-public__radio {
+        padding: 5px 10px 0px;
+        margin-left: 12px;
+    }
+
+    .is-access-public__radio--top {
+        top: 10px;
+        background: white;
+    }
+
+    .is-access-public__box {
+        border-width: 1px;
+        border-color: rgba(0, 0, 0, 0.24);
+        border-radius: 10px;
+        padding: 20px 22px 0px;
+    }
+
+    .authorize__radio {
+        padding-left: 10px;
+    }
+
+    .authorize__radio--title {
+        color: rgba(0, 0, 0, 0.5);
+        padding-bottom: 10px;
+    }
+</style>

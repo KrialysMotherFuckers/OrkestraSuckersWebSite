@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Krialys.Orkestra.Web.Module.Common\Krialys.Orkestra.Web.Module.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\ReferencesP2\" />
+    <Folder Include="Pages\LabelTreeView\" />
+  </ItemGroup>
+
+</Project>

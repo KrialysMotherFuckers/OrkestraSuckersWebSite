@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+        <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.27" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.27" PrivateAssets="all" />
+        <PackageReference Include="Syncfusion.Blazor.Themes" Version="24.2.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+    </ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.dockerignore" Link=".dockerignore">
+			<DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
+		</None>
+	</ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Orkestra.Common\Krialys.Orkestra.Common.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Common\Krialys.Orkestra.Web.Common.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Infrastructure\Krialys.Orkestra.Web.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\appsettings.Development.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Production.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Dev.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Prod-Aew.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Prod-Demo.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Prod-Krialys.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Prod-Sncf.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Uat-Sncf.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.Release-Uat.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+		<!--<Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Development.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Debug'" />-->
+		<Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Dev.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Dev'" />
+
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Uat.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Uat'" />
+
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Staging-Aew.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Staging-Aew'" />
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Staging-Sncf.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Staging-Sncf'" />
+        
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Prod-Demo.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Demo'" />
+		<Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Prod-Krialys.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Krialys'" />
+
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Prod-Aew.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Aew'" />
+        <Copy SourceFiles="$(OutputPath)wwwroot\appsettings.Release-Prod-Sncf.json" DestinationFiles="$(OutDir)wwwroot\appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Sncf'" />
+
+		<Delete Files="$(OutputPath)wwwroot\appsettings.Development.json" Condition="$(Configuration) != 'Debug'" />
+		<Delete Files="$(OutputPath)wwwroot\appsettings.Release-*.json" />
+
+    </Target>
+
+</Project>

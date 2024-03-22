@@ -1,0 +1,72 @@
+﻿@inherits OrkaGenericGridComponent<Data.EF.Univers.TRU_USERS>
+
+@if (GridColumnParametersList is not null)
+{
+    @*Affiche la data grid.*@
+    <OrkaGenericGridComponent TEntity="Data.EF.Univers.TRU_USERS"
+                              @ref=Ref_Grid
+                              IsWithinTab=true
+                              AllowResizing="true"
+                              AllowPdfExport="false"
+                              AllowExcelExport="true"
+                              AllowCsvExport="false"
+                              EnableColumnMenu="false"
+                              EnablePersistence="true"
+                              AutoGenerateColumns="true"
+                              OnLoadFields="@CustomDisplayedFields">
+
+        <ChildContent>
+
+            @* Customisable datagrid events *@
+            <GridEvents TValue=Data.EF.Univers.TRU_USERS
+                        DataBound=Ref_Grid.DataBoundHander
+                        OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                        ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                        OnActionFailure=Ref_Grid.ActionFailureAsync
+                        QueryCellInfo="OnQueryCellInfoHandler" OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+            <GridEditSettings AllowAdding=true
+                              AllowEditing=true
+                              AllowDeleting=false
+                              ShowConfirmDialog=true
+                              ShowDeleteConfirmDialog=true
+                              Mode=EditMode.Dialog
+                              Dialog="@Extends.GridEditSettingDialog">
+
+                @* Customisable edit/save/cancel dialog events *@
+                <FooterTemplate>
+                    <SfButton IsPrimary=true
+                              CssClass="e-success"
+                              OnClick=@(() => FooterSaveEditAsync(context as Data.EF.Univers.TRU_USERS))>
+                        @Ref_Grid.EditButtonText
+                    </SfButton>
+                    <SfButton OnClick=@(() => Ref_Grid.DataGrid.CloseEditAsync())>
+                        @Ref_Grid.CancelButtonText
+                    </SfButton>
+                </FooterTemplate>
+            </GridEditSettings>
+
+            @* Hierarchy grid: Display planifications linked to this row. *@
+            <GridTemplates>
+                <DetailTemplate>
+                    <span>@Trad.Keys["Administration:ClaimsLinkedToUser"]</span>
+                    @{
+                        @* Get current user Id. *@
+                        var userId = (context as Data.EF.Univers.TRU_USERS)?.TRU_USERID;
+                        if (!string.IsNullOrEmpty(userId))
+                        {
+                            @* Query to filter child grid with the current application Id. *@
+                            var gridQuery = new Query().Where("TRU_USERID", "equal", userId);
+
+                            @* Grid of the claims linked to this user. *@
+                            <TRUCL_USERS_CLAIMS_SfGridComponent UserId=@userId
+                                                                GridQuery=gridQuery />
+                        }
+                    }
+                </DetailTemplate>
+            </GridTemplates>
+
+        </ChildContent>
+
+    </OrkaGenericGridComponent>
+}

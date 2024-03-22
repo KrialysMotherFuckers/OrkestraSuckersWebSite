@@ -1,0 +1,16 @@
+[
+  {
+    "Guid": "aaaa",
+    "CodeEtq": "CODE_ERRONé",
+    "Success": false,
+    "Message": "Mise à jour impossible. Code etiquette introuvable",
+    "Source": null
+  },
+  {
+    "Guid": "bbbb",
+    "CodeEtq": "2021ETE_OFS_ODS_69",
+    "Success": true,
+    "Message": null,
+    "Source": null
+  }
+]

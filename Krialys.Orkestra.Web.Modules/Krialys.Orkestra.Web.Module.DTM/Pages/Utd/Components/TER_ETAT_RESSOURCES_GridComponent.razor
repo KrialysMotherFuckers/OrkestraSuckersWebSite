@@ -1,0 +1,201 @@
+﻿<OrkaGenericGridComponent TEntity="TER_ETAT_RESSOURCES"
+                       @ref="Ref_TER_ETAT_RESSOURCES"
+                       AutoGenerateColumns="false"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="false"
+                       AllowGrouping="false"
+                       Query="GridQuery">
+    <ChildContent>
+
+        <GridEvents TValue=TER_ETAT_RESSOURCES
+                    DataBound=Ref_TER_ETAT_RESSOURCES.DataBoundHander
+                    OnToolbarClick=@Ref_TER_ETAT_RESSOURCES.OnToolbarClickAsync
+                    CommandClicked=CommandClicked
+                    ContextMenuItemClicked=@Ref_TER_ETAT_RESSOURCES.OnContextMenuItemClickedAsync
+                    OnActionFailure=@Ref_TER_ETAT_RESSOURCES.ActionFailureAsync
+                    OnActionBegin=OnActionBeginAsync
+                    OnActionComplete=OnActionCompleteAsync
+                    RowDataBound=OnRowDataBound
+                    RowSelected=RowSelected
+                    RowDeselected=RowDeselected OnLoad=Ref_TER_ETAT_RESSOURCES.OnLoadHandler Destroyed=Ref_TER_ETAT_RESSOURCES.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="AllowModify"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+            <HeaderTemplate>
+                <span>@GetEditHeader(context as TER_ETAT_RESSOURCES)</span>
+            </HeaderTemplate>
+
+            <FooterTemplate>
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => Ref_TER_ETAT_RESSOURCES.DataGrid.EndEditAsync())">
+                    @Ref_TER_ETAT_RESSOURCES.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TER_ETAT_RESSOURCES.DataGrid.CloseEditAsync())">
+                    @Ref_TER_ETAT_RESSOURCES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        @* Browse through displayed fields list. *@
+        @foreach (var field in CustomDisplayedFields)
+        {
+            // Command column.
+            if (field == "Modele")
+            {
+                <GridColumn HeaderText=@Trad.Keys["DTM:Model"]
+                    TextAlign=TextAlign.Left
+                    Width=190>
+                    <GridCommandColumns>
+                        @if (AllowModify)
+                        {
+                            <GridCommandColumn Title=@Trad.Keys["DTM:ModelUpload"]
+                                   ID=CommandModelUpload
+                                   ButtonOption=@(new CommandButtonOptions() { IconCss = "e-icons e-upload-1", CssClass = "e-flat e-upload-1" }) />
+                        }
+                        <GridCommandColumn Title=@Trad.Keys["DTM:ModelDownload"]
+                                   ID=CommandModelDownload
+                                   ButtonOption=@(new CommandButtonOptions() { IconCss="e-icons e-download", CssClass = "e-flat e-download" }) />
+                        @if (AllowModify)
+                        {
+                            <GridCommandColumn Title=@Trad.Keys["DTM:ModelDelete"]
+                                   ID=CommandModelDelete
+                                   ButtonOption=@(new CommandButtonOptions() { IconCss = "e-icons e-delete-1", CssClass = "e-flat e-delete-1" }) />
+                        }
+                    </GridCommandColumns>
+                </GridColumn>
+                continue;
+            }
+
+            @* Get column parameters (based on reflection on the entities attributes.) *@
+            var prop = Ref_TER_ETAT_RESSOURCES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == field);
+
+            @* Column parameters not found. *@
+            if (prop is null)
+            {
+            }
+            else if (nameof(TER_ETAT_RESSOURCES.TER_IS_PATTERN).Equals(prop.Field))
+            {
+                <GridColumn Field=@prop.Field
+                    AutoFit=@prop.Autofit
+                    MinWidth=150
+                    Width=@prop.Width>
+                    <Template>
+                        @Trad.Keys[$"BOOL:{((TER_ETAT_RESSOURCES)context).TER_IS_PATTERN}"]
+                    </Template>
+                    <EditTemplate>
+                        <YesNoDropdownComponent TItem=TER_ETAT_RESSOURCES
+                                        Field=@nameof(TER_ETAT_RESSOURCES.TER_IS_PATTERN)
+                                        @bind-Value=@(((TER_ETAT_RESSOURCES)context).TER_IS_PATTERN) />
+                    </EditTemplate>
+                </GridColumn>
+            }
+            else
+            {
+                <GridColumn Field="@prop.Field"
+                    HeaderText="@prop.HeaderText"
+                    IsPrimaryKey="@prop.IsPrimaryKey"
+                    IsIdentity="@prop.IsIdentity"
+                    Visible="@prop.Visible"
+                    Format="@prop.Format"
+                    Type="@prop.ColumnType"
+                    EnableGroupByFormat="@(prop.Format == default)"
+                    AutoFit="@prop.Autofit"
+                    MinWidth="150"
+                    Width="@prop.Width" />
+            }
+        }
+
+        <GridColumn HeaderText=@Trad.Keys["DTM:UTDCatalogResourcesNbSenarios"]
+                    Width=220>
+            <Template>
+                <label>
+                    @ResourceScenarios.Count(x => x.TER_ETAT_RESSOURCEID.Equals(((context as TER_ETAT_RESSOURCES)!).TER_ETAT_RESSOURCEID))
+                </label>
+            </Template>
+            <EditTemplate />
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (IsUploadModelDialogDisplayed)
+{
+    @* Upload model files *@
+    <SfDialog ShowCloseIcon=true Width=500 IsModal=true>
+        <DialogEvents Closed=CloseUploadModelDialog />
+
+        <DialogTemplates>
+            <Header>
+                @string.Format(Trad.Keys["DTM:ModelUploadHeader"], CommandData.TER_NOM_FICHIER)
+            </Header>
+            <Content>
+                <SfUploader ID="UploadFiles"
+                        AllowMultiple=false
+                        MaxFileSize=@(double.Parse(Config["Uploading:ModelResourceMaxSize"]))
+                        ShowFileList=true>
+
+                    <UploaderAsyncSettings SaveUrl=@SaveUrl
+                                       RetryAfterDelay=@(double.Parse(Config["Uploading:RetryAfterDelay"]))
+                                       RetryCount=@(int.Parse(Config["Uploading:RetryCount"])) />
+
+                    <UploaderEvents Success=SuccessAsync
+                                OnFailure=OnFailureAsync
+                                OnRemove=OnRemoveAsync />
+                </SfUploader>
+            </Content>
+        </DialogTemplates>
+
+        <DialogButtons>
+            <DialogButton OnClick=CloseUploadModelDialog
+                      Content=@Trad.Keys["COMMON:Close"] />
+        </DialogButtons>
+    </SfDialog>
+}
+
+@if (IsEraseModelDialogDisplayed)
+{
+    <SfDialog ShowCloseIcon=true Width=500 IsModal=true>
+        <DialogEvents Closed=CloseEraseModelDialog />
+
+        <DialogTemplates>
+            <Header>
+                @string.Format(Trad.Keys["DTM:ModelDeleteHeader"], CommandData.TER_NOM_FICHIER)
+            </Header>
+            <Content>
+                <p style="padding-top: 18px;">
+                    @Trad.Keys["DTM:ModelDeleteAskConfirmation"]
+                </p>
+            </Content>
+        </DialogTemplates>
+
+        <DialogButtons>
+            <DialogButton OnClick=@(() => EraseModelAsync(CommandData, showSuccess:true))
+                      IsPrimary=true
+                      CssClass=e-success
+                      Content=@Trad.Keys["COMMON:Yes"] />
+            <DialogButton OnClick=CloseEraseModelDialog
+                      Content=@Trad.Keys["COMMON:No"] />
+        </DialogButtons>
+    </SfDialog>
+}
+
+<style>
+    /* Style used to hide "Upload model" command column. */
+    .e-removecommand .e-unboundcell .e-unboundcelldiv button.e-download {
+        display: none;
+    }
+
+    /* Style used to hide "Delete model" command column. */
+    .e-removecommand .e-unboundcell .e-unboundcelldiv button.e-delete-1 {
+        display: none;
+    }
+</style>

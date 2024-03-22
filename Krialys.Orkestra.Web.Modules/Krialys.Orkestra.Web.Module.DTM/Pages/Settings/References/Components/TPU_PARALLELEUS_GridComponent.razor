@@ -1,0 +1,41 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TPU_PARALLELEUS"
+                       @ref="Ref_TPU_PARALLELEUS"
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TPU_PARALLELEUS"
+                    DataBound=Ref_TPU_PARALLELEUS.DataBoundHander
+                    OnToolbarClick="@Ref_TPU_PARALLELEUS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TPU_PARALLELEUS.OnContextMenuItemClickedAsync" OnLoad=Ref_TPU_PARALLELEUS.OnLoadHandler Destroyed=Ref_TPU_PARALLELEUS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TPU_PARALLELEUS, entity))">
+                    @Ref_TPU_PARALLELEUS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TPU_PARALLELEUS.DataGrid.CloseEditAsync())">
+                    @Ref_TPU_PARALLELEUS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

@@ -1,0 +1,6 @@
+[{	"Guid":"aaaa",
+ 	"CodeObjEtq": "LISTE_PRESTA",  
+	"Version": 1,
+	"CodePerimetre": "dynamique", 
+	"ValDynPerimetre": "valMaison",
+	"DemandeId": 1}]

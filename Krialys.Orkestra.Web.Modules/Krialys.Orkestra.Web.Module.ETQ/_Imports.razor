@@ -1,0 +1,81 @@
+﻿@* .Net and NuGet libraries. *@
+@using Blazored.LocalStorage
+@using Krialys.Data.EF.Resources
+@using Krialys.Common.Localization
+@using Krialys.Orkestra.WebApi.Proxy;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.JSInterop
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Runtime.ExceptionServices
+@using System.Security.Claims
+@using System.Threading
+@using System.Timers
+@using System.Text.Json
+@using BlazorComponentBus
+
+@* Entities libraries. *@
+@using Krialys.Entities.COMMON
+@using Krialys.Data.EF.Etq
+@using Krialys.Data.EF.Univers
+
+@* Syncfusion libraries. *@
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor.FileManager
+
+@* ETQ libraries. *@
+@using Krialys.Orkestra.Web.Module.ETQ.Models
+@using Krialys.Orkestra.Web.Module.ETQ.Pages
+@using Krialys.Orkestra.Web.Module.ETQ.Components.Dialogs
+@using Krialys.Orkestra.Web.Module.ETQ.Components.ETQOPE
+@using Krialys.Orkestra.Web.Module.ETQ.Components.OBJET
+@using Krialys.Orkestra.Web.Module.ETQ.Components.ReferencesP2
+
+@* Common librairies. *@
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.EnvironmentManager
+@using Krialys.Orkestra.Web.Module.Common.Components.ETQ.References
+@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Krialys.Orkestra.Web.Module.Common.Components.YesNoDropdown
+@using Krialys.Orkestra.Web.Module.Common.Models
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.Shared
+@using Krialys.Orkestra.Web.Module.Common.Authentication
+@using Krialys.Common.Literals
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject NavigationManager NavigationManager
+@inject IJSInProcessRuntime JsInProcessRuntime
+@inject SfDialogService DialogService
+
+@inject AuthenticationStateProvider AuthenticationStateProvider

@@ -1,0 +1,88 @@
+﻿@page "/Admin_MenuSettings"
+
+@using Krialys.Orkestra.Web.Common
+@using Krialys.Orkestra.Web.Common.ApiClient
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Navigations
+
+@attribute [Authorize]
+@* @attribute [Authorize(Policy = PoliciesLiterals.Administrator)] *@
+
+<div style="width:auto">
+    <div class="row">
+        <div class="col-12">
+            <MudCard>
+                <MudCardContent>
+                    <MudTreeView Items="@Menus">
+                        <ItemTemplate>
+                            <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.SubMenu">
+                                <Content>
+                                    <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="@context.HasChild" />
+                                    <MudTooltip Text=@(@context.IsVisible ? "Menu Visible" : "Menu Hidden")>
+                                        <MudCheckBox T="bool?"
+                                                     Color=@(@context.IsVisible ? MudBlazor.Color.Success : MudBlazor.Color.Error)
+                                                     Value="@(context.HasPartialChildSelection() ? null : context.IsVisible)"
+                                                     ValueChanged="@((e) => CheckedChanged(context))"></MudCheckBox>
+                                    </MudTooltip>
+                                    <MudText style="font-weight: bold;">
+                                        @Trad.Keys[$"Menu:{@context.Code}"]
+                                    </MudText>
+                                    <span style="font-size:smaller">
+                                        &nbsp;@($"[ Code: {context.Code} ]")
+                                    </span>
+                                    <span style=@(string.IsNullOrEmpty(context.Url) ? "display:none" : "display:block; font-size:smaller")>
+                                        <i>&nbsp;@($"[ Url: /{context.Url} ]")</i>
+                                    </span>
+                                    &nbsp;
+                                    <span style=@(@context.SubMenu.Any() ? "display:none" : "display:block")>
+                                        <MudTooltip Text=@(@context.IsDisabled ? "Page Unaccessible" : "Page Accessible")>
+                                            <MudCheckBox @bind-Value=@context.IsDisabled
+                                                         Style=@(@context.IsVisible ? "display:block" : "display:none")
+                                                         Color=@(@context.IsDisabled ? MudBlazor.Color.Error : MudBlazor.Color.Success)
+                                                         Size=Size.Small
+                                                         CheckedIcon=@Icons.Material.Filled.NotInterested
+                                                         UncheckedIcon=@Icons.Material.Filled.TouchApp>
+                                            </MudCheckBox>
+                                        </MudTooltip>
+                                    </span>
+                                </Content>
+                            </MudTreeViewItem>
+                        </ItemTemplate>
+                    </MudTreeView>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="()=> Save()">Enregistrer</MudButton>
+                    @if (isDebug)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="()=> CopyToClipBoard()" Style="margin-left:5px;">Extract Menu to ClipBoard</MudButton>
+                    }
+                </MudCardActions>
+            </MudCard>
+        </div>
+    </div>
+</div>
+
+<style scoped>
+    .mud-treeview-item-content {
+        padding: 0;
+    }
+
+    .mud-treeview-item-arrow {
+        margin: 0;
+        min-height: unset;
+    }
+
+    .mud-icon-button {
+        padding: 0;
+    }
+
+    .mud-input-control.mud-input-control-boolean-input {
+        margin: 2px;
+    }
+
+    .mud-treeview-item {
+        min-height: unset;
+    }
+
+</style>

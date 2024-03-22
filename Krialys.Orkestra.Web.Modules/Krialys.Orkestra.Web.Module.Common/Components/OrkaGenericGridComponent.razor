@@ -1,0 +1,160 @@
+﻿@using ClipMode = Syncfusion.Blazor.Grids.ClipMode
+@using TextAlign = Syncfusion.Blazor.Grids.TextAlign
+
+@typeparam TEntity
+@inherits SfGrid<TEntity>
+
+<div class="col" id=@CssLiterals.WasmDataGridDivId>
+    <SfGrid TValue=TEntity
+            ID=@GetGridId
+            class="e-large-filter"
+            Width="calc(100vw - 1.75rem)"
+            RowHeight=@Litterals.RowHeight
+            AllowExcelExport=@(AllowCsvExport || AllowExcelExport)
+            AllowFiltering=true
+            AllowMultiSorting=true
+            AllowPaging=true
+            AllowReordering=true
+            AllowSelection=true
+            AllowSorting=true
+            AllowResizing=true
+            ColumnQueryMode=ColumnQueryModeType.ExcludeHidden
+            ClipMode=ClipMode.Ellipsis
+            AdaptiveUIMode=AdaptiveMode.Both
+            AllowGrouping=@EnableGrouping
+            GridLines=GridLine.Both
+            ShowColumnMenu=@EnableColumnMenu
+            ShowColumnChooser=@EnableColumnChooser
+            EnablePersistence=@EnablePersistence
+            ContextMenuItems=@ContextMenuListItems
+            Toolbar=@ToolbarListItems
+            @ref=@DataGrid
+            @attributes=@Properties>
+
+        @* Page settings *@
+        <GridPageSettings PageSize=@_pageSize />
+
+        @* Apply custom grid settings *@
+        @ChildContent
+
+        @* Filter settings *@
+        <GridFilterSettings Type=GridFilterType
+                            IgnoreAccent=true ShowFilterBarStatus=true />
+
+        @* Group settings *@
+        @if (EnableGrouping)
+        {
+            <GridGroupSettings AllowReordering=true
+                               ShowGroupedColumn=true
+                               ShowDropArea=true
+                               ShowUngroupButton=true
+                               ShowToggleButton=true>
+            </GridGroupSettings>
+        }
+
+        @*  Search settings, part 1: search parameters *@
+        <GridSearchSettings Fields=@_searchFields
+                            Operator=@Operator.Contains
+                            IgnoreAccent=true
+                            IgnoreCase=true />
+
+        @* Column generation based on reflection on the entities attributes. *@
+        <GridColumns>
+            @if (AutoGenerateColumns || OnLoadFields is not null) // OnLoadFields: create fields based on private '_OnLoadFields'
+            {
+                @* Browse through displayed fields list. *@
+                @foreach (var field in _onLoadFields) //@foreach (var prop in GridColumnParametersList.Where(x => x.IsInGrid))
+                {
+                    @* Get column parameters *@
+                    var prop = GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field.Equals(field, StringComparison.OrdinalIgnoreCase));
+
+                    if (prop is not null)
+                    {
+                        // Construct datagrid.
+                        if (prop.IsForeignKey)
+                        {
+                            <GridForeignColumn Field="@prop.Field"
+                                               HeaderText="@prop.HeaderText"
+                                               ForeignKeyField="Id"
+                                               ForeignKeyValue="Label"
+                                               ForeignDataSource="@prop.ForeignValuesList"
+                                               AutoFit="@prop.Autofit"
+                                               Width="@prop.Width">
+                            </GridForeignColumn>
+                        }
+                        else
+                        {
+                            if (prop.ColumnType.Equals(Web.Common.ApiClient.ColumnType.DateTime) || prop.ColumnType.Equals(Web.Common.ApiClient.ColumnType.Date))
+                            {
+                                <GridColumn Field="@prop.Field"
+                                            ClipMode="ClipMode.Ellipsis"
+                                            HeaderText="@prop.HeaderText"
+                                            IsPrimaryKey="@prop.IsPrimaryKey"
+                                            IsIdentity="@prop.IsIdentity"
+                                            Visible="@prop.Visible"
+                                            Format="@prop.Format"
+                                            Type="@prop.ColumnType"
+                                            TextAlign="TextAlign.Center"
+                                            FilterSettings="@FilterType(prop.ColumnType)"
+                                            EnableGroupByFormat="@(prop.Format == default)"
+                                            AutoFit="@prop.Autofit"
+                                            Width="@prop.Width">
+                                    <HeaderTemplate>
+                                        <div>
+                                            <span>
+                                                <SfIcon Name="IconName.TimelineWeek" Size="IconSize.Large" Title="Date" />
+                                            </span> @prop.HeaderText
+                                        </div>
+                                    </HeaderTemplate>
+                                </GridColumn>
+                            }
+                            else
+                            {
+                                <GridColumn Field="@prop.Field"
+                                            ClipMode="ClipMode.Ellipsis"
+                                            HeaderText="@prop.HeaderText"
+                                            IsPrimaryKey="@prop.IsPrimaryKey"
+                                            IsIdentity="@prop.IsIdentity"
+                                            Visible="@prop.Visible"
+                                            Format="@prop.Format"
+                                            Type="@prop.ColumnType"
+                                            DisplayAsCheckBox="(prop.ColumnType == Syncfusion.Blazor.Grids.ColumnType.Boolean)"
+                                            TextAlign="(prop.ColumnType == Syncfusion.Blazor.Grids.ColumnType.Boolean || prop.ColumnType == Syncfusion.Blazor.Grids.ColumnType.Integer || prop.ColumnType == Syncfusion.Blazor.Grids.ColumnType.Long || prop.ColumnType == Syncfusion.Blazor.Grids.ColumnType.Decimal ? TextAlign.Center : TextAlign.Justify)"
+                                            FilterSettings="@FilterType(prop.ColumnType)"
+                                            EnableGroupByFormat="@(prop.Format == default)"
+                                            AutoFit="@prop.Autofit"
+                                            Width="@prop.Width">
+                                </GridColumn>
+                            }
+                        }
+                    }
+                }
+            }
+
+            @* Apply custom columns *@
+            @GridColumns
+
+        </GridColumns>
+
+        @if (UseDataManager)
+        {
+            @* Adaptor settings *@
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TEntity>)" Adaptor="Adaptors.CustomAdaptor" />
+        }
+    </SfGrid>
+
+    @* Hidden button thet is used to indirectly refresh datagrid, works better than direct call to datagrid.refresh() *@
+    <SfButton id=@GetRefreshGridButtonId
+              CssClass="e-button-hide"
+              OnClick=@(() => RefreshDatagridAsync(false)) />
+</div>
+
+<style scoped>
+    .e-button-hide {
+        display: none;
+    }
+
+    .e-large-filter .e-excelfilter.e-popup.e-popup-open {
+        width: 325px !important;
+    }
+</style>

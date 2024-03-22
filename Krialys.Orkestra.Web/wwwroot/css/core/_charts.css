@@ -1,0 +1,11 @@
+﻿.w3-border {
+    border: 1px solid #ccc !important;
+}
+
+.w3-round-xxlarge {
+    border-radius: 32px;
+}
+
+.w3-border-grey, .w3-hover-border-grey:hover, .w3-border-gray, .w3-hover-border-gray:hover {
+    border-color: #9e9e9e !important;
+}

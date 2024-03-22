@@ -1,0 +1,233 @@
+﻿@page "/Admin_EmailTemplatesSettings"
+@using Krialys.Orkestra.Web.Common.ApiClient;
+
+@attribute [Authorize(Policy = PoliciesLiterals.Administrator)]
+
+<SfGrid @ref=_ref_Grid
+        TValue="Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates"
+        AllowReordering="true"
+        class="e-large-filter"
+        Width="calc(100vw - 1.75rem)"
+        Toolbar="@(new string[] {"Add", "Edit" ,"Delete" })"
+        AllowPaging="true"
+        AllowSorting="true">
+
+    <SfDataManager Url=@($"{Config[Litterals.ProxyUrl]}TR_MEL_EMail_TemplatesListPagedResponse")
+                   InsertUrl="@($"{Config[Litterals.ProxyUrl]}TR_MEL_EMail_TemplatesAdd")"
+                   UpdateUrl="@($"{Config[Litterals.ProxyUrl]}TR_MEL_EMail_TemplatesUpdate")"
+                   RemoveUrl="@($"{Config[Litterals.ProxyUrl]}TR_MEL_EMail_TemplatesRemove")"
+                   Adaptor="Adaptors.UrlAdaptor" />
+
+    <GridEvents TValue=Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates OnActionBegin=OnActionBegin RowSelected="OnRowSelected" />
+
+    <GridPageSettings PageSize=20 />
+
+    <GridColumns>
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Mel_code) HeaderText="@(Trad.Keys["Email:Mel_code"])" />
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Lng_code) HeaderText="@(Trad.Keys["Email:Lng_code"])">
+            <Template>
+                @{
+                    var email = (context as Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates);
+                    @if (email != null && _languageList != null)
+                    {
+                        <span>
+                            @_languageList.FirstOrDefault(x => x.lng_code == email.Lng_code)!.lng_label
+                        </span>
+                    }
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Mel_description) HeaderText="@(Trad.Keys["Email:Mel_description"])" />
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Mel_comments) HeaderText="@(Trad.Keys["Email:Mel_comments"])" />
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Sta_code) HeaderText="@(Trad.Keys["Email:Sta_code"])">
+            <Template>
+                @{
+                    @Trad.Keys[$"STATUS:{((context as Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates)!).Sta_code}"]
+                }
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Mel_creation_date) HeaderText="@(Trad.Keys["Email:Mel_creation_date"])" Format="g" />
+        <GridColumn Field=@nameof(Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates.Mel_created_by) HeaderText="@(Trad.Keys["Email:Mel_created_by"])" Format="g" />
+    </GridColumns>
+
+    <GridEditSettings AllowAdding=true
+                      AllowEditing=true
+                      AllowDeleting="@_deleteAllowed"
+                      ShowConfirmDialog=true
+                      ShowDeleteConfirmDialog=true
+                      Mode=EditMode.Dialog                                            
+                      Dialog="@(new DialogSettings { Width = "1200px", Height="auto", AllowDragging = false })">
+
+        <Validator>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <EmailTemplateSettingsValidator context="@(context as ValidatorTemplateContext)" />
+        </Validator>
+
+        <HeaderTemplate>
+            @{
+                var item = (context as Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates);
+                <span>@($"{Trad.Keys["Email:DetailTitle"]} {(item != null ? "" : " - " + @item?.Mel_code)}")</span>
+            }
+        </HeaderTemplate>
+
+        <Template>
+            @{
+                var email = (context as Krialys.Orkestra.Web.Common.ApiClient.TR_MEL_EMail_Templates);
+                <div class="container" style="margin-left: 15px;margin-bottom: 10px;margin-top: 10px;">
+                    <div class="row">
+                        <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                            <h6>@(Trad.Keys["Email:Details"])</h6>
+                            <div class="row">
+                                <div class="col-3">
+                                    <MudTextField T="string" Label=@($"{Trad.Keys["Email:Mel_code"]} *") Variant="Variant.Outlined" @bind-Value="email.Mel_code"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                    <ValidationMessage For="@(() => email.Mel_code)"></ValidationMessage>
+                                </div>
+                                <div class="col">
+                                    <MudTextField T="string" Label=@($"{Trad.Keys["Email:Mel_description"]} *") Variant="Variant.Outlined" @bind-Value="email.Mel_description"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                    <ValidationMessage For="@(() => email.Mel_description)"></ValidationMessage>
+                                </div>
+                                <div class="col-2">
+                                    <SfDropDownList @bind-Value="@email.Sta_code"
+                                                    DataSource="@_statusList"
+                                                    TItem="Tuple<string, string>"
+                                                    TValue="string"
+                                                    Placeholder="@(Trad.Keys["Email:Sta_code"])"
+                                                    CssClass="e-outline"
+                                                    FloatLabelType="FloatLabelType.Always">
+                                        <DropDownListEvents TItem="Tuple<string, string>"
+                                                            TValue="string"
+                                                            OnValueSelect="@((args)=>OnStatusChanged(args,email))"></DropDownListEvents>
+                                        <DropDownListFieldSettings Value="Item1"
+                                                                   Text="Item2" />
+                                    </SfDropDownList>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label="@(Trad.Keys["Email:Mel_comments"])" Variant="Variant.Outlined" @bind-Value="email.Mel_comments"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                </div>
+                                <div class="col-2">
+                                    <SfDropDownList @bind-Value="@email.Lng_code"
+                                                    Placeholder="@(Trad.Keys["Email:Lng_code"])"
+                                                    TItem="Krialys.Data.EF.Univers.TR_LNG_Languages"
+                                                    TValue="string"
+                                                    DataSource="@_languageList"
+                                                    CssClass="e-outline"
+                                                    FloatLabelType="FloatLabelType.Always"
+                                                    Enabled=@(email.Sta_code == StatusLiteral.Available)>
+                                        <DropDownListFieldSettings Value=@nameof(Krialys.Data.EF.Univers.TR_LNG_Languages.lng_code)
+                                                                   Text=@nameof(Krialys.Data.EF.Univers.TR_LNG_Languages.lng_label) />
+                                    </SfDropDownList>
+                                </div>
+                                <div class="col-2">
+                                    <SfDropDownList @bind-Value="@email.Mel_email_importance"
+                                                    Placeholder="@(Trad.Keys["Email:Importance"])"
+                                                    TItem="Tuple<string, string>"
+                                                    TValue="string"
+                                                    DataSource="@_importanceList"
+                                                    CssClass="e-outline"
+                                                    FloatLabelType="FloatLabelType.Always"
+                                                    Enabled=@(email.Sta_code == StatusLiteral.Available)>
+                                        <DropDownListFieldSettings Value="Item1"
+                                                                   Text="Item2" />
+                                    </SfDropDownList>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                            <h6>@(Trad.Keys["Email:Senders"])</h6>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label=@($"{Trad.Keys["Email:Mel_email_recipients"]}") Variant="Variant.Outlined" @bind-Value="email.Mel_email_recipients"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label="@(Trad.Keys["Email:Mel_email_recipients_in_cc"])" Variant="Variant.Outlined" @bind-Value="email.Mel_email_recipients_in_cc"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label="@(Trad.Keys["Email:Mel_email_recipients_in_bcc"])" Variant="Variant.Outlined" @bind-Value="email.Mel_email_recipients_in_bcc"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <fieldset class="scheduler-border" style="border-radius:6px;margin:unset;">
+                            <h6>@(Trad.Keys["Email:Body"])</h6>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label=@($"{Trad.Keys["Email:Mel_email_subject"]} *") Variant="Variant.Outlined" @bind-Value="email.Mel_email_subject"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available)>
+                                    </MudTextField>
+                                    <ValidationMessage For="@(() => email.Mel_email_subject)"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Lines=5 Label=@($"{Trad.Keys["Email:Mel_email_body"]} *") Variant="Variant.Outlined" @bind-Value="email.Mel_email_body"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                    <ValidationMessage For="@(() => email.Mel_email_body)"></ValidationMessage>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <MudTextField T="string" Label=@($"{Trad.Keys["Email:Mel_email_footer"]} *") Variant="Variant.Outlined" @bind-Value="email.Mel_email_footer"
+                                                  Margin="Margin.Dense"
+                                                  Disabled=@(email.Sta_code != StatusLiteral.Available) />
+                                    <ValidationMessage For="@(() => email.Mel_email_footer)"></ValidationMessage>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+            }
+        </Template>
+
+    </GridEditSettings>
+</SfGrid>
+
+<style scoped>
+
+    .e-outline.e-input-group:not(.e-input-focus), .e-outline.e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left):not(.e-input-focus), .e-outline.e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left):not(.e-input-focus), .e-outline.e-input-group.e-float-icon-left:not(.e-input-focus), .e-outline.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-input-focus) {
+        border-radius: var(--mud-default-borderradius);
+        border-color: var(--mud-palette-lines-inputs);
+        margin-top: 5px;
+        height: 39px;
+    }
+
+    .e-custom.e-input-group:not(.e-input-focus), .e-custom.e-input-group.e-control-wrapper:not(.e-input-focus) {
+        border-color: #74abbfdb;
+    }
+
+    .e-custom.e-input-group, .e-custom.e-input-group.e-control-wrapper {
+        border-radius: var(--mud-default-borderradius);
+        border-color: var(--mud-palette-lines-inputs);
+        margin-top: 5px;
+        height: 39px;
+    }
+
+</style>
+
+

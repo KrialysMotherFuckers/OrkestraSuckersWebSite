@@ -1,0 +1,81 @@
+﻿@page "/mso_references"
+
+@attribute [Authorize(Policy = PoliciesLiterals.ReferencesViewer)]
+
+<SfTab EnablePersistence=true
+       ID=@(Litterals.Portail + "MSO_mso_references")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode=OverflowMode.Popup
+       ScrollStep=150>
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect=AnimationEffect.None />
+        <TabAnimationNext Effect=AnimationEffect.None />
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabAPP"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRAPL_APPLICATIONS
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabCrit"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRC_CRITICITES
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabNatFlux"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRNF_NATURES_FLUX
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabNatTrait"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRNT_NATURES_TRAITEMENTS
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabTechTrait"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRTT_TECHNOS_TRAITEMENTS
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["MSO:ReferencesTabRes"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ReferencesGridComponent TEntity=TRR_RESULTATS
+                                         AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+    </TabItems>
+</SfTab>

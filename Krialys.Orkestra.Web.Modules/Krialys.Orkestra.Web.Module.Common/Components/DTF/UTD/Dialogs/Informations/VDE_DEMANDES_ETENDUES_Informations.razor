@@ -1,0 +1,136 @@
+﻿@using Krialys.Data.EF.Univers
+@attribute [Authorize]
+
+@* Les libellés sont remplacés par leurs valeurs issues des DataAnnotations *@
+@if (_isInfosDemandeDialogDisplayed)
+{
+    @* Consulter les informations de la production (Popup). Paramètre attendu => DemandeId *@
+    <div class="row">
+        <div>
+            <SfDialog @bind-Visible="@IsDisplayed"
+                      ShowCloseIcon=true
+                      Width="840px"
+                      MinHeight="480px"
+                      IsModal=true>
+
+                <DialogEvents Closed=CloseInfosDemandeDialog />
+
+                <DialogTemplates>
+                    <Header>
+                        Informations de la demande #@DemandeId
+                    </Header>
+                    <Content>
+                        @if (_infosDemande is not null)
+                        {
+                            <p></p>
+                            <table class="table-infos">
+                                @*<thead>
+                        <tr>
+                        <th scope="col">Champs</th>
+                        <th scope="col">Valeur</th>
+                        </tr>
+                        </thead>*@
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TE_NOM_ETAT)))</th>
+                                        <td>@(_infosDemande.TE_NOM_ETAT ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TE_COMMENTAIRE)))</th>
+                                        <td>@(_infosDemande.TE_COMMENTAIRE ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TS_NOM_SCENARIO)))</th>
+                                        <td>@(_infosDemande.TS_NOM_SCENARIO ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(Trad.IsCultureFr ? nameof(VDE_DEMANDES_ETENDUES.STATUT_ETAT_FR) : nameof(VDE_DEMANDES_ETENDUES.STATUT_ETAT_EN)))</th>
+                                        <td>@(Trad.IsCultureFr ? _infosDemande.STATUT_ETAT_FR : _infosDemande.STATUT_ETAT_EN)</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.VERSION)))</th>
+                                        <td>@(_infosDemande.VERSION ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TS_DESCR)))</th>
+                                        <td>@(_infosDemande.TS_DESCR ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.CODE_STATUT_DEMANDE)))</th>
+                                        <td>@Trad.Keys[$"STATUS:{_infosDemande.CODE_STATUT_DEMANDE}"]</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_DEMANDE)))</th>
+                                        <td>@(_infosDemande.TD_DATE_DEMANDE.ToString("g"))</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_EXECUTION_SOUHAITEE)))</th>
+                                        <td>@(_infosDemande.TD_DATE_EXECUTION_SOUHAITEE?.ToString("g") ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_PRISE_EN_CHARGE)))</th>
+                                        <td>@(_infosDemande.TD_DATE_PRISE_EN_CHARGE?.ToString("G") ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DUREE_PRODUCTION_REEL)))</th>
+                                        <td>
+                                            @(_infosDemande.TD_DUREE_PRODUCTION_REEL is not null && _infosDemande.TD_DATE_PRISE_EN_CHARGE.HasValue
+                                                ? TimeSpan.FromSeconds(_infosDemande.TD_DUREE_PRODUCTION_REEL.Value < 1 ? 60 : _infosDemande.TD_DUREE_PRODUCTION_REEL.Value).ToString(@"hh\:mm\:ss")
+                                                + $" (hour:min:sec) {(_infosDemande.TD_DATE_LIVRAISON.HasValue ? " -> " + (_infosDemande.TD_DATE_PRISE_EN_CHARGE.Value.AddSeconds(_infosDemande.TD_DUREE_PRODUCTION_REEL.Value < 1 ? 60 : _infosDemande.TD_DUREE_PRODUCTION_REEL.Value)).ToString("G") : "")}"
+                                                : "-")
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_INFO_RETOUR_TRAITEMENT)))</th>
+                                        <td>@(_infosDemande.TD_INFO_RETOUR_TRAITEMENT ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TBD_CODE_RETOUR)))</th>
+                                        <td>@(_infosDemande.TBD_CODE_RETOUR is not null ? _infosDemande.TBD_CODE_RETOUR : "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TSRV_NOM)))</th>
+                                        <td>@(_infosDemande.TSRV_NOM ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.REFERENT)))</th>
+                                        <td>@(_infosDemande.REFERENT ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.REFERENT_TECH)))</th>
+                                        <td>@(_infosDemande.REFERENT_TECH ?? "-")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </Content>
+                </DialogTemplates>
+
+                <DialogButtons>
+                    <DialogButton OnClick=CloseInfosDemandeDialog
+                                  IsPrimary=false
+                                  Content=@Trad.Keys["COMMON:Back"] />
+                </DialogButtons>
+
+            </SfDialog>
+        </div>
+    </div>
+}
+
+<style scoped>
+    .table-infos {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table-infos th {
+        text-align: left;
+        padding: 8px;
+        width: 250px;
+    }
+
+    .table-infos tr:nth-child(even) {
+            background-color: #FAFAFA;
+    }
+</style>

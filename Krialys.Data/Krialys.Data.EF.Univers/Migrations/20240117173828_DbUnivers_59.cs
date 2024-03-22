@@ -1,0 +1,56 @@
+﻿#nullable disable
+using Krialys.Data.EF.Univers;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace Krialys.Entities.Migrations
+{
+    /// <inheritdoc />
+    public partial class DbUnivers_59 : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            using (var ctx = new KrialysDbContext())
+            {
+                //var connStr = ctx.Database.GetConnectionString();
+                using (var conn = new SqliteConnection($"DataSource=App_Data/Database/db-Univers.db3"))
+                    try
+                    {
+                        conn.Open();
+                        using (var cmd = new SqliteCommand())
+                        {
+                            cmd.Connection = conn;
+                            cmd.CommandText = @"
+
+                                PRAGMA foreign_keys = 0;
+
+                                UPDATE TR_WST_WebSite_Settings
+                                    SET wst_value = '[{""Code"":""LeftMenu"",""Title"":null,""Description"":null,""MenuCategory"":""LeftMenu"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""General"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""DTS"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_data_shop.svg"",""SideMenuImageUrl"":""icons/homepage/logo_data_shop.svg"",""SubMenu"":[{""Code"":""Datasets"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dts_etq"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Orders"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dts_orders"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""DTF"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_data_fabrik.svg"",""SideMenuImageUrl"":""icons/homepage/logo_data_fabrik.svg"",""SubMenu"":[{""Code"":""JobProductions"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtf_utd"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""ProductionCalendar"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtf_ProductionSchedule"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""DTF_Monitoring"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtf_Monitoring"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":false,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""DataGovernance"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_etaq.svg"",""SideMenuImageUrl"":""icons/homepage/logo_etaq.svg"",""SubMenu"":[{""Code"":""LabelTracking"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""Label_Management"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""DataGovernanceDatasets"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""etiquettes_arbo"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Management"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""DTM"",""Title"":null,""Description"":null,""MenuCategory"":""Management"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_utd_manager.svg"",""SideMenuImageUrl"":""icons/homepage/logo_utd_manager.svg"",""SubMenu"":[{""Code"":""JobStatement"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtm_utd"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Dtm_Monitoring"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtm_monitoring"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":false,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""ETQM"",""Title"":null,""Description"":null,""MenuCategory"":""Management"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_etaq_manager.svg"",""SideMenuImageUrl"":""icons/homepage/logo_etaq_manager.svg"",""SubMenu"":[{""Code"":""LabelConfiguration"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""referencesp1"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""LabelSimulation"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""simul"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""LabelRulesConfiguration"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""referencesregles"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""REFM"",""Title"":null,""Description"":null,""MenuCategory"":""Management"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_ref_manager.svg"",""SideMenuImageUrl"":""icons/homepage/logo_ref_manager.svg"",""SubMenu"":[{""Code"":""Repositories"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""RefManager"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Supervision"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""Logs"",""Title"":null,""Description"":null,""MenuCategory"":""Admin"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_supervision.svg"",""SideMenuImageUrl"":""icons/homepage/logo_supervision.svg"",""SubMenu"":[{""Code"":""WorkerNodes"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""WorkerNodeDashboard"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""OrkestraLogs"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""Logs_Orkestra"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""ETLLogs"",""Title"":null,""Description"":null,""MenuCategory"":""Admin"",""Url"":""Logs_ETL"",""HeaderImageUrl"":""icons/homepage/logo_supervision.svg"",""SideMenuImageUrl"":""icons/homepage/logo_supervision.svg"",""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Settings"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""Administration"",""Title"":null,""Description"":null,""MenuCategory"":""Admin"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_administration.svg"",""SideMenuImageUrl"":""icons/homepage/logo_administration.svg"",""SubMenu"":[{""Code"":""Users"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""adminclaims"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Authorizations"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""datadrivenadminpage"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Configuration"",""Title"":null,""Description"":null,""MenuCategory"":""Admin"",""Url"":null,""HeaderImageUrl"":""icons/homepage/logo_configuration.svg"",""SideMenuImageUrl"":""icons/homepage/logo_configuration.svg"",""SubMenu"":[{""Code"":""DataGovernanceSettings"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""referencesp3"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Referencial_Mso"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""mso_references"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":false,""IsDisabled"":false},{""Code"":""WorkerNodesSettings"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""dtm_references"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""ApplicationRole"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""admin_application_roles"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":false,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false},{""Code"":""RightMenu"",""Title"":null,""Description"":null,""MenuCategory"":""RightMenu"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""Profile"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":null,""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[{""Code"":""Account"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""account"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""About"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""about"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false},{""Code"":""Register"",""Title"":null,""Description"":null,""MenuCategory"":""Basic"",""Url"":""register"",""HeaderImageUrl"":null,""SideMenuImageUrl"":null,""SubMenu"":[],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}],""IsVisible"":true,""IsDisabled"":false}]'
+                                WHERE wst_code = 'WebSiteMenu';
+
+                                PRAGMA foreign_keys = 1;
+                            ";
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+
+        }
+    }
+}

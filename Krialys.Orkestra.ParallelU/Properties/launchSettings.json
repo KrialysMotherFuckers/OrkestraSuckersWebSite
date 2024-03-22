@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "06-ParallelU": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:8000",
+      "new_applicationUrl": "http://apiunivers.krialys.net/apiunivers"
+    }
+  }
+}

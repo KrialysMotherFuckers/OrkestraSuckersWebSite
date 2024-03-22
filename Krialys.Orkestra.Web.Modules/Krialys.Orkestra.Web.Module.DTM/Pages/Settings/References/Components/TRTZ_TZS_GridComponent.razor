@@ -1,0 +1,39 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TRTZ_TZS"
+                       @ref="Ref_TRTZ_TZS"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TRTZ_TZS"
+                    OnToolbarClick="@Ref_TRTZ_TZS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TRTZ_TZS.OnContextMenuItemClickedAsync" OnLoad=Ref_TRTZ_TZS.OnLoadHandler Destroyed=Ref_TRTZ_TZS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TRTZ_TZS, entity))">
+                    @Ref_TRTZ_TZS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TRTZ_TZS.DataGrid.CloseEditAsync())">
+                    @Ref_TRTZ_TZS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

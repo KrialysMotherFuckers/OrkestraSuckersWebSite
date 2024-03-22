@@ -1,0 +1,157 @@
+﻿@using Krialys.Orkestra.Web.Common.ApiClient;
+@using System.Net;
+
+<MudDialog Style="max-width:855px;width:855px;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Class="mr-3 mb-n1" />
+            <span style="vertical-align:middle">Gestion de l'environnement vierge : @($"{EnvId.ToString().PadLeft(6, '0')}")</span>
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h6>
+                        <MudIcon Icon="@Icons.Material.Filled.UploadFile" />
+                        <span style="vertical-align: middle;">Uploader un Zip pour ANNULER ET REMPLACER cet environnement</span>
+                    </h6>
+                    <SfUploader ID="UploadFiles"
+                                AllowedExtensions=".zip"
+                                AllowMultiple=false
+                                MaxFileSize="768_000_000"
+                                MinFileSize="1"
+                                ShowFileList=false
+                                ShowProgressBar=true>
+
+                        <UploaderAsyncSettings SaveUrl='@($"{Config["ProxyUrl"]}{Litterals.UniversRootPath}/FILE/UploadNewEmptyEnvironmentZip?envId={EnvId}")'
+                                               RetryAfterDelay="2000"
+                                               RetryCount="3" />
+
+                        <UploaderEvents Success="()=> OnUploadEvent()" OnFailure="()=> OnUploadEvent(false)" />
+                    </SfUploader>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-10">
+                    <h6 style="align-content:flex-start">
+                        <MudIcon Icon="@Icons.Material.Filled.Update" />
+                        <span style="vertical-align: middle;">Apporter des modifications sur cet environnement</span>
+                    </h6>
+                </div>
+                <div class="col-2" style="align-content:flex-end;margin-top: 6px;">
+                    <MudChip Size="Size.Small" Color="@(_isEmptyEnvFilesValid ? Color.Success:Color.Warning)">@("Diagnostic " + (_isEmptyEnvFilesValid ? "OK" : "KO"))</MudChip>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <SfFileManager TValue="Web.Common.ApiClient.FileManagerDirectoryContent"
+                                   ShowFileExtension=true
+                                   ShowThumbnail=false
+                                   AllowDragAndDrop=false
+                                   View="ViewType.Details"
+                                   @ref="_refFileManager">
+
+                        <FileManagerAjaxSettings Url='@($"{Config["ProxyUrl"]}{Litterals.UniversRootPath}/FILE/FileOperations")'
+                                                 UploadUrl='@($"{Config["ProxyUrl"]}{Litterals.UniversRootPath}/FILE/Upload")'
+                                                 GetImageUrl='@($"{Config["ProxyUrl"]}{Litterals.UniversRootPath}/FILE/GetImage?envId={EnvId}")'
+                                                 DownloadUrl='@($"{Config["ProxyUrl"]}{Litterals.UniversRootPath}/FILE/Download?envId={EnvId}")' />
+
+                        <FileManagerToolbarSettings Items='@(new string[]{ "Download", "Delete", "Refresh", "Details" })' />
+
+                        <FileManagerEvents TValue=Web.Common.ApiClient.FileManagerDirectoryContent OnSend="OnSend" />
+                    </SfFileManager>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton StartIcon="@Icons.Material.Filled.Check" Color="Color.Error" OnClick="()=> EmptyFilesValidation()">Sauvegarder</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Close" Color="Color.Default" OnClick="()=> Close()">Fermer</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Inject] private IFileClient _iFileClient { get; set; }
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public string EnvId { get; set; }
+    [Parameter] public EventCallback OnEnvironmentClosed { get; set; }
+
+    private bool _isEmptyEnvFilesValid;
+    private SfFileManager<Web.Common.ApiClient.FileManagerDirectoryContent> _refFileManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(EnvId))
+            await _iFileClient.EmptyEnvironmentInitAsync(EnvId);
+
+        await isEmptyEnvFilesValid(true);
+    }
+
+    private async Task Close()
+    {
+        if (await _dialogService.ShowMessageBox("Confirmation", $"Voulez-vous sauvegarder vos modifications ?", yesText: "Oui", cancelText: "Non") is not null)
+            await EmptyFilesValidation();
+        else
+            MudDialog.Close();
+    }
+
+    private async ValueTask<bool> isEmptyEnvFilesValid(bool checkOnly)
+    {
+        var res = await _iFileClient.GetEnvironmentTocAsync(EnvId, checkOnly);
+        _isEmptyEnvFilesValid = (res.Count == 1);
+
+        if (!_isEmptyEnvFilesValid)
+        {
+            Snackbar.Clear();
+            Snackbar.Add(res.Message, Severity.Error, config =>
+            {
+                config.Icon = Icons.Custom.FileFormats.FileDocument;
+                config.IconColor = Color.Error;
+                config.IconSize = Size.Medium;
+                config.DuplicatesBehavior = SnackbarDuplicatesBehavior.Prevent;
+            });
+        }
+
+        return _isEmptyEnvFilesValid;
+    }
+
+    private void OnSend(BeforeSendEventArgs args)
+    {
+        if (args.HttpClientInstance?.DefaultRequestHeaders
+                .FirstOrDefault(x => x.Key.Equals("EnvId", StringComparison.OrdinalIgnoreCase)).Value
+                ?.FirstOrDefault() is null)
+        {
+            args.HttpClientInstance?.DefaultRequestHeaders.Add("EnvId", $"{EnvId}/");
+        }
+    }
+
+    private async Task OnUploadEvent(bool succeed = true)
+    {
+        if (succeed)
+        {
+            await _refFileManager.RefreshFilesAsync();
+            await isEmptyEnvFilesValid(false);
+            Snackbar.Add("File uploaded", Severity.Success);
+        }
+    }
+
+    private async Task EmptyFilesValidation()
+    {
+        if (await isEmptyEnvFilesValid(false))
+        {
+            if (!await _iFileClient.EmptyEnvironmentValidationAsync(EnvId))
+                Snackbar.Add($"Failed while updating environment {EnvId}", Severity.Error);
+            else
+                Snackbar.Add($"Environment updated successfully", Severity.Success);
+
+            MudDialog.Close();
+
+            await OnEnvironmentClosed.InvokeAsync();
+        }
+    }
+}

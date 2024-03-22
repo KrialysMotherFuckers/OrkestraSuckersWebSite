@@ -1,0 +1,165 @@
+﻿@using Krialys.Data.EF.Mso;
+<OrkaGenericGridComponent TEntity=TRAP_ATTENDUS_PLANIFS
+                       DataSource=_attendusPlanifsData
+                       @ref=_refGrid
+                       SuffixId=@TRA_ATTENDUID.ToString()
+                       AutoGenerateColumns=false
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=false>
+    <ChildContent>
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TRAP_ATTENDUS_PLANIFS
+                    OnToolbarClick=_refGrid.OnToolbarClickAsync
+                    ContextMenuItemClicked=_refGrid.OnContextMenuItemClickedAsync
+                    OnActionFailure=_refGrid.ActionFailureAsync OnLoad=_refGrid.OnLoadHandler Destroyed=_refGrid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=AllowModify
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog=Extends.GridEditSettingDialog>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => SaveAsync(context as TRAP_ATTENDUS_PLANIFS))>
+                    @_refGrid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => _refGrid.DataGrid.CloseEditAsync())>
+                    @_refGrid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+        <GridSortSettings>
+            <GridSortColumns>
+                <GridSortColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TRAP_STATUT)
+                                Direction=Syncfusion.Blazor.Grids.SortDirection.Ascending />
+                <GridSortColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TRAP_DATE_MODIF)
+                                Direction=Syncfusion.Blazor.Grids.SortDirection.Descending />
+            </GridSortColumns>
+        </GridSortSettings>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TRAP_ATTENDU_PLANIFID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+        <GridColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TRAP_STATUT)
+                    AutoFit="true">
+            <Template>
+                @{
+                    var status = ((TRAP_ATTENDUS_PLANIFS)context).TRAP_STATUT;
+                }
+                <div style=@GetStatusStyle(status)>
+                    @Trad.Keys[$"STATUS:{status}"]
+                </div>
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((FilterItemTemplateContext)context).Value}"]
+            </FilterItemTemplate>
+            <EditTemplate>
+                <SfDropDownList Placeholder=@(DataAnnotations.Display<TRAP_ATTENDUS_PLANIFS>(nameof(TRAP_ATTENDUS_PLANIFS.TRAP_STATUT)))
+                                FloatLabelType=FloatLabelType.Always
+                                TItem=Statuts
+                                TValue=string
+                                @bind-Value=@(((TRAP_ATTENDUS_PLANIFS)context).TRAP_STATUT)
+                                DataSource=_status>
+                    <DropDownListFieldSettings Text=@nameof(Statuts.StatusLib)
+                                               Value=@nameof(Statuts.StatusValue) />
+                </SfDropDownList>
+            </EditTemplate>
+        </GridColumn>
+        <GridColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TRAP_DATE_MODIF)
+                    EnableGroupByFormat="false"
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field=@nameof(TRAP_ATTENDUS_PLANIFS.TTU_MODIFICATEURID)
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+
+        @* TRP_PLANIFS fields.*@
+        <GridColumn Field="TRP_PLANIF.TRP_STATUT"
+                    HeaderText=@Trad.Keys["MSO:PlanifStatus"]
+                    AutoFit="true">
+            <Template>
+                @Trad.Keys[$"STATUS:{((TRAP_ATTENDUS_PLANIFS)context).TRP_PLANIF?.TRP_STATUT}"]
+            </Template>
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TRP_DESCRIPTION"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TRP_DESCRIPTION)))
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TRP_CRON"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TRP_CRON)))
+                    Width="300">
+            <Template>
+                @CronServices.GetDescription(((TRAP_ATTENDUS_PLANIFS)context).TRP_PLANIF?.TRP_CRON)
+            </Template>
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TTU_CREATEURID"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TTU_CREATEURID)))
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TRP_DATE_DEBUT_PLANIF"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TRP_DATE_DEBUT_PLANIF)))
+                    Format="g"
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TRP_DATE_FIN_PLANIF"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TRP_DATE_FIN_PLANIF)))
+                    Format="g"
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+        <GridColumn Field="TRP_PLANIF.TTU_MODIFICATEURID"
+                    HeaderText=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TTU_MODIFICATEURID)))
+                    AutoFit="true">
+            <EditTemplate />
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@*<style>
+    .status {
+    position: relative;
+    border-radius: 5px;
+    text-align: center;
+    }
+
+    .status.active {
+    background-color: #ccffcc;
+    color: #00cc00;
+    width: 57px;
+    }
+
+    .status.inactive {
+    background-color: #ffd7cc;
+    color: #e60000;
+    width: 64px;
+    }
+    </style>*@
+
+<style>
+    .activeStatus {
+        color: #00cc00;
+    }
+
+    .inactiveSatus {
+        color: #e60000;
+    }
+</style>

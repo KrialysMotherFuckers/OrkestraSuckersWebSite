@@ -1,0 +1,39 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TI_INFOS"
+                       @ref="Ref_TI_INFOS"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TI_INFOS"
+                    OnToolbarClick="@Ref_TI_INFOS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TI_INFOS.OnContextMenuItemClickedAsync" OnLoad=Ref_TI_INFOS.OnLoadHandler Destroyed=Ref_TI_INFOS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TI_INFOS, entity))">
+                    @Ref_TI_INFOS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TI_INFOS.DataGrid.CloseEditAsync())">
+                    @Ref_TI_INFOS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

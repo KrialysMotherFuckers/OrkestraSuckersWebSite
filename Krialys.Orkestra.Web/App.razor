@@ -1,0 +1,50 @@
+﻿@using System.Reflection
+@using Krialys.Orkestra.Web.Module.ADM.Components.Dialogs;
+@using Microsoft.AspNetCore.Components.Authorization
+@using Krialys.Orkestra.Web.Pages.Authentication
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" PreferExactMatches="@true"
+            AdditionalAssemblies="@_additionalAssemblies">
+
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(BaseLayout)">
+                <Authorizing>
+                    <text>Authorizing user, please wait...</text>
+                </Authorizing>
+                <NotAuthorized>
+                    @if (context.User.Identity?.IsAuthenticated == false)
+                    {
+                        <RedirectToLogin />
+                    }
+                    else
+                    {
+                        <UnAuthorized />
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+
+        <NotFound>
+            <NotFound />
+        </NotFound>
+
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+
+    // Assemblies added to the router.
+    readonly Assembly[] _additionalAssemblies = {
+        // Add RazorWasmLib + all other required RazorWasmLibXXX
+        typeof(Krialys.Orkestra.Web.Module.Common._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.DTF._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.DTM._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.ETQ._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.DTS._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.ADM._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.MSO._Imports).Assembly,
+        typeof(Krialys.Orkestra.Web.Module.Misc._Imports).Assembly
+    };
+
+}

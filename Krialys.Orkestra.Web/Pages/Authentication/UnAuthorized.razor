@@ -1,0 +1,60 @@
+﻿@using Krialys.Orkestra.Web.Infrastructure.Theme;
+@inherits LayoutComponentBase
+@inject ILanguageContainerService Trad
+
+<div class="container">
+    <div class="error">
+        <h1>Access Denied</h1>
+        <br />
+        <br />
+        <p>Looks like you don't have permission to access to this page.</p>
+        <p>Contact system administrator to gain access.</p>
+    </div>
+</div>
+
+<style scoped>
+
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+        -webkit-transition: -webkit-transform .5s;
+        transition: -webkit-transform .5s;
+        transition: transform .5s, -webkit-transform .5s;
+    }
+
+    .stack-container {
+        position: relative;
+        width: 420px;
+        height: 210px;
+        -webkit-transition: width 1s, height 1s;
+        transition: width 1s, height 1s;
+    }
+
+    .error {
+        width: 700px;
+        text-align: center;
+    }
+
+        .error h1 {
+            font-size: 125px;
+            padding: 0;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .error h2 {
+            margin: -30px 0 0 0;
+            padding: 0;
+            font-size: 47px;
+            letter-spacing: 12px;
+        }
+
+</style>

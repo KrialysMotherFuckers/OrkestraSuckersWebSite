@@ -1,0 +1,34 @@
+﻿@inherits SfTab;
+
+<SfTab ID=@Identifier
+       EnablePersistence=true
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="Syncfusion.Blazor.AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="Syncfusion.Blazor.AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting=OnTabSelecting />
+
+    @ChildContent
+
+</SfTab>
+
+@code {
+    /// <summary>
+    /// As we are in a parent component, we can't use ID, so this parameter is a substitute to manage SfTab child ID
+    /// </summary>
+    [Parameter] public string Identifier { get; set; }
+
+    private void OnTabSelecting(SelectingEventArgs args)
+    {
+        // Disable Tab navigation on Tab selection.
+        if (args.IsSwiped)
+        {
+            args.Cancel = true;
+        }
+    }
+}

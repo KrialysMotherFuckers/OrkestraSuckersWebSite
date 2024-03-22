@@ -1,0 +1,144 @@
+﻿@using Krialys.Orkestra.Web.Module.Common.Components.ETQ
+@using MudBlazor
+@using Krialys.Common.Extensions
+
+<div class="row" style="margin-top: 5px;">
+    <div class="col-12">
+        <MudExpansionPanels>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div class="row">
+                        <div class="col-11" style="text-align:left; padding-top: 3px;">
+                            <h5><span class="e-badge e-badge-info">@(_etiquettesCount) @Trad.Keys["ETQ:TETQ_ETIQUETTES"]</span></h5>
+                        </div>
+                        <div class="col-1" style="text-align-last:end; padding-top: 8px;">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Medium" Color="Color.Primary" Style="padding-bottom: 3px;"></MudIcon>
+                            Filtre(s)
+                        </div>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    <hr />
+                    <EtiquettesSearchNewComponent EtiquettesCount="@(_etiquettesCount)"
+                                               CacheKey="TETQ_ETIQUETTES_FILTERS"
+                                               OnlyAllowedPerimeters=false
+                                               OnOrderByChanged=@OnOrderByChangedAsync
+                                               OnFilterChanged=@OnFilterChangedAsync
+                                               IsSortHidden=true
+                                               ResearchType="@(new ResearchType[]
+                                                                    {
+                                                                        ResearchType.BySimpleText,
+                                                                        ResearchType.ByDate,
+                                                                        ResearchType.ByScenario,
+                                                                        ResearchType.ByRules,
+                                                                        ResearchType.ByActions,
+                                                                    })" />
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+    <div class="col-12">
+        <OrkaGenericGridComponent @ref=@Ref_Grid
+                                  TEntity=TETQ_ETIQUETTES
+                                  Query=@GridQuery
+                                  SuffixId="LabelList"
+                                  AllowResizing=true
+                                  AllowSorting="true"
+                                  AllowPdfExport=false
+                                  AllowExcelExport=false
+                                  AllowCsvExport=false
+                                  EnablePersistence=true
+                                  AllowGrouping=false
+                                  AutoGenerateColumns=false>
+
+            <GridColumns>
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_ETIQUETTEID) Uid=@nameof(TETQ_ETIQUETTES.TETQ_ETIQUETTEID) IsPrimaryKey=true Visible=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_CODE) Uid=@nameof(TETQ_ETIQUETTES.TETQ_CODE) AllowEditing=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTEID) Uid=@nameof(TETQ_ETIQUETTES.TOBJE_OBJET_ETIQUETTEID) AllowEditing=false MinWidth=100 Width=170 />
+
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_LIB) Uid=@nameof(TETQ_ETIQUETTES.TETQ_LIB) AllowEditing=true MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_DESC) Uid=@nameof(TETQ_ETIQUETTES.TETQ_DESC) AllowEditing=true MinWidth=100 Width=170 />
+                <GridColumn Field=@($"{nameof(TETQ_ETIQUETTES.TPRCP_PRC_PERIMETRE)}.{nameof(TETQ_ETIQUETTES.TPRCP_PRC_PERIMETRE.TPRCP_LIB)}") Uid=@nameof(TETQ_ETIQUETTES.TPRCP_PRC_PERIMETREID) AllowEditing=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.DEMANDEID) Uid=@nameof(TETQ_ETIQUETTES.DEMANDEID) AllowEditing=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_VERSION_ETQ) Uid=@nameof(TETQ_ETIQUETTES.TETQ_VERSION_ETQ) AllowEditing=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_DATE_CREATION) Uid=@nameof(TETQ_ETIQUETTES.TETQ_DATE_CREATION) AllowEditing=false MinWidth=100 Width=170 />
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_PRM_VAL) Uid=@nameof(TETQ_ETIQUETTES.TETQ_PRM_VAL) AllowEditing=false MinWidth=100 Width=170 />
+
+                <GridColumn Field=@nameof(TETQ_ETIQUETTES.etq_is_public_access) Uid=@nameof(TETQ_ETIQUETTES.etq_is_public_access) HeaderText="Accès public ?" AllowEditing=false MinWidth=100 Width=170>
+                    <Template>
+                        <MudCheckBox Size="Size.Small" ReadOnly @bind-Checked="@((context as TETQ_ETIQUETTES).etq_is_public_access)"></MudCheckBox>
+                     </Template>
+                 </GridColumn>
+
+                 <GridColumn HeaderText=@Trad.Keys["COMMON:Actions"]
+                             TextAlign=@Syncfusion.Blazor.Grids.TextAlign.Left
+                             MinWidth=100
+                             Width=100>
+                     <Template>
+                         <MudIconButton Icon="@Icons.Material.Filled.Share"
+                                        Size="Size.Small"
+                                        OnClick="@(()=> {_selectedLabel = (context as TETQ_ETIQUETTES); _isEtqAuthorizationDialogDisplayed = true;})" />
+                     </Template>
+                 </GridColumn>
+
+                 <GridSortSettings>
+                     <GridSortColumns>
+                         <GridSortColumn Field=@nameof(TETQ_ETIQUETTES.TETQ_ETIQUETTEID)
+                                         Direction="Syncfusion.Blazor.Grids.SortDirection.Descending"></GridSortColumn>
+                     </GridSortColumns>
+                 </GridSortSettings>
+             </GridColumns>
+
+             <ChildContent>
+                 @* Customisable datagrid events *@
+                 <GridEvents TValue="TETQ_ETIQUETTES"
+                             DataBound=@(()=>OnDataBound())
+                             OnToolbarClick=@Ref_Grid.OnToolbarClickAsync
+                             ContextMenuItemClicked=@Ref_Grid.OnContextMenuItemClickedAsync
+                             OnActionFailure=@Ref_Grid.ActionFailureAsync
+                             OnLoad=@Ref_Grid.OnLoadHandler
+                             Destroyed=@Ref_Grid.OnDestroyed />
+
+                 <GridTemplates>
+                     <DetailTemplate>
+                         @{
+                            @* Get current object Id. *@
+                            var tetqEtiquettes = (context as TETQ_ETIQUETTES);
+                            @* Query to filter child grid with the current object Id. *@
+                            var gridQueryReglesEtq = new Query().Where("TETQ_ETIQUETTEID", "equal", tetqEtiquettes!.TETQ_ETIQUETTEID);
+                            <TETQR_ETQ_REGLES_GridComponent GridQuery=@gridQueryReglesEtq EtiquetteId="@tetqEtiquettes.TETQ_ETIQUETTEID" ObjetEtiquetteId="@tetqEtiquettes.TOBJE_OBJET_ETIQUETTEID" />
+                        }
+                    </DetailTemplate>
+                </GridTemplates>
+
+            </ChildContent>
+
+        </OrkaGenericGridComponent>
+    </div>
+</div>
+
+@if (_isEtqAuthorizationDialogDisplayed)
+{
+    <EtqAuthorization_DialogComponent @bind-IsVisible=_isEtqAuthorizationDialogDisplayed
+                                      Label=_selectedLabel
+                                      OnClose="OnCloseAsync" />
+}
+
+<style scoped>
+    .mud-expand-panel .mud-expand-panel-header {
+        min-height: 40px;
+        padding: 5px 15px;
+        height: 40px;
+    }
+
+    .mud-icon-button {
+        padding: 0;
+    }
+
+    hr {
+        margin-top: 5px;
+    }
+
+</style>

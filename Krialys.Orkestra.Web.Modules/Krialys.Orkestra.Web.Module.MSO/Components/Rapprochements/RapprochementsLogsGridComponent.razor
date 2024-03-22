@@ -1,0 +1,40 @@
+﻿<OrkaGenericGridComponent TEntity=TTL_LOGS
+                       @ref=_refGrid
+                       SuffixId=@TRA_CODE
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=false
+                       Query=Query>
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TTL_LOGS
+                    OnToolbarClick=_refGrid.OnToolbarClickAsync
+                    ContextMenuItemClicked=_refGrid.OnContextMenuItemClickedAsync
+                    OnActionFailure=_refGrid.ActionFailureAsync OnLoad=_refGrid.OnLoadHandler Destroyed=_refGrid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=false
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog=Extends.GridEditSettingDialog>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => _refGrid.DataGrid.EndEditAsync())>
+                    @_refGrid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => _refGrid.DataGrid.CloseEditAsync())>
+                    @_refGrid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

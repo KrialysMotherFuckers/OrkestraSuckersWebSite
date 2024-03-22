@@ -1,0 +1,24 @@
+﻿<SfTab EnablePersistence="true"
+       ID=@(Litterals.Portail + "Etq_datadrivenadminpage_DTS")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect=AnimationEffect.None Duration=0 />
+        <TabAnimationNext Effect=AnimationEffect.None Duration=0 />
+    </TabAnimationSettings>
+
+    <TabEvents Selecting=OnTabSelecting />
+
+    <TabItems>
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["Administration:DTSAssociationsTabTitle"] />
+            </ChildContent>
+            <ContentTemplate>
+                <ETQ_TM_AET_Authorization_GridComponent />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>

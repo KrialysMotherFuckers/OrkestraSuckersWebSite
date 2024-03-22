@@ -1,0 +1,180 @@
+﻿<OrkaGenericGridComponent TEntity=VPD_PLANIF_DETAILS
+                       @ref=Ref_Grid
+                       SuffixId=@ExpandedRowId.ToString()
+                       Query=Query
+                       AutoGenerateColumns=false
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=false>
+    <ChildContent>
+        <GridEvents TValue=VPD_PLANIF_DETAILS
+                    OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync
+                    CommandClicked=CommandClicked
+                    RowDataBound=OnRowDataBound OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=false
+                          AllowDeleting=false />
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.TPF_PLANIFID)
+                    Visible=false
+                    IsPrimaryKey=true
+                    IsIdentity=true />
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.PLANIF_STATUTID)
+                    MinWidth=100
+                    Width=115>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as VPD_PLANIF_DETAILS)!).PLANIF_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.DECLARANT)
+                    MinWidth=100
+                    Width=160 />
+
+        <GridColumn HeaderText=@Trad.Keys["DTF:NextExecution"]
+                    MinWidth=100
+                    Width=225>
+            <Template>
+                @GetNextOccurence(context as VPD_PLANIF_DETAILS)
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.TPF_CRON)
+                    MinWidth=100
+                    Width=400>
+            <Template>
+                @CronServices.GetDescription(((context as VPD_PLANIF_DETAILS)!).TPF_CRON)
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.TPF_DATE_DEBUT)
+                    MinWidth=100
+                    Width=150 />
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.TPF_DATE_FIN)
+                    MinWidth=100
+                    Width=150 />
+
+        <GridColumn Field=@nameof(VPD_PLANIF_DETAILS.TPF_TIMEZONE_INFOID)
+                    MinWidth=100
+                    Width=245 />
+
+        <GridColumn HeaderText=@Trad.Keys["DTF:Resource"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=100
+                    Width=130>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTF:ResourceTooltip"]
+                                   ID=@CommandsIds.DisplayRessources
+                                   ButtonOption=@(new CommandButtonOptions { IconCss="e-icons e-open-link", CssClass = "e-flat e-open-ressources" }) />
+            </GridCommandColumns>
+        </GridColumn>
+
+        <GridColumn HeaderText=@Trad.Keys["DTF:ScheduleActions"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=100
+                    Width=160>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTF:ScheduleModify"]
+                                   ID=@CommandsIds.Modify
+                                   ButtonOption=@(new CommandButtonOptions { IconCss = "e-icons e-edit", CssClass="e-flat e-modify" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTF:ScheduleDuplicate"]
+                                   ID=@CommandsIds.Duplicate
+                                   ButtonOption=@(new CommandButtonOptions { IconCss = "e-icons e-copy", CssClass="e-flat e-duplicate" }) />
+                <GridCommandColumn Title=@Trad.Keys["DTF:ScheduleDeactivate"]
+                                   ID=@CommandsIds.Deactivate
+                                   ButtonOption=@(new CommandButtonOptions { IconCss = "e-icons e-error-treeview", CssClass="e-flat e-deactivate" }) />
+            </GridCommandColumns>
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (IsResourcesDialogDisplayed)
+{
+    <VDE_DEMANDES_RESSOURCES_Resources DemandeId=_selectedDemandeId
+                                   DemandeOrigineId=_editedPlanif.TPF_DEMANDE_ORIGINEID
+                                   @bind-IsDisplayed=IsResourcesDialogDisplayed />
+}
+
+<SfDialog @bind-Visible=IsInactivateDialogDisplayed
+          IsModal=true
+          Width=500>
+    <DialogTemplates>
+        <Content>
+            @Trad.Keys["DTF:ScheduleDeactivateConfirmation"]
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=InactivateDialogOnConfirm
+                      IsPrimary=true
+                      CssClass=e-success
+                      Content=@Trad.Keys["COMMON:Confirm"] />
+        <DialogButton OnClick=CloseInactivateDialog
+                      Content=@Trad.Keys["COMMON:Cancel"] />
+    </DialogButtons>
+</SfDialog>
+
+
+<SfDialog @bind-Visible=IsCronDialogVisible
+          ShowCloseIcon=true
+          IsModal=true
+          Width="1200px">
+    <DialogEvents OnClose=CloseCronDialog />
+
+    <DialogTemplates>
+        <Header>
+            @GetCronDialogHeader()
+        </Header>
+        <Content>
+            <div style="padding-top: 18px;"></div>
+            <CronManagerComponent @bind-Cron=_editedPlanif.TPF_CRON
+                                  @bind-IsCronValid=_isCronValid
+                                  @bind-StartDate=_editedPlanif.TPF_DATE_DEBUT
+                                  @bind-EndDate=_editedPlanif.TPF_DATE_FIN />
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=SaveCronDialog
+                      IsPrimary=true
+                      Disabled=@(!_isCronValid)
+                      CssClass=e-success
+                      Content=@Trad.Keys["COMMON:Confirm"] />
+        <DialogButton OnClick=CloseCronDialog
+                      Content=@Trad.Keys["COMMON:Cancel"] />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    /* Style used to hide "open resources" command column. */
+    .e-remove-open-resources-command .e-unboundcell .e-unboundcelldiv button.e-open-ressources {
+        display: none;
+    }
+
+    /* Style used to hide "deactivate" command column. */
+    .e-remove-deactivate-command .e-unboundcell .e-unboundcelldiv button.e-deactivate {
+        display: none;
+    }
+
+    /* Style used to hide "modify" command column. */
+    .e-remove-modify-command .e-unboundcell .e-unboundcelldiv button.e-modify {
+        display: none;
+    }
+
+    /* Style used to hide "duplicate" command column. */
+    .e-remove-duplicate-command .e-unboundcell .e-unboundcelldiv button.e-duplicate {
+        display: none;
+    }
+</style>

@@ -1,0 +1,39 @@
+﻿@using System.Diagnostics
+@using System.Reflection
+@using System.Globalization
+
+<MudNavMenu Dense="true" Rounded="true">
+    <br />
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" OnClick="() => OnMenuClick()">@Trad.Keys["COMMON:Home"]</MudNavLink>
+
+        @foreach (var menu in @_userMenus)
+    {
+        <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">@Trad.Keys[$"Menu:{menu.Code}"]</MudText>
+        foreach (var group in @menu.SubMenu)
+        {
+            @if (group.SubMenu == null || (group.SubMenu.Count() == 0))
+            {
+                <MudNavLink Class="erp-nav-menu-child" OnClick="(() => OnMenuClick(group, null))">
+                    @Trad.Keys[$"Menu:{@group.Code}"]
+                </MudNavLink>
+            }
+            else if (group.SubMenu.Any(x => x.IsVisible))
+            {
+                <MudNavGroup @ref="@_subMenuItems[@group.Code]" Title="@Trad.Keys[$"Menu:{group.Code}"]" ExpandedChanged="@(e => ToggleExpanded(e, @group.Code))">
+                    @foreach (var subMenu in @group.SubMenu.Where(x => x.IsVisible))
+                    {
+                        <MudNavLink Class="erp-nav-menu-child" OnClick="(() => OnMenuClick(group, subMenu))" Disabled="@subMenu.IsDisabled">
+                            @Trad.Keys[$"Menu:{subMenu.Code}"]
+                        </MudNavLink>
+                    }
+                </MudNavGroup>
+            }
+        }
+    }
+</MudNavMenu>
+
+<div style="position: fixed; bottom: 0; left: 0; font-size: smaller; margin-left: 10px; margin-bottom: 2px;">
+    Version @version
+    <div style="display:@(isDebug ? "block" : "none")">Build Date @BuildDate</div>
+    <div>@AssemblyCopyright</div>
+</div>

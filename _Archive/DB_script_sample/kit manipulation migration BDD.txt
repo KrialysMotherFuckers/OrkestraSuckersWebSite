@@ -1,0 +1,71 @@
+/---------------------/
+
+pragma a rajouter en monde manuel avant des drop table  de maniere a eviter msg d erreur lors de l application des scripts
+sous peine d avoir des erreur de "table inexistante lorsqu une vue utilise la table droppée"
+
+PRAGMA legacy_alter_table=on;
+
+
+/---------------------/
+
+
+site de référence : https://docs.microsoft.com/fr-fr/ef/core/managing-schemas/migrations/applying?tabs=vs
+ 
+
+cas opération sur BDD "UNIVERS":
+Apres avoir créé/modifié les entities ou directement si on souhaite intervenir sur la structure d'une vue (nouvelle ou à modifier ou à supprimer) 
+Attention il nous faut pas toujours faire toutes les modifications en une opération de migration sous peine de ne pas pouvoir l'appliquer (limitations sqlite).
+
+Selectionner  APIUNIVERS comme projet de démarrage
+
+afficher et se rendre dans la fenetre "console du gestionnaire de package"
+sélectionner projet par defaut "Libraries\01-Entities\Entities-UNIVERS
+
+Dans l'explorateur de solution aller dans Libraries\01-Entities\Entities-UNIVERS\migration, noter la derniere valeur de xxx sur  DbUnivers_xxx.
+
+On incrémente la valeur du max xxx pour remplacer YYY dans l'instruction suivante : 
+
+ Add-Migration DbUnivers_YYY -Context Krialys.Entities.DBMS.UNIVERS.DBCONTEXT -OutputDir Migrations
+
+on exécute la commande
+ca va générer un nouveau fichier dans Libraries\01-Entities\Entities-UNIVERS\migration automatiquement préfixé par la date/heure.
+
+Modifier ce fichier au besoin. ( y rajouter les modifications de vue, actions sur des données,...)
+
+SI finalement le script généré ne convient pas (il est incomplet ou n'arrive pas a s'appliquer sur la bdd), il est possible de revenir en arriere en lancant  
+
+	Remove-Migration -Context Krialys.Entities.DBMS.UNIVERS.DBCONTEXT
+
+attention il ne faut pas modifier les entities avant de vouloir revenir en arrière sous peine d'avoir un état inconsitant !!
+
+Pour appliquer cette migration sur la bdd de dev : 
+
+avant d'appliquer la mise a jour sur la database aller dans
+ Apiunivers/program.cs   et mettre en commentaire 3 lignes (107-109)
+//using var response = await _httpClient.GetAsync($"{Litterals.UniversRootPathV1}/CPU/MainEntryPoint?off={0}", tokenSource.Token).ConfigureAwait(false);
+//response.EnsureSuccessStatusCode(); //await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+Ceci pour eviter erreur potentielle de "aucune connexion n'a pu être établie car l'ordinateur cible l’a expressément refusée" qui peut apparaitre subitement durant la repercution des modifs en bdd
+
+Dans la fenetre "console du gestionnaire de package" ,  exécuter : 
+
+Update-Database  -Context Krialys.Entities.DBMS.UNIVERS.DBCONTEXT
+
+
+
+Pour générer un script sql equivalent, qui pourra être appliqué sur une bdd tierce (uat, prod, ...) il faudra connaitre la version actuelle de migration de celle ci. ( cf contenu table __EFMigrationsHistory)
+
+
+Dans la fenetre "console du gestionnaire de package" ,  exécuter : 
+
+XXX = nom de la version à partir de laquelle genérer le script différentiel jusqu'a la dernière migration existant
+
+Script-Migration DbUnivers_XXX -Context Krialys.Entities.DBMS.UNIVERS.DBCONTEXT  
+
+
+
+PS : la génération d un script qui contiendrait toutes les migrations et qui pourrait etre exploité en différentiel lors de l'exécution n'est pas pris en charge pour sqlite !!
+ ex: 
+   PM> Script-Migration -Idempotent -Context Krialys.Entities.DBMS.UNIVERS.DBCONTEXT
+
+   Generating idempotent scripts for migration is not currently supported by SQLite. For more information, see http://go.microsoft.com/fwlink/?LinkId=723262.

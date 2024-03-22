@@ -1,0 +1,316 @@
+﻿<OrkaGenericGridComponent TEntity="Data.EF.Univers.TH_HABILITATIONS"
+                       @ref=@Ref_TH_HABILITATIONS
+                       IsWithinTab=true
+                       AutoGenerateColumns="false"
+                       AutoGenerateColumnProperties=false
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true"
+                       AllowGrouping="false"
+                       AllowTracking="true"
+                       Query="GridQuery">
+    <ChildContent>
+        <GridEvents TValue=Data.EF.Univers.TH_HABILITATIONS
+                    DataBound=Ref_TH_HABILITATIONS.DataBoundHander
+                    OnToolbarClick="@Ref_TH_HABILITATIONS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TH_HABILITATIONS.OnContextMenuItemClickedAsync"
+                    OnActionFailure=@Ref_TH_HABILITATIONS.ActionFailureAsync
+                    OnActionComplete=OnActionComplete
+                    OnActionBegin=ActionBeginAsync
+                    OnLoad=Ref_TH_HABILITATIONS.OnLoadHandler Destroyed=Ref_TH_HABILITATIONS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="true"
+                          AllowEditing="true"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+            <HeaderTemplate>
+                @{
+                    var headerText = GetEditHeader((context as Data.EF.Univers.TH_HABILITATIONS));
+                    <span>@headerText</span>
+                }
+            </HeaderTemplate>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TH_HABILITATIONS, entity))">
+                    @Ref_TH_HABILITATIONS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TH_HABILITATIONS.DataGrid.CloseEditAsync())">
+                    @Ref_TH_HABILITATIONS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_HABILITATIONID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        <GridColumn Field=@($"{nameof(Data.EF.Univers.TH_HABILITATIONS.TRU_USER)}.{nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)}")
+                    HeaderText=@(DataAnnotations.Display<Data.EF.Univers.TH_HABILITATIONS>(nameof(Data.EF.Univers.TH_HABILITATIONS.TRU_USERID)))
+                    MinWidth=100
+                    Width=160>
+            <EditTemplate>
+                @{
+                    var thHab = context as Data.EF.Univers.TH_HABILITATIONS;
+
+                    if (thHab?.TH_HABILITATIONID != 0)
+                    {
+                        if (thHab?.TRU_USERID is not null && thHab.TRU_USER is not null)  // requis  de controler th_hab.TRU_USER car qd on fait save on met TRU_USER a null et les events interne le font repasser par la
+                        {
+                            <label style="color:rgba(0, 0, 0, 0.54)">
+                                @(DataAnnotations.Display<Data.EF.Univers.TH_HABILITATIONS>(nameof(Data.EF.Univers.TH_HABILITATIONS.TRU_USERID)))
+                            </label>
+                            <div>@thHab.TRU_USER?.TRU_FULLNAME</div>
+                        }
+                    }
+                    else
+                    {
+                        <User_DropDownComponent @bind-UserId=@(((Data.EF.Univers.TH_HABILITATIONS)context).TRU_USERID)
+                                        ODataQuery=@_authorizedUserOdataQuery />
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_DROIT_CONCERNE)
+                    MinWidth=100
+                    Width=180>
+            <EditTemplate>
+                @{
+                    var thHab = (context as Data.EF.Univers.TH_HABILITATIONS);
+
+                    if (thHab?.TH_HABILITATIONID != 0)
+                    {
+                        <label style="color:rgba(0, 0, 0, 0.54)">
+                            @(DataAnnotations.Display<Data.EF.Univers.TH_HABILITATIONS>(nameof(Data.EF.Univers.TH_HABILITATIONS.TH_DROIT_CONCERNE)))
+                        </label>
+                        <div>@thHab?.TH_DROIT_CONCERNE</div>
+                    }
+                    else
+                    {
+                        <SfDropDownList ID="Habilitation"
+                                        TItem=Data.EF.Univers.TH_HABILITATIONS.ModeDroit
+                        @bind-Value=@(((context as Data.EF.Univers.TH_HABILITATIONS)!).TH_DROIT_CONCERNE)
+                                TValue=string
+                                DataSource=ListeProfil
+                                FloatLabelType=FloatLabelType.Always
+                                Placeholder=@Trad.Keys["Administration:Profil"]>
+                            <DropDownListFieldSettings Value=@nameof(Data.EF.Univers.TH_HABILITATIONS.ModeDroit.Id)
+                                                       Text=@nameof(Data.EF.Univers.TH_HABILITATIONS.ModeDroit.Droit) />
+                        </SfDropDownList>
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@($"{nameof(Data.EF.Univers.TH_HABILITATIONS.TS_SCENARIO)}.{nameof(Data.EF.Univers.TS_SCENARIOS.TE_ETAT)}.{nameof(Data.EF.Univers.TE_ETATS.TE_FULLNAME)}")
+                    HeaderText=@(DataAnnotations.Display<Data.EF.Univers.TE_ETATS>(nameof(Data.EF.Univers.TE_ETATS.TE_FULLNAME)))
+                    MinWidth=150
+                    Width=220
+                    AllowSorting=false
+                    AllowFiltering=true>
+            <EditTemplate>
+                @{
+                    var thHab = (context as Data.EF.Univers.TH_HABILITATIONS);
+                    if (thHab?.TH_HABILITATIONID != 0 && thHab?.TS_SCENARIO?.TE_ETAT.TE_NOM_ETAT is not null)
+                    {
+                        <label style="color:rgba(0, 0, 0, 0.54)">
+                            @(DataAnnotations.Display<Data.EF.Univers.TE_ETATS>(nameof(Data.EF.Univers.TE_ETATS.TE_FULLNAME)))
+                        </label>
+                        <div>@thHab.TS_SCENARIO?.TE_ETAT?.TE_FULLNAME</div>
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@($"{nameof(Data.EF.Univers.TH_HABILITATIONS.TS_SCENARIO)}.{nameof(Data.EF.Univers.TS_SCENARIOS.TS_NOM_SCENARIO)}")
+                    HeaderText=@(DataAnnotations.Display<Data.EF.Univers.TS_SCENARIOS>(nameof(Data.EF.Univers.TS_SCENARIOS.TS_NOM_SCENARIO)))
+                    MinWidth=100
+                    Width=150>
+            <EditTemplate>
+                @{
+                    var thHab = (context as Data.EF.Univers.TH_HABILITATIONS);
+
+                    if (thHab?.TH_HABILITATIONID == 0)
+                    {
+                        <SfDropDownList ID="Categories"
+                                        TItem=Data.EF.Univers.TC_CATEGORIES
+                                TValue=int?
+                                DataSource=@ActiveCategories
+                                FloatLabelType=FloatLabelType.Always
+                                Placeholder=@Trad.Keys["COMMON:Categorie"]>
+                            <DropDownListEvents TItem=Data.EF.Univers.TC_CATEGORIES
+                                        TValue=int?
+                                        ValueChange=CategoryValueChangeAsync />
+                            <DropDownListFieldSettings Value=@nameof(Data.EF.Univers.TC_CATEGORIES.TC_CATEGORIEID)
+                                                       Text=@nameof(Data.EF.Univers.TC_CATEGORIES.TC_NOM) />
+                        </SfDropDownList>
+
+                        <br />
+                        <p></p>
+
+                        <SfMultiSelect TValue=Data.EF.Univers.TS_SCENARIOS[]
+                                       TItem=Data.EF.Univers.TS_SCENARIOS
+                               DataSource=_scenarios
+                               Query=ScenarioQuery
+                               ID=ScenarioMultiSelect
+                               PopupHeight=350px
+                               Mode=VisualMode.CheckBox
+                               Placeholder=@Trad.Keys["COMMON:Module"]
+                               AllowFiltering=true
+                               FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+                               ShowSelectAll=false
+                               EnableGroupCheckBox=true
+                               EnableSelectionOrder=true
+                               ShowDropDownIcon=true
+                               EnablePersistence=false
+                               FloatLabelType=FloatLabelType.Always>
+                                    <MultiSelectFieldSettings Text=@nameof(Data.EF.Univers.TS_SCENARIOS.TS_NOM_SCENARIO)
+                                                              GroupBy=@($"{nameof(Data.EF.Univers.TS_SCENARIOS.TE_ETAT)}.{nameof(Data.EF.Univers.TE_ETATS.TE_FULLNAME)}") />
+                                    <MultiSelectEvents TValue=Data.EF.Univers.TS_SCENARIOS[]
+                                               TItem=Data.EF.Univers.TS_SCENARIOS
+                                       OnValueSelect=OnValueSelectHandler
+                                       OnValueRemove=OnValueRemoveHandler />
+                        </SfMultiSelect>
+                    }
+                    else
+                    // affichage en lecture seule en mode  modif
+                    {
+                        if (thHab?.TS_SCENARIOID != 0 && thHab?.TS_SCENARIO?.TS_NOM_SCENARIO is not null)
+                        {
+                            <label style="color:rgba(0, 0, 0, 0.54)">
+                                @Trad.Keys["COMMON:Module"]
+                            </label>
+                            <div>@thHab.TS_SCENARIO?.TS_NOM_SCENARIO</div>
+                        }
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TRST_STATUTID)
+                    MinWidth=100
+                    AutoFit=true>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as Data.EF.Univers.TH_HABILITATIONS)!).TRST_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+            <EditTemplate>
+                @{
+                    var thHab = (context as Data.EF.Univers.TH_HABILITATIONS);
+                    if (thHab?.TH_HABILITATIONID != 0)
+                    {
+                        <div class="control-section">
+                            <div class="radio-control">
+
+                                <h4 style="line-height:200%;color:rgba(0, 0, 0, 0.54)">
+                                    @Trad.Keys["COMMON:ChangeStatus"]
+                                </h4>
+                                <br>
+                                <div class="row">
+                                    <SfRadioButton Label=@Trad.Keys["COMMON:NoChange"] Name="statut" Value="Unchanged" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange" />
+                                    <p></p>
+                                </div>
+
+                                @if (new[] { StatusLiteral.Available }.Contains(thHab?.TRST_STATUTID))
+                                {
+                                    <div class="row">
+                                        <SfRadioButton Label=@Trad.Keys["STATUS:I"] Name="statut" Value=@StatusLiteral.Deactivated Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange" />
+                                        <p></p>
+                                    </div>
+                                }
+
+                                @if (new[] { StatusLiteral.Deactivated }.Contains(thHab?.TRST_STATUTID))
+                                {
+                                    <div class="row">
+                                        <SfRadioButton Label=@Trad.Keys["STATUS:A"] Name="statut" Value=@StatusLiteral.Available Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange" />
+                                        <p></p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_COMMENTAIRE)
+                    MinWidth=100
+                    Width=180
+                    AllowAdding="true"
+                    AllowEditing="true" />
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_MAJ_DATE)
+                    MinWidth=100
+                    Width=180>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@($"{nameof(Data.EF.Univers.TH_HABILITATIONS.TRU_MAJ_AUTEUR)}.{nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)}")
+                    HeaderText=@Trad.Keys["COMMON:Derniermodificateur"]
+                    MinWidth=100
+                    Width=180>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_DATE_INITIALISATION )
+                    MinWidth=100
+                    Width=180>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@($"{nameof(Data.EF.Univers.TH_HABILITATIONS.TRU_INITIALISATION_AUTEUR)}.{nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME)}")
+                    HeaderText=@Trad.Keys["COMMON:Attributeurinitial"]
+                    MinWidth=100
+                    Width=180>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TTE_TEAMID)
+                    MinWidth=100
+                    Width=160
+                    Visible=false>
+            <EditTemplate>
+            </EditTemplate>
+            <Template>
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TSG_SCENARIO_GPEID)
+                    MinWidth=100
+                    Width=170
+                    Visible=false>
+            <EditTemplate>
+            </EditTemplate>
+            <Template>
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Data.EF.Univers.TH_HABILITATIONS.TH_HERITE_HABILITATIONID )
+                    MinWidth=100
+                    Width=180
+                    Visible=false>
+            <EditTemplate>
+            </EditTemplate>
+            <Template>
+            </Template>
+        </GridColumn>
+
+    </GridColumns>
+</OrkaGenericGridComponent>

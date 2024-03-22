@@ -1,0 +1,103 @@
+﻿@using Krialys.Common.Literals;
+@using Krialys.Data.EF.Univers
+@using Krialys.Data.EF.Resources
+@using Krialys.Orkestra.WebApi.Proxy
+
+@attribute [Authorize]
+
+@* Les libellés sont remplacés par leurs valeurs issues des DataAnnotations *@
+@if (_isResourcesDialogDisplayed)
+{
+    @* Accéder aux ressources de la production (Popup) Paramètre attendu => DemandeId, paramètre optionel => DemandeOrigineId *@
+    <div class="row">
+        <div class="table-responsive-md">
+            <SfDialog @bind-Visible="@IsDisplayed"
+                  ShowCloseIcon=true
+                  Width="1200px"
+                  MinHeight="170px"
+                  IsModal=true>
+
+                <DialogEvents Closed=CloseResourceDialog />
+
+                <DialogTemplates>
+                    <Header>
+                        Ressources de la demande #@DemandeId
+                    </Header>
+                    <Content>
+                        @if (Resources is not null)
+                        {
+                            <p></p>
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">@(DataAnnotations.Display<VDE_DEMANDES_RESSOURCES>(nameof(VDE_DEMANDES_RESSOURCES.TER_NOM_FICHIER)))</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">@(DataAnnotations.Display<VDE_DEMANDES_RESSOURCES>(nameof(VDE_DEMANDES_RESSOURCES.TRD_TAILLE_FICHIER)))</th>
+                                        <th scope="col">@(DataAnnotations.Display<VDE_DEMANDES_RESSOURCES>(nameof(VDE_DEMANDES_RESSOURCES.TER_NOM_MODELE)))</th>
+                                        <th scope="col">@(DataAnnotations.Display<VDE_DEMANDES_RESSOURCES>(nameof(VDE_DEMANDES_RESSOURCES.TD_DEMANDEID)))</th>
+                                        <th scope="col">@(DataAnnotations.Display<VDE_DEMANDES_RESSOURCES>(nameof(VDE_DEMANDES_RESSOURCES.TER_COMMENTAIRE)))</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var q in Resources)
+                                    {
+                                        var fileExt = q.TER_NOM_FICHIER.Split('.').TakeLast(1).FirstOrDefault() ?? "";
+                                        var rgModele = !string.IsNullOrEmpty(q.TER_ETAT_RESSOURCEID.ToString()) ? "x" : "";
+                                        var rgTransmise = q.TRD_NOM_FICHIER_ORIGINAL.Equals("_") ? "" : "x"; //" !string.IsNullOrEmpty(q.TRD_NOM_FICHIER_ORIGINAL) ? "x" : "";
+                                        var dicoModele = new Dictionary<string, object> { { "title", q.TER_NOM_MODELE ?? q.TE_ETATID.ToString().PadLeft(6, '0') + "_" + q.TER_ETAT_RESSOURCEID } };
+                                        var dicoTransmise = new Dictionary<string, object> { { "title", q.TRD_NOM_FICHIER_ORIGINAL } };
+                                        var resourceTransmise = q.TER_IS_PATTERN.Equals(StatusLiteral.No) ? q.TER_NOM_FICHIER : q.TRD_NOM_FICHIER_ORIGINAL ?? q.TER_NOM_FICHIER;
+
+                                        <tr>
+                                            @if (q.TRS_FICHIER_OBLIGATOIRE.Equals(StatusLiteral.Yes, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                <td class="mandatory">@(q.TER_NOM_FICHIER[..^(fileExt.Length + 1)])</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@(q.TER_NOM_FICHIER[..^(fileExt.Length + 1)])</td>
+                                            }
+                                            <td>@(fileExt)</td>
+                                            <td>@(q.TRD_TAILLE_FICHIER is null ? "-" : q.TRD_TAILLE_FICHIER.ToString())</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(rgModele) && q.TER_NOM_MODELE is not null)
+                                                {
+                                                    <SfButton IconCss="e-icons e-download" CssClass="e-flat"
+                                              @onclick="(() => { if (q.TE_ETATID != null) if (q.TER_ETAT_RESSOURCEID != null) DownloadRessourceModele((int) q.TE_ETATID, (int) q.TER_ETAT_RESSOURCEID, q.TER_NOM_MODELE); })"
+                                              HtmlAttributes=dicoModele />
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(rgTransmise))
+                                                {
+                                                    <SfButton IconCss="e-icons e-download" CssClass="e-flat"
+                                              @onclick="(() => { if (q.TD_DEMANDEID != null) DownloadRessourceTransmise((int) q.TD_DEMANDEID, resourceTransmise); })"
+                                              HtmlAttributes=dicoTransmise />
+                                                }
+                                            </td>
+                                            <td>@(q.TER_COMMENTAIRE ?? "-")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </Content>
+                </DialogTemplates>
+
+                <DialogButtons>
+                    <DialogButton OnClick=CloseResourceDialog
+                              IsPrimary=false
+                              Content=@Trad.Keys["COMMON:Back"] />
+                </DialogButtons>
+
+            </SfDialog>
+        </div>
+    </div>
+}
+
+<style>
+    .table tbody tr > td.mandatory {
+        color: red !important;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,15 @@
+﻿@if (_dataSource != null)
+{
+    <SfDropDownList TValue="int"
+                    TItem="SfGridColumnParameterServices.ForeignValue"
+                    DataSource="_dataSource"
+                    @bind-Value=SelectedClaimId
+                    Placeholder="@Trad.Keys["Administration:Claim"]"
+                    FloatLabelType='@FloatLabelType.Always'>
+        <DropDownListFieldSettings Value="Id"
+                                   Text="Label" />
+        <DropDownListEvents TValue="int"
+                            TItem="SfGridColumnParameterServices.ForeignValue"
+                            ValueChange="ValueChange" />
+    </SfDropDownList>
+}

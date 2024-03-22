@@ -1,0 +1,10 @@
+[{"Guid":"aaaa",
+ "Code_ETQ":"CODE_ERRONé",
+"Etq_Lib":"test lib70j1",
+"Etq_Desc":"test desc70"
+},
+{"Guid":"bbbb",
+ "Code_ETQ":"2021ETE_OFS_ODS_69",
+"Etq_Lib":"test lib69j1",
+"Etq_Desc":"test desc69"
+}]

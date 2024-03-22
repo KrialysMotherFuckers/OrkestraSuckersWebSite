@@ -1,0 +1,683 @@
+COMMON:
+ About: About...
+ Actions: Actions
+ Authorize: Authorize
+ Logout: Logout
+ Parameters: Parameters
+ Culture: Change culture
+ Home: Home
+ Back: Back
+ Cancel: Cancel
+ ChangeStatus: "Change status to: "
+ ChooseValue: Choose a value
+ Close: Close
+ Comment: Comment
+ Confirm: Confirm
+ DataBaseUpdateFailed: Data update has failed.
+ Download: Download
+ Equal: Equal
+ Error: Error
+ IncorrectParameter: The {0} parameter is incorrect. Please contact an administrator.
+ Info: Information
+ Succes : Success
+ Next: Next
+ No: No
+ NoChange: No change
+ NotEqual: Distinct From
+ Ok: OK
+ RequestFailed: An error occurred. Please, try again later.
+ RequiredField: Mandatory field
+ Save: Save
+ Search: Search
+ Settings: Settings
+ Users: Users
+ Validate: Validate
+ Yes: Yes
+ Refresh: Refresh
+ Day: Day(s)
+ Month: Month(s)
+ Year: Year(s)
+ Export: No data to export!
+ RecordDone: record(s) saved
+ UTD: DPU
+ DTF: DTF
+ DTS: DTS
+ ETQ: ETQ
+ Module : Module
+ Categorie: Category
+ Derniermodificateur: Last modifier
+ Attributeurinitial: Initial assigner
+ ConfirmExport: Are you sure you want to export to {0}?
+ DuplicateElement: Element {0} already exists
+
+STATUS:
+ A: Active
+ AD: Cancellation in progress
+ AR: Archived request
+ B: Draft
+ C: Cancelled
+ DA: Cancelled request
+ DB: Draft mode
+ DC: Request created and pending execution
+ DP: Scheduled request
+ DR: Completed request
+ EC: In progress
+ ER: Runtime error
+ I: Inactive
+ IV: Invalidated results
+ MO: Scheduling template
+ NF: Required waiting time expired
+ P: Prototype
+ VA: Validated results
+ WF: Waiting for prerequisites
+
+BOOL:
+ N: No
+ O: Yes
+
+HomePage:
+ ADMTitle: Administration
+ ADMTagline: Assign roles !
+ DTFTitle: DATAFABRIK
+ DTFTagline: Start your productions !
+ DTMTitle: DATAMANAGER
+ DTMTagline: Configure your DPUs !
+ DTSTitle: DATASHOP
+ DTSTagline: Find all your resources!
+ MSOTitle: MSO
+ MSOTagline: Monitor your productions !
+
+Auth:
+ SignIn: Log in
+ SignOut: Log out
+ LogOut: Déconnection
+ NotFound: Sorry, this page does not exist.
+ NotAuthenticated: Sorry, you are not authenticated yet.
+ NotAuthorized: Sorry, you do not have the necessary accreditations to access this page.
+ InProgress: Authentication in progress.
+ Failed: Sorry, authentication has failed.
+ ContactAdmin: Please contact your local administrator.
+ GoBack: Back to the previous page!
+ ServerOnline: Web server is active again
+ ServerOnlineMessage: The connection to the web server has been established.<br />You can now use the application.
+ ServerOfflineResilent: Idle server, resiliency strategy
+ ServerOfflineResilentMessage: The connection to the Web server has been lost.<br />Please wait, we are trying to reconnect you...
+ ServerOfflineTimeout: Server inactive, timeout
+ ServerOfflineTimeoutMessage: Reconnection to the Web server failed.<br />You have been disconnected from your session.
+
+GridSource:
+ MenuClearFilters: Reset filters
+ MenuGridMain: Grid
+ MenuReloadGrid: Refresh
+ MenuReloadGridTooltip: Refresh grid data
+ MenuCopyMain: Copy
+ MenuCopyRaw: Active cell
+ MenuCopyWithHeaders: With headers
+ MenuCopyWithoutHeaders: Whithout headers
+ MenuExportMain: Export
+ MenuExportToExcel: Excel Export
+ MenuExportToCsv: CSV Export
+ MenuExportToPdf: PDF Export
+ MenuPrint: Print
+ EditHeaderTextAdd: Add a new row
+ EditHeaderTextSave: Edit
+ EditButtonText: Save
+ CancelButtonText: Cancel
+ GridError: Error when loading list
+
+CronManager:
+ DateTime: Date and hour
+ DateTimeStart: Start date
+ DateTimeEnd: End date
+ DaysOfMonth: Days of the month
+ DaysOfMonthExamples: Days of the month examples
+ Hours: Hours
+ HoursExamples: Hours examples
+ InvalidCronDescription: One or more parameters are incorrect!
+ InvalidCronField: Error, the field entered is incorrect.
+ Minutes: Minutes
+ MinutesExamples: Minutes examples
+ Months: Months
+ MonthsExamples: Months examples
+ NextSchedules: Upcoming scheduling
+ NoCronOccurencesScheduled: There is no scheduling planned.
+ PossibleValues: "Possible values:"
+ Weekdays: Weekdays
+ WeekdaysExamples: Weekdays examples
+
+Administration:
+ MenuTitle: ADMINISTRATION
+ MenuClaims: Authorisations
+ MenuReferences: References
+ EmailTemplate: Email Template
+ ClaimsLinkedToUser: "Authorisations associated to this user:"
+ Claim: Authorisation
+ Applications: Applications
+ Claims: Authorisations
+ ClaimsLinkedToApp: "Authorisations associated to this application"
+ AuthScenarios: "Authentication scenarios"
+ ScenariosLinkedToApp: "Authentication scenarios available for this application:"
+ CatalogLinkedToClaims: "Available values catalogue for this authorisation:"
+ AddAuthorization: Add an authorisation
+ AddAuthorizations: Add authorisations
+ EditAuthorization: Modify an authorisation
+ DTFMenuAssociation: Associations
+ DTFMenuDupliquerDroits: "Duplicate rights"
+ DTSAssociationsTabTitle: Associations
+ Profil: Profile
+ DataDrivenDTFAssociationChk: "Please select at least one module, one profile and one user"
+ DataDrivenDTFAssociationInvalid: "This action is not possible, the user no longer has the Datadriven role or is inactive"
+ DataDrivenDTFCopyMsg1: I assign the same profile and give authorizations to the same modules
+ DataDrivenDTFCopyMsg2: as
+ DataDrivenDTFCopyBadChoice: Please select two different users
+
+DTS:
+ Actions: Actions
+ AlphabeticalOrder: Alphabetical order
+ AlphabeticalOrderShort: A-Z
+ AssociatedProductions: Productions associated with order n°{0}
+ AssociationsTooltip: Show related productions
+ AttachedFiles: "Attachments: "
+ BackToEtqList: Back to labels list
+ ByDomain: By domain
+ ByDPU: By DPU
+ CancelOrderTooltip: Cancel order
+ ChangePhaseDialogHeader: Phase change of order n°{0}
+ CloseOrderTooltip: Close order
+ Consumption: Consumption
+ CreationDateFilter: By creation date
+ CreationDatesOrder: Recently created
+ CreationDatesOrderShort: Created
+ Datasets: datasets
+ DatasetsSorting: "Datasets sorting: "
+ Details: Details
+ DetailsTooltip: Show order details
+ Documents: Documents
+ DocumentsTooltip: Show submitted documents
+ DomainFilter: By domains
+ DuplicateOrderTooltip: Duplicate order
+ EditOrderTooltip: Edit order
+ EtiquetteSearch: Search
+ Export: Export
+ Filters: Filters
+ Information: Information
+ LastMonth: Last month
+ LifeCycle: Life cycle
+ List: List
+ Loading: Data loading...
+ MaxLabelsExceeded: There are more than {0} results, please narrow your search.
+ Monitoring: Monitoring
+ NoLabelsFound: No label matches the search criteria
+ NotableAssociatedProductions: Notable related productions
+ ObjectFilter: By labeled objects
+ Order: Order
+ OrderANSuccess: Order canceled successfully.
+ OrderANTitle: Order cancellation
+ OrderButton: Order
+ OrderButtonTooltip: Order a new production
+ OrderCloseConfirmation: Are you sure you want to close this order?
+ OrderClosing: Closing of order n°{0}
+ OrderConflict: The action could not be performed because the order was changed by another user. Your data has been updated.
+ OrderCreation: New order
+ OrderDeleteConfirmation: Are you sure you want to cancel this order?
+ OrderDeleting: Cancellation of order n°{0}
+ OrderDocumentsTitle: Documents of the order n°{0}
+ OrderDuplication: Duplication of order n°{0}
+ OrderDuplicationConfirmation: Are you sure you want to duplicate order n°{0}?
+ OrderDuplicationConfirmationMessage: A new order will be created, then the editing dialog will open.
+ OrderEdition: Edition of order n°{0}
+ OrderGone: The selected order no longer exists. Your data has been updated.
+ OrderNumber: Order n°{0}
+ OrderNumbers: Order numbers
+ OrderTESuccess: Order closed successfully.
+ OrderTETitle: Order closing
+ PerimeterFilter: By perimeters
+ PhaseAndDate: "{0} on {1}"
+ ProcessedBy: Processed by
+ Production: Production
+ Quality: Quality
+ Reason: Reason
+ Scheduling: Scheduling
+ ThisMonth: This month
+ ThisWeek: This week
+ ToolBoxHideOrShow: Show/hide toolbox
+
+DTM:
+ Actions: "Actions"
+ ActivationConfirmation: Confirmation of activation
+ Catalog: Catalogue
+ CreateModule: Create a new module
+ CreateVersion: Create a version for DPU {0}
+ ComplianceControl: Conformity check
+ CubeGeneration: Cube generation
+ Database: "Database:"
+ DuplicateUtd: "Duplicate"
+ DuplicateUtdQuestion: "Do you want to duplicate the version {0} ?"
+ DuplicateUtdConfirmation: "Version {0} has been duplicated."
+ DuplicateUtdError: "Version {0} could not be duplicated."
+ EditModule: "Edit the module: "
+ EditVersion: Edit a version for DPU {0}
+ ErrMsgEraseDbAndServer: Please delete the database and server names if "cube generation" box is not checked.
+ ErrMsgMissingDbOrServer: Please fill in the database and server names as the cube generation box is checked.
+ ErrMsgNoActiveModule: No active module is associated to this version. Please check this first.
+ ErrMsgNoBat: Default on batch assignments in this module. Backup is impossible
+ ErrMsgVersion: A version with a higher number already exists. Please modify the version's number.
+ ErrMsgVersionDeactivation: Error when deactivating the version.
+ Farms: Farms
+ FarmsSaveError: A problem occurred when saving the farms. Please check the selected farms.
+ GridToolbarInactivate: Deactivate
+ GridToolbarInactivateTooltip: Change status into inactive
+ Info: INFO
+ ManageAssociations: Manage associations
+ MenuReferences: Master data
+ MenuUTD: DPU
+ Model: Template
+ ModelDelete: Delete template
+ ModelDeleteAskConfirmation: Do you really want to delete this template ?
+ ModelDeleteFailed: "Template {0} deletion failed: "
+ ModelDeleteHeader: Delete template {0}
+ ModelDeleting: Template deletion
+ ModelDeleteSuccess: Template {0} deleted successfully.
+ ModelDownload: Download the template
+ ModelUpload: Upload a template
+ ModelUploadHeader: Upload template for {0}
+ ModelUploadCancelled: Template {0} loading cancelled.
+ ModelUploadFailed: "Template {0} loading failed: "
+ ModelUploading: Template loading
+ NbBatchs: Associated batchs
+ NbPrerequisites: Associated prerequisites
+ NbResources: Associated resources
+ PristineEnvironment: Blank Env.
+ ScenarioManageAssociationHeader: Module {0} detail
+ Scheduling: Scheduling
+ Server: "Server:"
+ Softwares: Software
+ SoftwaresSaveError: A problem occured while saving software. Please check the selected software.
+ VersionAlreadyExistsMsg: An active version already exists. Would you like to deactivate it and activate this new one ?
+ UTDCatalogHeader: Catalogue of
+ UTDCatalogResources: Resources
+ UTDCatalogResourcesGridAddHeader: New resource (outside the blank environment)
+ UTDCatalogResourcesGridEditHeader: "Edit resource: "
+ UTDCatalogResourcesNbSenarios: No. of associated scenarios
+ UTDCatalogBatchs: Batchs
+ UTDCatalogBatchsGridEditHeader: "Edit batch: "
+ UTDCatalogPrerequiste: Prerequisites
+ UTDCatalogPrerequisitesGridAddHeader: New prerequisite
+ UTDCatalogPrerequisitesGridEditHeader: "Edit prerequisite: "
+ UTDCatalogOtherFiles: Other files
+ UTDCatalogDocumentation: Documentation
+ UTDGridAddHeader: Create a new DPU.
+ UTDGridEditHeader: Edit a DPU.
+ UTDInactivateDialog: Do you really want to deactivate this DPU?
+ UTDInactivateDialogHeader: Deactivate {0}
+ Version: "Version:"
+ TLE_LOGICIEL_EDITEURS_TITLE: Softwares
+ TPM_PARAMS_TITLE: TPM_PARAMS_TITLE
+ TQM_QUALIF_MODELES_TITLE: TQM_QUALIF_MODELES_TITLE
+ TR_LNG_Languages_TITLE: TR_LNG_Languages_TITLE
+ TRST_STATUTS_TITLE: Status
+ TRTZ_TZS_TITLE: TRTZ_TZS_TITLE
+ TL_LOGICIELS_TITLE: Software version
+ TLEM_LOGICIEL_EDITEUR_MODELES_TITLE: Structure control per software
+ TF_FERMES_TITLE: Farms
+ TI_INFOS_TITLE: TI_INFOS_TITLE
+ TP_PERIMETRES_TITLE: TP_PERIMETRES_TITLE
+ TPR_PROFILS_TITLE: TPR_PROFILS_TITLE
+ TSRV_SERVEURS_TITLE: Servers
+ TC_CATEGORIES_TITLE: Categories
+ TPU_PARALLELEUS_TITLE: ParalleleU Clients
+ TSL_SERVEUR_LOGICIELS_TITLE: Softwares on the servers
+ TSP_SERVEUR_PARAMS_TITLE: Server settings
+ TPUF_PARALLELEU_FERMES_TITLE: ParalleleU client farms
+ TPUP_PARALLELEU_PARAMS_TITLE: ParalleleU client settings
+
+DTF:
+ AppModule: Application module
+ AppModuleInfo: "Application module info"
+ AssociatedOrder: Associated order
+ AssociatedOrderDropdownHeader: Order number (Creator)
+ Comment*: Comment*
+ Category: Category
+ CategoryInfo: "Category info:"
+ UserFilter: By user(s)
+ CategoryFilter: By categorie(s)
+ DpuFilter: By DPU(s)
+ StatusFilter: By status(es)
+ ChooseProductionMode: Choose the production mode
+ Deferred: Deferred
+ EmptyQualifs: There are no qualifications associated with this label.
+ ExpectedFiles: Expected file(s)
+ ExpectedSourceFiles: Expected source file(s)
+ FileControl: Files control
+ FileControlFailed: A file is required for "{0}".
+ FileDeleting: File deletion
+ FileDeleteFailed: Failed to delete file {0}.
+ FileDeleteSuccess: File {0} deleted successfully.
+ FileInfo: "File info:"
+ FileMaskIncorrect: The file {0} does not match the expected file name!
+ FileUploading: Uploading File
+ FileUploadFailed: Failed to upload file {0}.
+ FileUploadSuccess: File {0} uploaded successfully.
+ GridContextMenuStopRequest: Stop this request
+ GridToolbarProduce: Produce
+ GridToolbarProduceTooltip: Start a new production
+ GridToolbarProduceAlert: CPU Services suspended, you can not create a new production for now.
+ IgnoreDemandeResult: Request to ignore
+ ImportYourFiles: Import your files
+ Info: Info
+ Information: Information
+ InfoTooltip: Show production details
+ LaunchNow: Execute now
+ MenuPlanifications: Schedulings
+ MenuUTD: Data Processing Units
+ Model: Template
+ ModelDownload: Download template
+ NewProduction: New production
+ NewProductionFailed: Failed to create the production.
+ NextExecution: Next theoretical execution
+ NoExpectedFiles: No files expected.
+ OrderComment: "Order comment:"
+ Prototype: Prototype
+ QualifTooltip: Display the collection of qualifications
+ RecueilDownload: Download the collection
+ Recurrent: Recurring
+ RecurrentSchedules: Scheduling
+ RequestCancellation: Request interruption
+ RequestCancellationFailed: Request interruption has failed
+ RequestCancellationRefused: The status of the request "{0}" does not allow its interruption.
+ RequestCancellationSucceed: The interruption request has been taken into account
+ RequestCreatedWhenStartDateReached: The request will be created when the start date is reached.
+ Resource: Resources
+ ResourceUpdateFailed: The resource could not be updated.
+ ResourceTooltip: Show resources
+ Result: Results
+ ResultTooltip: Download result
+ RevisionInfo: "Revision's info:"
+ ScheduleActions: Actions
+ ScheduleDeactivate: Deactivate the scheduling.
+ ScheduleDeactivateFailed: An error has occured while deactivating the scheduling
+ ScheduleDeactivateSucceeded: The scheduling has been deactivated.
+ ScheduleDeactivateConfirmation: Are you sure you want to disactivate this scheduling?
+ ScheduleDeactivation: Deactivation
+ ScheduleDuplicate: Duplicate the scheduling.
+ ScheduleDuplicateFailed: An error has occured while duplicating the scheduling
+ ScheduleDuplicateTitle: Duplication of the scheduling
+ ScheduleLaunch: Schedule production
+ ScheduleModify: Modify the scheduling.
+ ScheduleModifyFailed: An error has occured while modifying the scheduling
+ ScheduleModifyTitle: Modifying the scheduling.
+ ScheduleProduction: Calendar
+ ScheduleExpected: Expected
+ ScheduleLogs: Logs
+ Scheduling: Scheduling
+ UTDInfo: "DPU info"
+ UTDLong*: Data Processing Unit*
+ ValidateScheduling: Confirm the scheduling
+ VersionInfo: "Version's info:"
+ DateTime: Date and time
+ DateTimeStart: Start date
+ YourFile: Your file
+ Qualifications: "Collection of application qualifications request number {0}:"
+ Planned: Planned
+ Accomplished: Accomplished
+ Recurring: Recurring
+ NotRecurring: One shot
+
+MSO:
+ MenuTitle: MSO
+ MenuLogs: Logs
+ MenuRapprochements: Rapprochements
+ MenuRapprochementsCalendrier: Calendar
+ MenuRapprochementsDatagrid: Data grid
+ MenuAttendus: Expected outcomes
+ MenuPlanifs: Scheduling
+ MenuReferences: References
+ LogsTitle: Logs page
+ LogsText1: Logs are data transmitted by applications and processes
+ RapprochementsTitle: Rapprochements page
+ RapprochementsText1: Link between expected outcomes and logs
+ LogsLinkedToAttendu: "Logs related to the expected outcomes:"
+ RapprochementsCalendrierDescription: Compare expected and realized outcomes (logs) using a calendar.
+ RapprochementsDatagridDescription: Find the logs associated with an expected outcome using a data grid.
+ RapprochementsSelectCode: Choose a code
+ RapprochementsSearch: Search
+ RapprochementsDescription: "Description:"
+ RapprochementsResult: "Result:"
+ Attendus: Expected outcomes
+ Performed: Realized
+ AttendusTitle: Expected outcomes page
+ AttendusText1: Expected outcomes are criteria for analysing logs.
+ PlanifsLinkedToAttendu: "Scheduling related to the Expected outcome:"
+ Schedule: Schedule
+ Cancel: Cancel
+ PlanifsTitle: Scheduling page
+ PlanifsText1: Definitions of Expected outcomes frequencies.
+ PlanifButtonTitle: Schedule the expected outcome
+ PlanifDialogHeader: Expected outcome Scheduling
+ PlanifDialogTooltipContent: A scheduling must be selected.
+ PlanifDialogDropdownPlaceholder: Select a scheduling
+ PlanifStatus: Scheduling Status
+ ReferencesTabAPP: Applications
+ ReferencesTabCrit: Criticalities
+ ReferencesTabNatFlux: Flow Types
+ ReferencesTabNatTrait: Types of processes
+ ReferencesTabTechTrait: Processing technologies
+ ReferencesTabRes: Results
+
+ETQ:
+ AuthorizationsAssignment: "Authorizations assignment:"
+ AuthorizationManagementTitle: "Express authorization management for: {0}"
+ AuthorizationManagementTooltip: Express authorization management
+ ByAction: By action to perform
+ ByModule: By module(s)
+ ByOrderNumber: By order number
+ ByRuleValue: By rule value(s)
+ EtqGridEditHeader: "Edit label: {0}"
+ NominativeAccess: Nominative access
+ PublicAccess: Public access
+ Revoke: Revoke
+ TOBJE_OBJET_ETIQUETTES_TITLE: Labeled objects
+ TDOM_DOMAINES_TITLE: Domain Management
+ TPRCP_PRC_PERIMETRES_TITLE: Scope Management
+ TETQ_ETIQUETTES: Label(s)
+ TETQ_ETIQUETTES_TITLE: Labels Management
+ TOBJE_OBJET_ETIQUETTESAddUpdateDialogHeader: "Add or modify a label's template"
+ TOBJE_OBJET_ETIQUETTESAddUpdateDialogContent1: "Compliance"
+ TOBJE_OBJET_ETIQUETTESAddUpdateDialogContent2: "A label's template already exists for this active version"
+ TOBJE_OBJET_ETIQUETTESDeleteDialogHeader: "Deleting a label's template"
+ TOBJE_OBJET_ETIQUETTESDeleteDialogContent1: "Label template:"
+ TOBJE_OBJET_ETIQUETTESDeleteDialogContent2: "Version:"
+ TOBJE_OBJET_ETIQUETTESDelete1: "Deletion impossible: {0} existing labels!"
+ TOBJE_OBJET_ETIQUETTESDelete2: "Impossible to delete an active version!"
+
+CHARTS:
+ Goto: Go to
+ Activities: Activities
+ ProductDataSets: Produced data sets
+ Productions: Productions
+ Requests: Requests
+ DataQuality: Data quality
+ Number: (in number)
+ Percentage: (in %)
+
+EtlLogException:
+ DemandeId: N°
+ Utd: UTD
+ Module: Module
+ GlobalResult: Status
+ Workflow: Workflow
+ Result: Result
+ Errors: Errors
+ FieldConversionErrors: Conversion errors
+ Warnings: Warnings
+ UserName: User
+ TimeUtc: Date
+ ElapsedTime: Duration
+ MachineName: Machine
+ EtlName: ETL
+ Version: Version
+ MessageType: Type
+ Message: Messages
+ ToolId: Tool Id
+ Directory: Directory
+ StatusOK: Success
+ StatusWA: Warning
+ StatusKO: Error
+ ResultOK: Succeeded
+ ResultNA: Not ran
+ ResultKO: Failed
+ ErrorDetails: "Workflow error details: {0}"
+ DetailedWA: Warning
+ DetailedFCE: Field conversion error
+ DetailedKO: Error
+
+Menu:
+ LeftMenu: LeftMenu
+ RightMenu: RightMenu
+ General: Général
+ DTS: Data Shop
+ Datasets: Data Product
+ Orders: Orders
+ DTF: Data Fabrik
+ JobProductions: UTD Production
+ ProductionCalendar: Production Calendar
+ DTF_Monitoring: UTD Monitoring
+ DataGovernance: Data Governance
+ LabelTracking: Governance actions
+ DataGovernanceDatasets: Governance Context
+ Management: Management
+ DTM: UTD Manager
+ JobStatement: Declaration
+ Dtm_Monitoring: Monitoring
+ ETQM: Labels Manager
+ LabelConfiguration: Configurator
+ LabelSimulation: Simulator
+ LabelRulesConfiguration: Rules Customization 
+ REFM: REF Manager
+ Repositories: Referentials
+ Supervision: Supervision
+ Logs: Journaux
+ WorkerNodes: WorkerNode Instances
+ OrkestraLogs: Logs Orkestra
+ ETLLogs: UTD Logs
+ Settings: Parameter
+ Administration: Administration
+ Users: Users
+ Authorizations: Authorizations
+ Configuration: Configuration
+ Referencial: Referencials
+ DataGovernanceSettings: Labels Manager
+ WorkerNodesSettings: WorkerNode Instances
+ Referencial_Mso: Expected
+ ApplicationRole: Application Roles
+ MenuSettings: Menu
+ Profile: Profile
+ Account: Account
+ About: About
+ Register: Register
+
+RefManager:
+ Historic: Historique
+ Exploitation: Exploitation
+ Settings: Settings
+ DbConnection: Connections
+ DbConnection_DetailTitle: Connection configuration
+ DbConnection_Code: Code
+ DbConnection_Label: Description
+ DbConnection_Active: Active
+ DbConnection_Active_Alteration: Status cannot be altered. Connection used in one or more configurations.
+ DbConnection_ConfigurationTitle: Database Configuration
+ DbConnection_DatabaseType: Database Type
+ DbConnection_Server: Server
+ DbConnection_Port: Port
+ DbConnection_Database: Database
+ DbConnection_Login: Login
+ DbConnection_Password: Password
+ DbConnection_CreationDate: Creation date
+ DbConnection_UnauthorizedDeletion: Unauthorized deletion. Connection used in one or more configurations.
+ Settings_DetailTitle: Configuration
+ Settings_TableName: Table name
+ Settings_Connection: Connection 
+ Settings_Database: Database
+ Settings_TableFunctionalName: Fonctional name
+ Settings_Description: Description
+ Settings_Documentation: Documentation
+ Settings_DataStewart: Data steward
+ Settings_Typology: Typology
+ Settings_StatusCode: Status
+ Settings_TableQuerySelect: Select request GDB -> Orkestra
+ Settings_Rfs_TableQueryInsert: Insert request Orkestra -> GDB
+ Settings_Rfs_TableQueryDelete: Delete request
+ Settings_TableDataMaxRowsExpectedToReceive: Nb lines max GDB to Orkestra
+ Settings_TableDataMinRowsExpectedToSend: Nb lines min Orkestra to GDB
+ Settings_TableDataMaxRowsExpectedToSend: Nb lines max Orkestra to GDB
+ Settings_TableDataAppoved: Approved
+ Settings_IsBackupNeeded: Rollback
+ Settings_Schema: Schema
+ Settings_TableQueryUpdateColumns: Alterable fields
+ Settings_TableQueryUpdateKeys: Primary keys
+ Settings_TableQueryCriteria: Conditions
+ Settings_ParamLabelCodeObject: Label object code
+ Settings_LabelCodeFieldName: Label fieldname
+ Settings_LabelCode: Label
+ Settings_Scenario: UTD - Module 
+ Settings_CreationDate: Creation date
+ Settings_CreatedBy: Created by
+ Settings_UpdateDate: Update date
+ Settings_UpdateBy: Updated by
+ Settings_Typology_None: (None)
+ Settings_Typology_WithLabel: With label
+ Settings_Typology_WithoutLabelUpdate: Without label update
+ Settings_Typology_WithoutLabelAddReplace: Without label A/R
+ Settings_Title_Request: Queries
+ Settings_Title_Restriction: Restrictions
+ Settings_Title_Condition: Criterias
+ Settings_Title_Labeling: Labelling
+ Settings_ConnectionMissing: No active connection defined. Please, add a active connection before.
+ Management_Referentials: Référentials
+ Management_Referentials_Editable: Modifiable repositories
+ Management_Referentials_Original: Original repositories
+ Management_Edit_Referentials: Editing the repository
+ Management_Labels: Labels
+ Management_Labels_All: (All)
+ Management_Button_Show: Show
+ Management_Button_Clone: Clone
+ Management_Button_Validate: Validate
+ Management_Alert_GridNotLoaded: The datagrid is not yet loaded, the table is empty!
+ Management_Alert_EmptyTable: "{0} table does not yet contain any data."
+ Management_Alert_ErrorCloningValues: "Error while cloning label {0} values"
+ Management_Alert_MissingParameter: "Missing parameter value for {0}"
+ Management_Alert_AlreadyCloned: "The repository: {0} has already been cloned."
+ Management_Alert_SuccessfullyCloned: "{0} has been succesfully cloned {1} rows."
+ Management_Alert_SelectLabelObjectCode: Please select a label object code before cloning.
+ Management_Alert_TableApproved: "Approval of table after {0:F2} s."
+ Management_Alert_TableNotApproved: "Table not approved after {0:F2} s."
+ Management_Alert_TableUpdated: "Table successfully updated in {0:F2} s."
+ Management_Info_Loading: Loading...
+
+Email:
+ Lng_code: Langue	
+ Mel_additional_code: Optional Code
+ Mel_code: Code	
+ Mel_comments: Comments	
+ Mel_created_by: Created by
+ Mel_creation_date: Creation date
+ Mel_description: Description	
+ Mel_email_body: Body mail
+ Mel_email_footer: Footer mail
+ Mel_email_importance: Importance	
+ Mel_email_recipients: Recipient(s)
+ Mel_email_recipients_in_bcc: Recipient(s) in Cc	
+ Mel_email_recipients_in_cc: Recipient(s) in Bcc	
+ Mel_email_subject: Subject	
+ Mel_update_by: Updated by	
+ Mel_update_date: Update date
+ Sta_code: Status
+ Importance: Importance
+ Importance_H: High
+ Importance_N: Medium
+ Importance_L: Low
+ Details: Details
+ Senders: Senders
+ Body: Body
+ DetailTitle: Email Template Configuration

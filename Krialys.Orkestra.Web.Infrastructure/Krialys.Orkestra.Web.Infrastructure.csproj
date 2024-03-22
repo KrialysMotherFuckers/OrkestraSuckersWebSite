@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.2.0" />
+        <PackageReference Include="MediatR.Courier" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.27" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.27" />
+        <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.27" />
+        <PackageReference Include="MudBlazor" Version="6.17.0" />
+        <PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor" Version="10.2.0" />
+    </ItemGroup>
+
+    <!-- Nugets packages dependencies -->
+
+    <!-- External dependencies -->
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Orkestra.Common\Krialys.Orkestra.Common.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.Admin\Krialys.Orkestra.Web.Module.ADM.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.Common\Krialys.Orkestra.Web.Module.Common.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.DTF\Krialys.Orkestra.Web.Module.DTF.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.DTM\Krialys.Orkestra.Web.Module.DTM.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.DTS\Krialys.Orkestra.Web.Module.DTS.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.ETQ\Krialys.Orkestra.Web.Module.ETQ.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.Misc\Krialys.Orkestra.Web.Module.Misc.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Modules\Krialys.Orkestra.Web.Module.MSO\Krialys.Orkestra.Web.Module.MSO.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.WebApi.Proxy\Krialys.Orkestra.WebApi.Proxy.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+﻿<SfMultiSelect TValue="TF_FERMES[]"
+               TItem="TF_FERMES"
+               @bind-Value="@MultiselectValues"
+               DataSource="@Fermes"
+               ID="FermesMultiSelect"
+               PopupHeight="350px"
+               Mode="@VisualMode.CheckBox"
+               Placeholder=@Trad.Keys["DTM:Farms"]
+               AllowFiltering="false"
+               FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+               ShowSelectAll="true"
+               EnableSelectionOrder="true"
+               ShowDropDownIcon="true"
+               EnablePersistence="false"
+               FloatLabelType='@FloatLabelType.Always'>
+
+    <MultiSelectFieldSettings Text="TF_DESCR" />
+
+    <MultiSelectEvents TValue="TF_FERMES[]"
+                       TItem="TF_FERMES"
+                       ValueChange="OnValueChange" />
+</SfMultiSelect>

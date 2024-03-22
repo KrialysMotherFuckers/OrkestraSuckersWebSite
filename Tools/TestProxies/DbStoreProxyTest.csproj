@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Krialys.Test</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LdapForNet" Version="2.7.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krialys.Common\Krialys.Common\Krialys.Common.csproj" />
+  </ItemGroup>
+
+  <!--<Target Name="Resx" BeforeTargets="BeforeBuild">
+    <PropertyGroup Condition="'$(Platform)'=='Any CPU'">
+      <TargetFrameworkSDKToolsDirectory>$(TargetFrameworkSDKToolsDirectory)$(Platform)\</TargetFrameworkSDKToolsDirectory>
+    </PropertyGroup>
+  </Target>-->
+  
+</Project>

@@ -1,0 +1,36 @@
+﻿@page "/RefManager_Historical"
+
+<OrkaGenericGridComponent TEntity="Data.EF.RefManager.TM_RFH_ReferentialHistorical"
+                          IsWithinTab=true
+                          AllowResizing="true"
+                          AutoGenerateColumns="false"
+                          EnablePersistence="false">
+
+    <GridColumns>
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=100 Width=170 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_id) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_id) IsPrimaryKey=true IsIdentity=true Visible=false />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableFunctionalName) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableFunctionalName) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_Description) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_Description) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_StatusCode) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_StatusCode) Width="120">
+            <Template>
+                @{
+                    @Trad.Keys[$"STATUS:{((context as Data.EF.RefManager.TM_RFH_ReferentialHistorical)!).Rfh_StatusCode}"]
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_UpdateDate) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_UpdateBy) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_ProcessType) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_ProcessStatus) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=50 Width=100 />
+        <GridColumn Field=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_LabelCode) Uid=@nameof(Data.EF.RefManager.TM_RFH_ReferentialHistorical.Rfh_TableName) MinWidth=50 Width=100 />
+    </GridColumns>
+
+    <ChildContent>
+        <GridEditSettings AllowAdding="false"
+                          AllowDeleting="false"
+                          AllowEditing="false"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog" />
+    </ChildContent>
+
+</OrkaGenericGridComponent>

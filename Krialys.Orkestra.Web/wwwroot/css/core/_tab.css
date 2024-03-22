@@ -1,0 +1,80 @@
+﻿/*** Tab. ***/
+
+
+.e-tab .e-content > .e-item.e-active {
+    margin-top: 5px;
+}
+
+.e-tab .e-tab-header .e-toolbar-item:not(.e-separator) {
+    height: 30px;
+    min-height: 30px;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active.e-ileft .e-tab-text, .e-tab .e-tab-header .e-toolbar-item.e-active.e-iright .e-tab-text {
+    color: #74abbf;
+}
+
+.e-tab .e-tab-header .e-indicator {
+    background: #74abbf;
+}
+
+/* Don't add margin to tab headers. */
+.e-tab .e-tab-header {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0px;
+    border-bottom-style: inset;
+    border-bottom-width: thin;
+    border-bottom-color: #74abbf;
+}
+
+    .e-tab .e-tab-header .e-toolbar-item .e-tab-wrap {
+        height: 35px;
+    }
+
+/* Color unselected Tab icons by adding more contrast. */
+.e-tab-text {
+    color: grey;
+}
+
+/* Tab hover. */
+.e-tab .e-tab-header .e-toolbar-item .e-tab-wrap:hover {
+    background-color: #e0e0e0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-wrap {
+    background-color: #E7F3F7;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* SFTab recommendations https://blazor.syncfusion.com/documentation/tabs/animations */
+.e-tab .e-tab-header:not(.e-vertical) .e-indicator, .e-tab .e-tab-header.e-vertical .e-indicator {
+    transition: none;
+}
+
+.e-tab .e-tab-header .e-tab-text .e-tab-text:hover .e-tab-text.e-active:hover .e-toolbar-item.e-active.e-ileft .e-tab-icon, .e-tab .e-tab-header .e-toolbar-item.e-active.e-iright .e-tab-icon {
+    color: #74abbf;
+}
+
+.e-pager .e-currentitem, .e-pager .e-currentitem:hover {
+    background: #74abbf;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-wrap:hover .e-tab-text, .e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-wrap:hover .e-tab-icon {
+    color: #74abbf;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-text, .e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-icon {
+    color: #74abbf;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active.e-ileft .e-tab-icon, .e-tab .e-tab-header .e-toolbar-item.e-active.e-iright .e-tab-icon {
+    color: #74abbf;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active.e-ileft .e-tab-text, .e-tab .e-tab-header .e-toolbar-item.e-active.e-iright .e-tab-text {
+    color: #74abbf;
+}

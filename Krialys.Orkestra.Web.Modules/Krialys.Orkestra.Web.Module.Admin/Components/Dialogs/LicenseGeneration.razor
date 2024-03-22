@@ -1,0 +1,117 @@
+﻿@using Krialys.Orkestra.Web.Common.ApiClient;
+@using Krialys.Orkestra.Web.Common.Models;
+@using Krialys.Orkestra.WebApi.Proxy
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Class="mr-3 mb-n1" />
+            LicenseKey Generation
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+
+        <MudTabs Outlined="true" Rounded="true" ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+            <MudTabPanel Text="Encrypt">
+                <ChildContent>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6" style="margin-top: 12px;">
+                                <MudCheckBox @bind-Checked="@_licenseEncrypt.IsTrialVersion" Size="Size.Small" Color="Color.Primary">Trial Version</MudCheckBox>
+                            </div>
+                            <div class="col-6">
+                                <MudDatePicker Label="Expiration date" @bind-Date="@_licenseEncrypt.Expirationdate" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <MudTextField @bind-Value="@_licenseEncrypt.CustomerName" Label="Customer name" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <MudButton StartIcon="@Icons.Material.Filled.ClearAll" OnClick="ResetEncrypt">Reset</MudButton>
+                    <MudButton StartIcon="@Icons.Material.Filled.EmergencyRecording" OnClick="GenerateLicenseKey">Generate LicenseKey</MudButton>
+                    <br />
+                    <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="_licenseEncrypt.LicenseKey" Lines="15" ReadOnly="true" />
+                </ChildContent>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Decrypt">
+                <ChildContent>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <MudTextField T="string" Variant="Variant.Outlined" @bind-Value="_licenseDecrypt.LicenseKey" Lines="15" />
+                            </div>
+                        </div>
+                        <br />
+                        <MudButton StartIcon="@Icons.Material.Filled.ClearAll" OnClick="ResetDecrypt">Reset</MudButton>
+                        <MudButton StartIcon="@Icons.Material.Filled.EmergencyRecording" OnClick="DecryptLicenseKey">Decrypt LicenseKey</MudButton>
+                        <br />
+                        <div class="row">
+                            <div class="col-6" style="margin-top: 12px;">
+                                <MudCheckBox @bind-Checked="@_licenseDecrypt.IsTrialVersion" Size="Size.Small" Color="Color.Primary" ReadOnly="true">Trial Version</MudCheckBox>
+                            </div>
+                            <div class="col-6">
+                                <MudDatePicker Label="Expiration date" @bind-Date="_licenseDecrypt.Expirationdate" ReadOnly="true" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <MudTextField @bind-Value="@_licenseDecrypt.CustomerName" Label="Customer name" Variant="Variant.Outlined" Margin="Margin.Dense" ReadOnly="true"></MudTextField>
+                            </div>
+                        </div>
+                    </div>
+                </ChildContent>
+            </MudTabPanel>
+        </MudTabs>
+
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+
+    [Inject] private ILicenseClient _iLicenseClient { get; set; }
+
+    private LicenseEncryption _licenseEncrypt { get; set; } = new();
+    private LicenseEncryption _licenseDecrypt { get; set; } = new LicenseEncryption() { Expirationdate = null };
+
+    private async Task GenerateLicenseKey()
+    {
+        _licenseEncrypt.LicenseKey =
+            await _iLicenseClient.GenerateLicenseKeyAsync(
+                _licenseEncrypt.IsTrialVersion,
+                _licenseEncrypt.CustomerName,
+                "", "",
+                (int)((new DateTimeOffset(_licenseEncrypt.Expirationdate.Value) - DateTime.UtcNow).TotalDays),
+                null,
+                true,
+                "", 0, ""
+            );
+
+        await Toast.DisplaySuccessAsync("Success", "Encryption done.");
+    }
+
+    private async Task DecryptLicenseKey()
+    {
+        var result = await _iLicenseClient.DecryptLicenseKeyAsync(_licenseDecrypt.LicenseKey);
+
+        _licenseDecrypt.Expirationdate = result.EndValidationDate.Value.DateTime;
+        _licenseDecrypt.CustomerName = result.CustomerName;
+        _licenseDecrypt.IsTrialVersion = false;
+
+        await Toast.DisplaySuccessAsync("Success", "Decryption done.");
+    }
+
+    void ResetEncrypt() { _licenseEncrypt = new LicenseEncryption(); }
+    void ResetDecrypt() { _licenseDecrypt = new LicenseEncryption() { Expirationdate = null }; }
+    void Cancel() => MudDialog.Cancel();
+}

@@ -1,0 +1,400 @@
+﻿@using FilterType = Syncfusion.Blazor.DropDowns.FilterType
+<div class="col-lg-12 control-section">
+    <section class="etq-layout">
+        <aside class="cal-aside">
+            <div class="content">
+
+                <h5>@Trad.Keys["DTS:Filters"]</h5>
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="w3-threequarter">@Trad.Keys["DTF:Accomplished"]</th>
+                            <td class="w3-quarter">
+                                <SfCheckBox EnablePersistence=true id="chkPortail_UNIVERS_dtf_planifications_ProductionScheduledEffective" @bind-Checked="IsEffective" @onchange="BuildPlannerAsync"></SfCheckBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w3-threequarter">@Trad.Keys["DTF:Planned"]</th>
+                            <td class="w3-quarter">
+                                <SfCheckBox EnablePersistence=true id="chkPortail_UNIVERS_dtf_planifications_ProductionScheduledPlanified" @bind-Checked="IsPlanned" @onchange="BuildPlannerAsync"></SfCheckBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w3-threequarter">@Trad.Keys["DTF:Recurring"]</th>
+                            <td class="w3-quarter">
+                                <SfCheckBox id="chkPortail_UNIVERS_dtf_planifications_ProductionScheduledRecurrent" EnablePersistence=true @bind-Checked="IsRecurrent" @onchange="BuildPlannerAsync"></SfCheckBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w3-threequarter">@Trad.Keys["DTF:NotRecurring"]</th>
+                            <td class="w3-quarter">
+                                <SfCheckBox id="chkPortail_UNIVERS_dtf_planifications_ProductionScheduledOneShot" EnablePersistence=true @bind-Checked="IsOneShot" @onchange="BuildPlannerAsync"></SfCheckBox>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                @* Dropdown Users (ok) *@
+                <div class="etq-filteritem">
+                    <SfMultiSelect TValue=TRU_USERS[]
+                                   TItem=TRU_USERS
+                                   Query=_userSelectQuery
+                                   Value=_filters.SelectedUser.ToArray()
+                                   Mode=@VisualMode.CheckBox
+                                   Placeholder=@Trad.Keys["DTF:UserFilter"]
+                                   FloatLabelType=@FloatLabelType.Always
+                                   ShowClearButton=true
+                                   ShowDropDownIcon=true
+                                   AllowFiltering=true
+                                   FilterType=@FilterType.Contains
+                                   EnableVirtualization=true>
+                        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TRU_USERS>)
+                                       Adaptor=Adaptors.CustomAdaptor />
+                        <MultiSelectFieldSettings Text=@nameof(TRU_USERS.TRU_FULLNAME) />
+                        <MultiSelectEvents TValue=TRU_USERS[]
+                                           TItem=TRU_USERS
+                                           OnClose=RefreshPlannerAsync
+                                           OnValueSelect=FilterOnValueSelectAsync
+                                           ValueRemoved=FilterValueRemovedAsync
+                                           Cleared=@(() => FilterClearedAsync(_filters.SelectedUser)) />
+                        <MultiSelectTemplates TItem=TRU_USERS>
+                            <ItemTemplate>
+                                @{
+                                    var ctx = context;
+                                    <span title=@ctx.TRU_FULLNAME>
+                                        @ctx.TRU_FULLNAME
+                                    </span>
+                                }
+                            </ItemTemplate>
+                        </MultiSelectTemplates>
+                    </SfMultiSelect>
+
+                    @if (_filters.SelectedUser.Any())
+                    {
+                        <SfChip @ref=_selectedUserSfChip
+                                EnableDelete=false>
+                            <ChipItems>
+                                @foreach (var el in _filters.SelectedUser)
+                                {
+                                    var title = el.TRU_FULLNAME;
+                                    <ChipItem @key=el.TRU_USERID
+                                              Text=@el.TRU_FULLNAME
+                                              title=@title />
+                                }
+                            </ChipItems>
+                        </SfChip>
+                    }
+                </div>
+
+                @* Dropdown Categories (ok) *@
+                <div class="etq-filteritem">
+                    <SfMultiSelect TValue=TC_CATEGORIES[]
+                                   TItem=TC_CATEGORIES
+                                   Query=_categorySelectQuery
+                                   Value=_filters.SelectedCategory.ToArray()
+                                   Mode=@VisualMode.CheckBox
+                                   Placeholder=@Trad.Keys["DTF:CategoryFilter"]
+                                   FloatLabelType=@FloatLabelType.Always
+                                   ShowClearButton=true
+                                   ShowDropDownIcon=true
+                                   AllowFiltering=true
+                                   FilterType=@FilterType.Contains
+                                   EnableVirtualization=true>
+                        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TC_CATEGORIES>)
+                                       Adaptor=Adaptors.CustomAdaptor />
+                        <MultiSelectFieldSettings Text=@nameof(TC_CATEGORIES.TC_NOM) />
+                        <MultiSelectEvents TValue=TC_CATEGORIES[]
+                                           TItem=TC_CATEGORIES
+                                           OnClose=RefreshPlannerAsync
+                                           OnValueSelect=FilterOnValueSelectAsync
+                                           ValueRemoved=FilterValueRemovedAsync
+                                           Cleared=@(() => FilterClearedAsync(_filters.SelectedCategory)) />
+                        <MultiSelectTemplates TItem=TC_CATEGORIES>
+                            <ItemTemplate>
+                                @{
+                                    var ctx = context;
+                                    <span title=@ctx.TC_NOM>
+                                        @ctx.TC_NOM
+                                    </span>
+                                }
+                            </ItemTemplate>
+                        </MultiSelectTemplates>
+                    </SfMultiSelect>
+
+                    @if (_filters.SelectedCategory.Any())
+                    {
+                        <SfChip @ref=_selectedCategorySfChip
+                                EnableDelete=false>
+                            <ChipItems>
+                                @foreach (var el in _filters.SelectedCategory)
+                                {
+                                    var title = el.TC_NOM;
+                                    <ChipItem @key=el.TC_CATEGORIEID
+                                              Text=@el.TC_NOM
+                                              title=@title />
+                                }
+                            </ChipItems>
+                        </SfChip>
+                    }
+                </div>
+
+                @* Dropdown Utds (ok) *@
+                <div class="etq-filteritem">
+                    <SfMultiSelect TValue=TE_ETATS[]
+                                   TItem=TE_ETATS
+                                   Query=_utdSelectQuery
+                                   Value=_filters.SelectedUtd.ToArray()
+                                   Mode=@VisualMode.CheckBox
+                                   Placeholder=@Trad.Keys["DTF:DpuFilter"]
+                                   FloatLabelType=@FloatLabelType.Always
+                                   ShowClearButton=true
+                                   ShowDropDownIcon=true
+                                   AllowFiltering=true
+                                   FilterType=@FilterType.Contains
+                                   EnableVirtualization=true>
+                        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TE_ETATS>)
+                                       Adaptor=Adaptors.CustomAdaptor />
+                        <MultiSelectFieldSettings Text=@nameof(TE_ETATS.TE_NOM_ETAT) />
+                        <MultiSelectEvents TValue=TE_ETATS[]
+                                           TItem=TE_ETATS
+                                           OnClose=RefreshPlannerAsync
+                                           OnValueSelect=FilterOnValueSelectAsync
+                                           ValueRemoved=FilterValueRemovedAsync
+                                           Cleared=@(() => FilterClearedAsync(_filters.SelectedUtd)) />
+                        <MultiSelectTemplates TItem=TE_ETATS>
+                            <ItemTemplate>
+                                @{
+                                    var ctx = context;
+                                    <span title=@ctx.TE_NOM_ETAT>
+                                        @ctx.TE_NOM_ETAT
+                                    </span>
+                                }
+                            </ItemTemplate>
+                        </MultiSelectTemplates>
+                    </SfMultiSelect>
+
+                    @if (_filters.SelectedUtd.Any())
+                    {
+                        <SfChip @ref=_selectedUtdSfChip
+                                EnableDelete=false>
+                            <ChipItems>
+                                @foreach (var el in _filters.SelectedUtd)
+                                {
+                                    var title = el.TE_NOM_ETAT;
+                                    <ChipItem @key=el.TE_ETATID
+                                              Text=@el.TE_NOM_ETAT
+                                              title=@title />
+                                }
+                            </ChipItems>
+                        </SfChip>
+                    }
+                </div>
+
+                @* Dropdown Statuses (ok) *@
+                <div class="etq-filteritem">
+                    <SfMultiSelect TValue=TRST_STATUTS[]
+                                   TItem=TRST_STATUTS
+                                   Query=_statusSelectQuery
+                                   Value=_filters.SelectedStatus.ToArray()
+                                   Mode=@VisualMode.CheckBox
+                                   Placeholder=@Trad.Keys["DTF:StatusFilter"]
+                                   FloatLabelType=@FloatLabelType.Always
+                                   ShowClearButton=true
+                                   ShowDropDownIcon=true
+                                   AllowFiltering=true
+                                   FilterType=@FilterType.Contains
+                                   EnableVirtualization=true>
+                        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TRST_STATUTS>)
+                                       Adaptor=Adaptors.CustomAdaptor />
+                        <MultiSelectFieldSettings Text=@nameof(TRST_STATUTS.TRST_INFO) />
+                        <MultiSelectEvents TValue=TRST_STATUTS[]
+                                           TItem=TRST_STATUTS
+                                           OnClose=RefreshPlannerAsync
+                                           OnValueSelect=FilterOnValueSelectAsync
+                                           ValueRemoved=FilterValueRemovedAsync
+                                           Cleared=@(() => FilterClearedAsync(_filters.SelectedStatus)) />
+                        <MultiSelectTemplates TItem=TRST_STATUTS>
+                            <ItemTemplate>
+                                @{
+                                    var ctx = context;
+                                    <span title=@ctx.TRST_INFO>
+                                        @ctx.TRST_INFO
+                                    </span>
+                                }
+                            </ItemTemplate>
+                        </MultiSelectTemplates>
+                    </SfMultiSelect>
+
+                    @if (_filters.SelectedStatus.Any())
+                    {
+                        <SfChip @ref=_selectedStatusSfChip
+                                EnableDelete=false>
+                            <ChipItems>
+                                @foreach (var el in _filters.SelectedStatus)
+                                {
+                                    var title = el.TRST_INFO;
+                                    <ChipItem @key=el.TRST_STATUTID
+                                              Text=@el.TRST_INFO
+                                              title=@title />
+                                }
+                            </ChipItems>
+                        </SfChip>
+                    }
+                </div>
+
+            </div>
+        </aside>
+
+        <div style="padding-left:12px">
+            <SfSchedule TValue="AppointmentData"
+            @ref=@RefSchedule
+            @bind-CurrentView=@CurrentView
+                        ID=@("ical" + Litterals.Portail + "Univers_dtf_planifications_ProductionScheduled")
+                        Height="calc(100vh - 95px)"
+                        Width="100%"
+                        EnablePersistence=true
+                        AllowDragAndDrop=false
+                        AllowResizing=false
+                        WorkDays=@(new[] { 1, 2, 3, 4, 5 })
+                        FirstDayOfWeek=1>
+
+                <ScheduleWorkHours Highlight="true" Start="08:00" End="20:00"></ScheduleWorkHours>
+
+                <ScheduleViews>
+                    <ScheduleView Option="View.Day" ShowWeekNumber=true ShowWeekend=true DateFormat="D" MaxEventsPerRow="5"></ScheduleView>
+                    <ScheduleView Option="View.Week" ShowWeekNumber=true ShowWeekend=true DateFormat="D" MaxEventsPerRow="5"></ScheduleView>
+                    <ScheduleView Option="View.Month" ShowWeekNumber=true ShowWeekend=true DateFormat="y" MaxEventsPerRow="3"></ScheduleView>
+                    <ScheduleView Option="View.MonthAgenda" ShowWeekNumber=true ShowWeekend=true DateFormat="D"></ScheduleView>
+                    <ScheduleView Option="View.Agenda" ShowWeekNumber=true ShowWeekend=true DateFormat="D"></ScheduleView>
+                </ScheduleViews>
+
+                <ScheduleEvents TValue=@AppointmentData Destroyed="OnDestroyed"
+                                ActionCompleted=@OnActionCompleted
+                                EventRendered=@OnEventRendered
+                                Created=@OnCreated />
+
+                <ScheduleGroup ByDate="true" Resources="@_resources"></ScheduleGroup>
+
+                <ScheduleResources>
+                    <ScheduleResource TItem=@ResourceData
+                                      TValue=int[]
+                                      DataSource=@OwnersData
+                                      Field=OwnerId
+                                      Title=Owner
+                                      Name=Owners
+                                      TextField=OwnerText
+                                      ColorField=OwnerColor
+                                      IdField=Id
+                                      GroupIDField=OwnerGroupId
+                                      AllowMultiple=true />
+                </ScheduleResources>
+
+                <ScheduleEventSettings DataSource=@_dataSource
+                                       EnableTooltip=true
+                                       AllowAdding=false
+                                       AllowEditing=false
+                                       AllowDeleting=false>
+                </ScheduleEventSettings>
+
+                <ScheduleQuickInfoTemplates>
+
+                    <ContentTemplate>
+                        @{
+                            var ad = context as AppointmentData;
+
+                            <div class="container-fluid event-content">
+                                <div class="event-content-wrap">
+
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <tbody>
+                                            @*<tr>
+                                        <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TE_NOM_ETAT_VERSION)))</th>
+                                        <td>@(ad.Subject ?? "-")</td>
+                                        </tr>*@
+                                            <tr>
+                                                <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TS_NOM_SCENARIO)))</th>
+                                                <td>@(ad?.Description ?? "-")</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_PRISE_EN_CHARGE)))</th>
+                                                <td>@(ad?.StartTime)</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DATE_LIVRAISON)) + (ad is { OwnerId: (int)KIND.THEORICAL } ? " (théorique)" : ""))</th>
+                                                <td>@(ad is { OwnerId: (int)KIND.THEORICAL } ? ad.EndTime : ad!.EndTimeReal)</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TRU_DEMANDEURID)))</th>
+                                                <td>@(ad.Demandeur)</td>
+                                            </tr>
+                                            @if (!string.IsNullOrEmpty(ad.Location))
+                                            {
+                                                <tr>
+                                                    <th scope="row" class="e-row-width">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.TD_DEMANDEID)))</th>
+                                                    <td>@(ad.Location)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        }
+                    </ContentTemplate>
+                </ScheduleQuickInfoTemplates>
+
+            </SfSchedule>
+        </div>
+    </section>
+</div>
+
+@*<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' class='property-panel-table'>
+            <tbody>
+                <tr>
+                    <td>
+                        <SfCheckBox TChecked="bool" Label="Print with custom height and width" @bind-Checked="@IsPrintWithOptions"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100%;text-align:center">
+                        <SfButton Content="Print"></SfButton>
+                        <button type="button" class="w3-btn e-flat w3-round e-icons e-repeat" @onclick="OnRefresh"> Refresh</button>
+                        <button type="button" class="w3-btn e-flat w3-round e-icons e-download-2" @onclick="OnExportToExcel"> Export Excel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>*@
+
+<style scoped>
+    .e-row-width {
+        width: 205px;
+    }
+
+    .e-quick-popup-wrapper {
+        max-width: 495px !important;
+    }
+
+        .e-quick-popup-wrapper .e-event-popup .e-popup-content {
+            padding: 32px 18px 26px 26px !important;
+        }
+
+    .property-panel-table td {
+        padding-bottom: 2rem;
+    }
+
+    .property-panel-table .e-checkbox-wrapper {
+        padding: 0;
+    }
+
+    /* Mask delete and edit icons, but let close button visible */
+    .e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-edit,
+    .e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-delete
+    /*.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-close*/ {
+        visibility: hidden !important;
+    }
+</style>

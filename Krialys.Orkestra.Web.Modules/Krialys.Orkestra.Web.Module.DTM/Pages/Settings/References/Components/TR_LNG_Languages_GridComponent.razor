@@ -1,0 +1,40 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TR_LNG_Languages"
+                       @ref="Ref_TR_LNG_Languages"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TR_LNG_Languages"
+                    OnToolbarClick="@Ref_TR_LNG_Languages.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TR_LNG_Languages.OnContextMenuItemClickedAsync" OnLoad=Ref_TR_LNG_Languages.OnLoadHandler Destroyed=Ref_TR_LNG_Languages.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TR_LNG_Languages, entity))">
+                    @Ref_TR_LNG_Languages.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TR_LNG_Languages.DataGrid.CloseEditAsync())">
+                    @Ref_TR_LNG_Languages.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

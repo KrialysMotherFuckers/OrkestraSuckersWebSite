@@ -1,0 +1,202 @@
+﻿@using SortOrder = Syncfusion.Blazor.DropDowns.SortOrder
+@* Fichiers *@
+<div class="col-lg-12">
+	<div class="drag-drop-wrapper">
+		<div class="listbox-control">
+			<h6 style="color: #00f;">Fichiers disponibles :</h6>
+			<SfListBox DataSource="@groupFichiersA"
+					   Scope="combined-list"
+                       Enabled=@(!DisableSaveBatchButton)
+					   TItem="Fichiers"
+					   AllowDragAndDrop="true"
+					   Height="295px"
+					   TValue="int[]"
+					   SortOrder="SortOrder.Ascending"
+					   @ref="ListBoxFichiersA">
+				<ListBoxFieldSettings Text="TER_NOM_FICHIER"
+									  Value="TER_ETAT_RESSOURCEID" />
+				<ListBoxEvents TValue="int[]"
+							   Created="FichiersCreated"
+							   Dropped="FichiersDropped"
+							   TItem="Fichiers" />
+			</SfListBox>
+		</div>
+		<span class="e-swap-icon"></span>
+		<div class="listbox-control">
+			<h6 style="color: #00f">Fichiers obligatoires :</h6>
+			<SfListBox DataSource="@groupFichiersB"
+					   Scope="combined-list"
+                       Enabled=@(!DisableSaveBatchButton)
+					   TItem="Fichiers"
+					   AllowDragAndDrop="true"
+					   Height="100px"
+					   TValue="int[]"
+					   SortOrder="SortOrder.Ascending"
+					   @ref="ListBoxFichiersB">
+				<ListBoxFieldSettings Text="TER_NOM_FICHIER"
+									  Value="TER_ETAT_RESSOURCEID" />
+				<ListBoxEvents TValue="int[]"
+							   Dropped="FichiersDropped"
+							   TItem="Fichiers" />
+			</SfListBox>
+			<h6 style="color: #00f">Fichiers facultatifs :</h6>
+			<SfListBox DataSource="@groupFichiersC"
+					   Scope="combined-list"
+                       Enabled=@(!DisableSaveBatchButton)
+					   TItem="Fichiers"
+					   AllowDragAndDrop="true"
+					   Height="100px"
+					   TValue="int[]"
+					   SortOrder="SortOrder.Ascending"
+					   @ref="ListBoxFichiersC">
+				<ListBoxFieldSettings Text="TER_NOM_FICHIER"
+									  Value="TER_ETAT_RESSOURCEID" />
+				<ListBoxEvents TValue="int[]"
+							   Dropped="FichiersDropped"
+							   TItem="Fichiers" />
+			</SfListBox>
+			<br />
+			<SfButton IsPrimary="true"
+					  class="right"
+					  Disabled="@DisableSaveFichiersButton"
+					  OnClick="OnSaveFichiers">
+				Sauvegarder
+			</SfButton>
+		</div>
+		<hr />
+	</div>
+	@* Batchs *@
+	<div class="drag-drop-wrapper">
+		<div class="listbox-control">
+			<h6 style="color: #00f">Batchs disponibles :</h6>
+			<SfListBox DataSource="@groupBatchsA"
+					   Scope="combined-list"
+                       Enabled=@(!DisableSaveBatchButton)
+					   TItem="Batchs"
+					   AllowDragAndDrop="true"
+					   Height="210px"
+					   TValue="int[]"
+					   SortOrder="SortOrder.Ascending"
+					   @ref="ListBoxBatchsA">
+				<ListBoxFieldSettings Text="TEB_CMD"
+									  Value="TEB_ETAT_BATCHID" />
+				<ListBoxEvents TValue="int[]"
+							   Created="BatchsCreated"
+							   Dropped="BatchsDropped"
+							   TItem="Batchs" />
+			</SfListBox>
+		</div>
+		<span class="e-swap-icon"></span>
+		<div class="listbox-control">
+			<h6 style="color: #00f">Batchs (glisser/définir l'ordre d'exécution)</h6>
+			<SfListBox DataSource="@groupBatchsB"
+					   Scope="combined-list"
+					   TItem="Batchs"
+					   AllowDragAndDrop="true"
+					   Height="150px"
+					   TValue="int[]"
+					   @ref="ListBoxBatchsB">
+				<ListBoxFieldSettings Text="TEB_CMD"
+									  Value="TEB_ETAT_BATCHID" IconCss="IconCss" />
+				<ListBoxEvents TValue="int[]"
+							   Dropped="BatchsDropped"
+							   TItem="Batchs" />
+			</SfListBox>
+			<br />
+			<SfButton IsPrimary="true"
+					  class="right"
+					  Disabled="@DisableSaveBatchButton"
+					  OnClick="OnSaveBatchs">
+				Sauvegarder
+			</SfButton>
+		</div>
+	</div>
+	<p></p>
+</div>
+
+<style>
+	button.right {
+		float: right;
+		width: 180px;
+		height: 36px;
+		margin: auto;
+		border-radius: 8px;
+	}
+
+	.e-list-link-remove:before {
+		content: "\e348";
+		color: darkorange;
+	}
+
+	.e-list-link-checked:before {
+		content: "\e34e";
+		color: darkgreen;
+	}
+
+	@@font-face {
+		font-family: 'swap-icon';
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmXID+ZgAAAcgAAAA4aGVhZBR5I0cAAADQAAAANmhoZWEIVQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAcAAAAAAHAAAAABm1heHABDgAZAAABCAAAACBuYW1ltM6mlQAAAgAAAAI9cG9zdFSIYnYAAARAAAAALgABAAAEAAAAAFwEAAAAAAAD+AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAARPvYwl8PPPUACwQAAAAAANixb1gAAAAA2LFvWAAAAAAD+AOaAAAACAACAAAAAAAAAAEAAAACAA0AAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAHAAAAAIAAAAAA/gDmgAFAAwAABMhBxcBITUxBTUhNycIA1HcLAFP/BAD8Pyv2ysBYs4uATy9AUDOLgAAAAASAN4AAQAAAAAAAAABAAAAAQAAAAAAAQAJAAEAAQAAAAAAAgAHAAoAAQAAAAAAAwAJABEAAQAAAAAABAAJABoAAQAAAAAABQALACMAAQAAAAAABgAJAC4AAQAAAAAACgAsADcAAQAAAAAACwASAGMAAwABBAkAAAACAHUAAwABBAkAAQASAHcAAwABBAkAAgAOAIkAAwABBAkAAwASAJcAAwABBAkABAASAKkAAwABBAkABQAWALsAAwABBAkABgASANEAAwABBAkACgBYAOMAAwABBAkACwAkATsgRm9udCBTd2FwUmVndWxhckZvbnQgU3dhcEZvbnQgU3dhcFZlcnNpb24gMS4wRm9udCBTd2FwRm9udCBnZW5lcmF0ZWQgdXNpbmcgU3luY2Z1c2lvbiBNZXRybyBTdHVkaW93d3cuc3luY2Z1c2lvbi5jb20AIABGAG8AbgB0ACAAUwB3AGEAcABSAGUAZwB1AGwAYQByAEYAbwBuAHQAIABTAHcAYQBwAEYAbwBuAHQAIABTAHcAYQBwAFYAZQByAHMAaQBvAG4AIAAxAC4AMABGAG8AbgB0ACAAUwB3AGEAcABGAG8AbgB0ACAAZwBlAG4AZQByAGEAdABlAGQAIAB1AHMAaQBuAGcAIABTAHkAbgBjAGYAdQBzAGkAbwBuACAATQBlAHQAcgBvACAAUwB0AHUAZABpAG8AdwB3AHcALgBzAHkAbgBjAGYAdQBzAGkAbwBuAC4AYwBvAG0AAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQIBAwAEU3dhcAAAAAA=) format('truetype');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.e-swap-icon {
+		font-family: 'swap-icon' !important;
+		speak: none;
+		font-size: 40px;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		align-self: center;
+		margin: 0 10px;
+		transform: rotateX(180deg);
+	}
+
+	.drag-drop-wrapper .e-swap-icon:before {
+		content: '\e700';
+	}
+
+	.control-section {
+		min-height: 60px;
+	}
+
+	.drag-drop-wrapper {
+		width: 90%;
+		margin: auto;
+		display: flex;
+	}
+
+	#savechange {
+		margin-top: 15px;
+		float: right;
+		margin-bottom: -5px;
+	}
+
+	.e-bigger #savechange {
+		margin-bottom: -5px;
+	}
+
+	.listbox-control {
+		width: 100%;
+		margin: 10px;
+	}
+
+	@@media screen and (max-width: 590px) {
+		.listbox-control,
+		.drag-drop-wrapper {
+			width: 100%;
+		}
+
+		.e-swap-icon {
+			font-size: 30px;
+		}
+	}
+
+	#right-pane {
+		transform: none !important;
+	}
+</style>

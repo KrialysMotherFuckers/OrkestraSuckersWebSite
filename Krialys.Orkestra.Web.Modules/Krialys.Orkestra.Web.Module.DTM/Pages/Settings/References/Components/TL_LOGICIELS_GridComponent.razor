@@ -1,0 +1,41 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TL_LOGICIELS"
+                       @ref="Ref_TL_LOGICIELS"
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TL_LOGICIELS"
+                    DataBound=Ref_TL_LOGICIELS.DataBoundHander
+                    OnToolbarClick="@Ref_TL_LOGICIELS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TL_LOGICIELS.OnContextMenuItemClickedAsync" OnLoad=Ref_TL_LOGICIELS.OnLoadHandler Destroyed=Ref_TL_LOGICIELS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TL_LOGICIELS, entity))">
+                    @Ref_TL_LOGICIELS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TL_LOGICIELS.DataGrid.CloseEditAsync())">
+                    @Ref_TL_LOGICIELS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

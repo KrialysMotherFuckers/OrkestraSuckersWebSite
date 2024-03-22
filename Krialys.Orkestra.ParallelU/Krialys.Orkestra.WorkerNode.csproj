@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <!--<RuntimeIdentifier>win10-x64</RuntimeIdentifier>-->
+        <PublishTrimmed>false</PublishTrimmed>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+        <AssemblyName>Krialys.Orkestra.ParallelU</AssemblyName>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <SignAssembly>false</SignAssembly>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.27" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+        <PackageReference Include="System.Management" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Scripts\StartParallelU.cmd">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Updater\Krialys.Orkestra.AutoUpdater.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Etq\Krialys.Data.EF.Etq.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Mso\Krialys.Data.EF.Mso.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.Web.Common\Krialys.Orkestra.Web.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\PublishProfiles\" />
+    </ItemGroup>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="$(Configuration) == 'Debug2'">
+
+        <Message Text="Generate AutoUpdater.exe" Importance="High" />
+
+        <Exec Command="dotnet restore ..\Krialys.Orkestra.AutoUpdater\Krialys.Orkestra.AutoUpdater.csproj --packages .nuget --runtime win-x64" />
+        <Exec Command="dotnet publish ..\Krialys.Orkestra.AutoUpdater\Krialys.Orkestra.AutoUpdater.csproj --no-restore -o Updater -c Release -f net6.0 -r win-x64 --self-contained true -p:PublishProtocol=FileSystem -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=false -p:TrimmerRemoveSymbols=false -p:TrimMode=Link -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeSymbolsInSingleFile=false -p:EnableUnsafeUTF7Encoding=false" />
+        <Exec Command="del $(SolutionDir)Krialys.Orkestra.ParallelU\Updater\*.pdb" />
+
+        <Message Text="Generation AutoUpdater done" Importance="High" />
+        
+    </Target>  
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+        <Copy SourceFiles="$(OutputPath)appsettings.Development.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Debug'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Dev.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Dev'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Uat.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Uat'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Demo.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Demo'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Sncf.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Sncf'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Sncf.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Bouygues-C2S'" />
+
+        <Delete Files="$(OutputPath)appsettings.Development.json" Condition="$(Configuration) != 'Debug'" />
+        <Delete Files="$(OutputPath)appsettings.Release-Dev.json" />
+        <Delete Files="$(OutputPath)appsettings.Release-Uat.json" />
+        <Delete Files="$(OutputPath)appsettings.Release-Demo.json" />
+        <Delete Files="$(OutputPath)appsettings.Release-Sncf.json" />
+        <Delete Files="$(OutputPath)appsettings.Release-Bouygues-C2S.json" />
+
+    </Target>
+
+</Project>

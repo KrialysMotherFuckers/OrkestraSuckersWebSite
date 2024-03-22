@@ -1,0 +1,117 @@
+﻿@page "/dtm_references"
+
+@attribute [Authorize(Policy = nameof(PoliciesLiterals.ReferencesViewer))]
+
+<OrkaTab Identifier=@(Litterals.Portail + "Univers_dtm_references")>
+    <TabItems>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TC_CATEGORIES_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TC_CATEGORIES_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TSRV_SERVEURS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TSRV_SERVEURS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TSP_SERVEUR_PARAMS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TSP_SERVEUR_PARAMS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TPU_PARALLELEUS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TPU_PARALLELEUS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TPUP_PARALLELEU_PARAMS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TPUP_PARALLELEU_PARAMS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TF_FERMES_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TF_FERMES_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TPUF_PARALLELEU_FERMES_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TPUF_PARALLELEU_FERMES_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TLE_LOGICIEL_EDITEURS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TLE_LOGICIEL_EDITEURS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TL_LOGICIELS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TL_LOGICIELS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TLEM_LOGICIEL_EDITEUR_MODELES_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TLEM_LOGICIEL_EDITEUR_MODELES_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TSL_SERVEUR_LOGICIELS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TSL_SERVEUR_LOGICIELS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["DTM:TRST_STATUTS_TITLE"]" />
+            </ChildContent>
+            <ContentTemplate>
+                <Krialys.Orkestra.Web.Module.DTM.Pages.Settings.References.Components.TRST_STATUTS_GridComponent AllowModify=AllowModify />
+            </ContentTemplate>
+        </TabItem>
+
+    </TabItems>
+</OrkaTab>

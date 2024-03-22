@@ -1,0 +1,3327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Display_TACT_ACTIONS_TACT_ACTIONID" xml:space="preserve">
+    <value>ID Action</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TACT_ACTIONS_TACT_CODE" xml:space="preserve">
+    <value>Action code</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TACT_ACTIONS_TACT_DESC" xml:space="preserve">
+    <value>Action description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TACT_ACTIONS_TACT_LIB" xml:space="preserve">
+    <value>Action</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_BATCH_DEMANDEID" xml:space="preserve">
+    <value>TRAD_TBD_BATCH_DEMANDEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_CODE_RETOUR" xml:space="preserve">
+    <value>TRAD_TBD_CODE_RETOUR</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_DATE_DEBUT_EXECUTION" xml:space="preserve">
+    <value>Execution start date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_DATE_FIN_EXECUTION" xml:space="preserve">
+    <value>Execution end date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_EXECUTION" xml:space="preserve">
+    <value>TRAD_TBD_EXECUTION</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TBD_ORDRE_EXECUTION" xml:space="preserve">
+    <value>TRAD_TBD_ORDRE_EXECUTION</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TD_DEMANDEID" xml:space="preserve">
+    <value>TRAD_TD_DEMANDEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TEB_ETAT_BATCHID" xml:space="preserve">
+    <value>TRAD_TEB_ETAT_BATCHID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBD_BATCH_DEMANDES_TE_ETATID" xml:space="preserve">
+    <value>TRAD_TE_ETATID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBS_BATCH_SCENARIOS_TBS_ORDRE_EXECUTION" xml:space="preserve">
+    <value>Execution order ?</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBS_BATCH_SCENARIOS_TEB_ETAT_BATCHID" xml:space="preserve">
+    <value>Etat BatchID.</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TBS_BATCH_SCENARIOS_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TC_CATEGORIES_TC_CATEGORIEID" xml:space="preserve">
+    <value>Category</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TC_CATEGORIES_TC_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TC_CATEGORIES_TC_DATE_CREATION" xml:space="preserve">
+    <value>Creation date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TC_CATEGORIES_TC_NOM" xml:space="preserve">
+    <value>Category</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TC_CATEGORIES_TRST_STATUTID" xml:space="preserve">
+    <value>Category status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TDOM_CODE" xml:space="preserve">
+    <value>Domain / Field</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TDOM_DATE_CREATION" xml:space="preserve">
+    <value>Domain creation date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TDOM_DESC" xml:space="preserve">
+    <value>Domain description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TDOM_DOMAINEID" xml:space="preserve">
+    <value>Domain ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TDOM_LIB" xml:space="preserve">
+    <value>Domain wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TRU_ACTEURID" xml:space="preserve">
+    <value>Player</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDOM_DOMAINES_TTDOM_TYPE_DOMAINEID" xml:space="preserve">
+    <value>Domain type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TDP_DEMANDE_PROCESSID" xml:space="preserve">
+    <value>TRAD_TDP_DEMANDE_PROCESSID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TDP_ETAPE" xml:space="preserve">
+    <value>TRAD_TDP_ETAPE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TDP_EXTRA_INFO" xml:space="preserve">
+    <value>TRAD_TDP_EXTRA_INFO</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TDP_NUM_ETAPE" xml:space="preserve">
+    <value>TRAD_TDP_NUM_ETAPE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TDP_STATUT" xml:space="preserve">
+    <value>TRAD_TDP_STATUT</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDP_DEMANDE_PROCESS_TD_DEMANDEID" xml:space="preserve">
+    <value>TRAD_TD_DEMANDEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_CODE" xml:space="preserve">
+    <value>TRAD_TDQ_CODE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_COMMENT" xml:space="preserve">
+    <value>TRAD_TDQ_COMMENT</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_DATASET" xml:space="preserve">
+    <value>TRAD_TDQ_DATASET</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_DATE_PROD" xml:space="preserve">
+    <value>TRAD_TDQ_DATE_PROD</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_DEMANDE_QUALIFID" xml:space="preserve">
+    <value>TRAD_TDQ_DEMANDE_QUALIFID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_NATURE" xml:space="preserve">
+    <value>TRAD_TDQ_NATURE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_NOM" xml:space="preserve">
+    <value>TRAD_TDQ_NOM</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_NUM_ORDRE" xml:space="preserve">
+    <value>TRAD_TDQ_NUM_ORDRE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_OBJECTIF" xml:space="preserve">
+    <value>TRAD_TDQ_OBJECTIF</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_TYPOLOGIE" xml:space="preserve">
+    <value>TRAD_TDQ_TYPOLOGIE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TDQ_VALEUR" xml:space="preserve">
+    <value>TRAD_TDQ_VALEUR</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TDQ_DEMANDE_QUALIFS_TD_DEMANDEID" xml:space="preserve">
+    <value>TRAD_TD_DEMANDEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_COMMENTAIRE_GESTIONNAIRE" xml:space="preserve">
+    <value>TRAD_TD_COMMENTAIRE_GESTIONNAIRE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_COMMENTAIRE_UTILISATEUR" xml:space="preserve">
+    <value>TRAD_TD_COMMENTAIRE_UTILISATEUR</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_AVIS_GESTIONNAIRE" xml:space="preserve">
+    <value>TRAD_TD_DATE_AVIS_GESTIONNAIRE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_DEMANDE" xml:space="preserve">
+    <value>Request date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_DERNIER_DOWNLOAD" xml:space="preserve">
+    <value>Last download date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_EXECUTION_SOUHAITEE" xml:space="preserve">
+    <value>Expected production date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_LIVRAISON" xml:space="preserve">
+    <value>Delivery date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DATE_PRISE_EN_CHARGE" xml:space="preserve">
+    <value>Pick-up date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DEMANDE_ORIGINEID" xml:space="preserve">
+    <value>TRAD_TD_DEMANDE_ORIGINEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_DUREE_PRODUCTION_REEL" xml:space="preserve">
+    <value>Production time</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_GUID" xml:space="preserve">
+    <value>TRAD_TD_GUID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_IGNORE_RESULT" xml:space="preserve">
+    <value>Results to ignore</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_INFO_RETOUR_TRAITEMENT" xml:space="preserve">
+    <value>Production information</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_PREREQUIS_DELAI_CHK" xml:space="preserve">
+    <value>Prerequisite timeout</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_QUALIF_BILAN" xml:space="preserve">
+    <value>Quality control</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_QUALIF_EXIST_FILE" xml:space="preserve">
+    <value>TRAD_TD_QUALIF_EXIST_FILE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_QUALIF_FILE_SIZE" xml:space="preserve">
+    <value>Collection size</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_RESULT_EXIST_FILE" xml:space="preserve">
+    <value>TRAD_TD_RESULT_EXIST_FILE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_RESULT_FILE_SIZE" xml:space="preserve">
+    <value>Result file size</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_RESULT_NB_DOWNLOAD" xml:space="preserve">
+    <value>Number of downloads</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_SEND_MAIL_CLIENT" xml:space="preserve">
+    <value>TRAD_TD_SEND_MAIL_CLIENT</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_SEND_MAIL_GESTIONNAIRE" xml:space="preserve">
+    <value>TRAD_TD_SEND_MAIL_GESTIONNAIRE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TD_SUSPEND_EXECUTION" xml:space="preserve">
+    <value>Request suspended</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TPF_PLANIF_ORIGINEID" xml:space="preserve">
+    <value>TRAD_TPF_PLANIF_ORIGINEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TRU_DEMANDEURID" xml:space="preserve">
+    <value>Applicant</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TRU_GESTIONNAIRE_VALIDEURID" xml:space="preserve">
+    <value>TRAD_TRU_GESTIONNAIRE_VALIDEURID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TSRV_SERVEURID" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TD_DEMANDES_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TEB_CMD" xml:space="preserve">
+    <value>Command</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TEB_DATE_CREATION" xml:space="preserve">
+    <value>Creation date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TEB_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TEB_ETAT_BATCHID" xml:space="preserve">
+    <value>ID batch</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TEB_NOM_AFFICHAGE" xml:space="preserve">
+    <value>Batch name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEB_ETAT_BATCHS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEL_ETAT_LOGICIELS_TEL_ETAT_LOGICIELID" xml:space="preserve">
+    <value>TRAD_TEL_ETAT_LOGICIELID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEL_ETAT_LOGICIELS_TE_ETATID" xml:space="preserve">
+    <value>TRAD_TE_ETATID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEL_ETAT_LOGICIELS_TL_LOGICIELID" xml:space="preserve">
+    <value>TRAD_TL_LOGICIELID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEMF_DATE_AJOUT" xml:space="preserve">
+    <value>TRAD_TEMF_DATE_AJOUT</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEMF_DATE_SUPPRESSION" xml:space="preserve">
+    <value>TRAD_TEMF_DATE_SUPPRESSION</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEMF_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEMF_ETAT_MASTER_FERMEID" xml:space="preserve">
+    <value>TRAD_TEMF_ETAT_MASTER_FERMEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEMF_ORDRE_PRIORITE" xml:space="preserve">
+    <value>TRAD_TEMF_ORDRE_PRIORITE</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TEM_ETAT_MASTERID" xml:space="preserve">
+    <value>TRAD_TEM_ETAT_MASTERID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEMF_ETAT_MASTER_FERMES_TF_FERMEID" xml:space="preserve">
+    <value>Farm</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TC_CATEGORIEID" xml:space="preserve">
+    <value>Category status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_DATE_CREATION" xml:space="preserve">
+    <value>Creation date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_ETAT_MASTERID" xml:space="preserve">
+    <value>TRAD_ID unité</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_ETAT_MASTER_PARENTID" xml:space="preserve">
+    <value>TRAD_TEM_ETAT_MASTER_PARENTID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_GUID" xml:space="preserve">
+    <value>TRAD_TEM_GUID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TEM_NOM_ETAT_MASTER" xml:space="preserve">
+    <value>DPU</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TP_PERIMETREID" xml:space="preserve">
+    <value>TRAD_TP_PERIMETREID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TRU_RESPONSABLE_FONCTIONNELID" xml:space="preserve">
+    <value>Point of contact</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEM_ETAT_MASTERS_TRU_RESPONSABLE_TECHNIQUEID" xml:space="preserve">
+    <value>Technical supervisor / manager</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_DATE_MAJ" xml:space="preserve">
+    <value>Update date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_ETAT_PREREQUISID" xml:space="preserve">
+    <value>Prerequisite</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_FILEPATTERN" xml:space="preserve">
+    <value>Pattern?</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_IS_PATTERN" xml:space="preserve">
+    <value>Existing pattern ? (Y/N)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_NATURE" xml:space="preserve">
+    <value>Nature</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TEP_PATH" xml:space="preserve">
+    <value>Path</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEP_ETAT_PREREQUISS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_CODE" xml:space="preserve">
+    <value>Code Label codification</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_CODE_ETIQUETTAGE_OBJ_ORDRE" xml:space="preserve">
+    <value>Display order of the Labeling code in the label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_CODE_PRC_ORDRE" xml:space="preserve">
+    <value>Display order of the Process code in the label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_CODE_PRM_ORDRE" xml:space="preserve">
+    <value>Display order of the Perimeter code in the label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_ETQ_CODIFID" xml:space="preserve">
+    <value>Label codification ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_INCREMENT_ORDRE" xml:space="preserve">
+    <value>Display order of increment in the label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_INCREMENT_TAILLE" xml:space="preserve">
+    <value>Number of digits of the increment</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_INCREMENT_VAL_INIT" xml:space="preserve">
+    <value>Initial increment value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TEQC_ETQ_CODIFS_TEQC_SEPARATEUR" xml:space="preserve">
+    <value>Separator between label components</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_ETAT_RESSOURCEID" xml:space="preserve">
+    <value>Resource name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_IS_PATTERN" xml:space="preserve">
+    <value>Pattern (Y/N)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_MODELE_DATE" xml:space="preserve">
+    <value>Template date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_MODELE_DOC" xml:space="preserve">
+    <value>Existing template</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_MODELE_TAILLE" xml:space="preserve">
+    <value>Template size</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_NOM_FICHIER" xml:space="preserve">
+    <value>Resource</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_NOM_MODELE" xml:space="preserve">
+    <value>Template</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TER_PATH_RELATIF" xml:space="preserve">
+    <value>Relative path: \documents\</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TER_ETAT_RESSOURCES_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_DATE_DEBUT" xml:space="preserve">
+    <value>Start date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_DATE_FIN" xml:space="preserve">
+    <value>End date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_ECHEANCE" xml:space="preserve">
+    <value>Due date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_ETQ_REGLEID" xml:space="preserve">
+    <value>Label rule</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_ETQ_REGLES_ACTION" xml:space="preserve">
+    <value>Action to perform</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_LIMITE_ATTEINTE" xml:space="preserve">
+    <value>Limit reached ? (Y/N)</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQR_REGLE_LIEE" xml:space="preserve">
+    <value>Linked rule</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TETQ_ETIQUETTEID" xml:space="preserve">
+    <value>Label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TOBJR_OBJET_REGLEID" xml:space="preserve">
+    <value>Label rule ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TRGLRV_REGLES_VALEURID" xml:space="preserve">
+    <value>Rule value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQR_ETQ_REGLES_TRGL_REGLEID" xml:space="preserve">
+    <value>Rule code</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_CODE" xml:space="preserve">
+    <value>Label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_DATE_CREATION" xml:space="preserve">
+    <value>Label creation date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_etq_is_public_access" xml:space="preserve">
+    <value>Accès public ?</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_DESC" xml:space="preserve">
+    <value>Label description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_ETIQUETTEID" xml:space="preserve">
+    <value>Label ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_INCREMENT" xml:space="preserve">
+    <value>Increment</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_LIB" xml:space="preserve">
+    <value>Label wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_PATTERN" xml:space="preserve">
+    <value>Pattern</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_PRM_VAL" xml:space="preserve">
+    <value>Perimeter value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TETQ_VERSION_ETQ" xml:space="preserve">
+    <value>Label version</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TOBJE_OBJET_ETIQUETTEID" xml:space="preserve">
+    <value>Labeled object</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TETQ_ETIQUETTES_TPRCP_PRC_PERIMETREID" xml:space="preserve">
+    <value>Perimeter</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TE_ETATS_PARENT_ETATID" xml:space="preserve">
+    <value>TRAD_PARENT_ETATID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TEM_ETAT_MASTERID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_DATE_DERNIERE_PRODUCTION" xml:space="preserve">
+    <value>Last production date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_DATE_REVISION" xml:space="preserve">
+    <value>Last review date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_DUREE_DERNIERE_PRODUCTION" xml:space="preserve">
+    <value>Last production time</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_DUREE_PRODUCTION_ESTIMEE" xml:space="preserve">
+    <value>Estimated production time</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_ENV_VIERGE_TAILLE" xml:space="preserve">
+    <value>Blank environment size</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_ENV_VIERGE_UPLOADED" xml:space="preserve">
+    <value>TRAD_Environnement vierge disponible</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_ETATID" xml:space="preserve">
+    <value>TRAD_ID version d'unité</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_GENERE_CUBE" xml:space="preserve">
+    <value>Generate / Produce a cube?</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_GUID" xml:space="preserve">
+    <value>TRAD_TE_GUID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_INDICE_REVISION_L1" xml:space="preserve">
+    <value>TRAD_TE_INDICE_REVISION_L1</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_INDICE_REVISION_L2" xml:space="preserve">
+    <value>TRAD_TE_INDICE_REVISION_L2</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_INDICE_REVISION_L3" xml:space="preserve">
+    <value>TRAD_TE_INDICE_REVISION_L3</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_INFO_REVISION" xml:space="preserve">
+    <value>Review information</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_NOM_DATABASE" xml:space="preserve">
+    <value>Database</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_NOM_ETAT" xml:space="preserve">
+    <value>Versioned DPU</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_NOM_SERVEUR_CUBE" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_SEND_MAIL_CLIENT" xml:space="preserve">
+    <value>TRAD_TE_SEND_MAIL_CLIENT</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_SEND_MAIL_GESTIONNAIRE" xml:space="preserve">
+    <value>TRAD_TE_SEND_MAIL_GESTIONNAIRE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TRST_STATUTID_OLD" xml:space="preserve">
+    <value>STATUTID OLD</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_TYPE_SORTIE" xml:space="preserve">
+    <value>TRAD_TE_TYPE_SORTIE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_VALIDATION_IMPLICITE" xml:space="preserve">
+    <value>TRAD_TE_VALIDATION_IMPLICITE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_VERSION" xml:space="preserve">
+    <value>Version</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TRU_DECLARANTID" xml:space="preserve">
+    <value>TRAD_Auteur de la saisie</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TRU_ENV_VIERGE_AUTEURID" xml:space="preserve">
+    <value>TRAD_Auteur de l'env. vierge</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TF_FERMES_TF_DESCR" xml:space="preserve">
+    <value>Long description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TF_FERMES_TF_EN_MAINTENANCE" xml:space="preserve">
+    <value>Under maintenance ? (Y/N)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TF_FERMES_TF_FERMEID" xml:space="preserve">
+    <value>ID Ferme</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TF_FERMES_TRST_STATUTID" xml:space="preserve">
+    <value>Farm status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_DATE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_DT_DEBUT_VALIDITE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_DT_FIN_VALIDITE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_IMG" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_INFOID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_MSG" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TI_MSG_EN" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TI_INFOS_TRST_STATUTID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_ACTION" xml:space="preserve">
+    <value>Action</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_FILENAME_PATTERN" xml:space="preserve">
+    <value>Pattern (Y/N)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_FILE_TYPE" xml:space="preserve">
+    <value>File type</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_INFO" xml:space="preserve">
+    <value>Information</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_LOGICIEL_EDITEUR_MODELEID" xml:space="preserve">
+    <value>TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_LOGICIEL_EDITEUR_MODELEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLEM_PATH_NAME" xml:space="preserve">
+    <value>Path</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLEM_LOGICIEL_EDITEUR_MODELES_TLE_LOGICIEL_EDITEURID" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLE_LOGICIEL_EDITEURS_TLE_EDITEUR" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TLE_LOGICIEL_EDITEURS_TLE_LOGICIEL_EDITEURID" xml:space="preserve">
+    <value>TRAD_TLE_LOGICIEL_EDITEURID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TL_LOGICIELS_TLE_LOGICIEL_EDITEURID" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TL_LOGICIELS_TL_DATE_LOGICIEL" xml:space="preserve">
+    <value>Date the software was added?</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TL_LOGICIELS_TL_LOGICIELID" xml:space="preserve">
+    <value>TRAD_TL_LOGICIELID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TL_LOGICIELS_TL_LOGICIEL_VERSION" xml:space="preserve">
+    <value>Software version</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TL_LOGICIELS_TL_NOM_LOGICIEL" xml:space="preserve">
+    <value>Software</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TOBF_OBJ_FORMATS_TOBF_CODE" xml:space="preserve">
+    <value>Object format</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBF_OBJ_FORMATS_TOBF_DESC" xml:space="preserve">
+    <value>Object format description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBF_OBJ_FORMATS_TOBF_LIB" xml:space="preserve">
+    <value>Object format wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBF_OBJ_FORMATS_TOBF_OBJ_FORMATID" xml:space="preserve">
+    <value>ID Format</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TDOM_DOMAINEID" xml:space="preserve">
+    <value>Domain</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TDOM_DOMAINEID_Required" xml:space="preserve">
+    <value>A value for {0} must be selected.</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TEQC_ETQ_CODIFID" xml:space="preserve">
+    <value>Label codification</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBF_OBJ_FORMATID" xml:space="preserve">
+    <value>Object format</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_CODE" xml:space="preserve">
+    <value>Labeled object</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_CODE_ETIQUETTAGE" xml:space="preserve">
+    <value>Object labelling code</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_CODE_ETIQUETTAGE_RegularExpression" xml:space="preserve">
+    <value>{0} contains a forbidden character.</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_DATE_CREATION" xml:space="preserve">
+    <value>Object creation date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_DESC" xml:space="preserve">
+    <value>Object description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_LIB" xml:space="preserve">
+    <value>Object wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_OBJET_ETIQUETTEID" xml:space="preserve">
+    <value>Labeled object ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_VERSION" xml:space="preserve">
+    <value>Labeled object version</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_VERSION_ETQ_DESC" xml:space="preserve">
+    <value>Version description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_VERSION_ETQ_STATUT" xml:space="preserve">
+    <value>Version status</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBJE_VERSION_ETQ_STATUT_Range" xml:space="preserve">
+    <value>{0} must be filled in.</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TOBN_OBJ_NATUREID" xml:space="preserve">
+    <value>Object nature</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TPRS_PROCESSUSID" xml:space="preserve">
+    <value>Process</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TPRS_PROCESSUSID_Required" xml:space="preserve">
+    <value>A value for {0} must be selected.</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJE_OBJET_ETIQUETTES_TRU_ACTEURID" xml:space="preserve">
+    <value>Player</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TOBJE_OBJET_ETIQUETTEID" xml:space="preserve">
+    <value>Labeled object</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TOBJR_APPLICABLE" xml:space="preserve">
+    <value>Applicable ? (Y/N)</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TOBJR_ECHEANCE_DUREE" xml:space="preserve">
+    <value>Deadline or duration</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TOBJR_ECHEANCE_DUREE_RANGE" xml:space="preserve">
+    <value>Is expected either no value or a value &gt; 0</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TOBJR_OBJET_REGLEID" xml:space="preserve">
+    <value>Object rule ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TRGLRV_REGLES_VALEURID" xml:space="preserve">
+    <value>Value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBJR_OBJET_REGLES_TRGL_REGLEID" xml:space="preserve">
+    <value>Rule code</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBN_OBJ_NATURES_TOBN_CODE" xml:space="preserve">
+    <value>Object nature</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBN_OBJ_NATURES_TOBN_DESC" xml:space="preserve">
+    <value>Object nature description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBN_OBJ_NATURES_TOBN_LIB" xml:space="preserve">
+    <value>Object type wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TOBN_OBJ_NATURES_TOBN_OBJ_NATUREID" xml:space="preserve">
+    <value>Nature ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TD_DEMANDEID" xml:space="preserve">
+    <value>Demande ID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TEP_ETAT_PREREQUISID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TE_ETATID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_DATE_LAST_CHECK" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_DATE_VALIDATION" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_MSG_LAST_CHECK" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_NB_FILE_TROUVE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_PREREQUIS_DEMANDEID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPD_PREREQUIS_DEMANDES_TPD_VALIDE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_CRON" xml:space="preserve">
+    <value>TRAD_TPF_CRON</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_DATE_DEBUT" xml:space="preserve">
+    <value>Start date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_DATE_FIN" xml:space="preserve">
+    <value>End date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_DEMANDE_ORIGINEID" xml:space="preserve">
+    <value>TRAD_TPF_DEMANDE_ORIGINEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_PLANIFID" xml:space="preserve">
+    <value>TRAD_TPF_PLANIFID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_PREREQUIS_DELAI_CHK" xml:space="preserve">
+    <value>Prerequisite timeout</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TPF_TIMEZONE_INFOID" xml:space="preserve">
+    <value>User time zone</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPF_PLANIFS_TRU_DECLARANTID" xml:space="preserve">
+    <value>Declarant</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPM_PARAMS_TPM_INFO" xml:space="preserve">
+    <value>TRAD_TPM_INFO</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPM_PARAMS_TPM_PARAMID" xml:space="preserve">
+    <value>TRAD_TPM_PARAMID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPM_PARAMS_TPM_VALEUR" xml:space="preserve">
+    <value>TRAD_TPM_VALEUR</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TDOM_DOMAINEID" xml:space="preserve">
+    <value>Domain</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_CODE" xml:space="preserve">
+    <value>Perimeter</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_DATE_CREATION" xml:space="preserve">
+    <value>Scope creation date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_DESC" xml:space="preserve">
+    <value>Perimeter description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_LIB" xml:space="preserve">
+    <value>Perimeter wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_PRC_PERIMETREID" xml:space="preserve">
+    <value>Perimeter ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_PRM_DYN" xml:space="preserve">
+    <value>Dynamic perimeter</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRS_PROCESSUSID" xml:space="preserve">
+    <value>Process</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TRU_ACTEURID" xml:space="preserve">
+    <value>Player</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TPR_PROFILS_TPR_LIB" xml:space="preserve">
+    <value>TRAD_TPR_LIB</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPR_PROFILS_TPR_PROFILID" xml:space="preserve">
+    <value>TRAD_TPR_PROFILID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPR_PROFILS_TRST_STATUTID" xml:space="preserve">
+    <value>TRAD_TRST_STATUTID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPS_PREREQUIS_SCENARIOS_TEP_ETAT_PREREQUISID" xml:space="preserve">
+    <value>Prerequisite</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPS_PREREQUIS_SCENARIOS_TPS_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPS_PREREQUIS_SCENARIOS_TPS_NB_FILE_MAX" xml:space="preserve">
+    <value>Maximum number of files</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPS_PREREQUIS_SCENARIOS_TPS_NB_FILE_MIN" xml:space="preserve">
+    <value>Minimum number of files</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPS_PREREQUIS_SCENARIOS_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TF_FERMEID" xml:space="preserve">
+    <value>Farm</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TPUF_DATE_MODIFICATION" xml:space="preserve">
+    <value>Modification date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TPUF_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TPUF_PARALLELEU_FERMEID" xml:space="preserve">
+    <value>TRAD_TPUF_PARALLELEU_FERMEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TPU_PARALLELEUID" xml:space="preserve">
+    <value>ParallelU instance name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUF_PARALLELEU_FERMES_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPUP_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPUP_KEY" xml:space="preserve">
+    <value>Setup key</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPUP_PARALLELEU_PARAMID" xml:space="preserve">
+    <value>TRAD_TPUP_PARALLELEU_PARAMID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPUP_TYPE" xml:space="preserve">
+    <value>Parameter type</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPUP_VALUE" xml:space="preserve">
+    <value>Value</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TPU_PARALLELEUID" xml:space="preserve">
+    <value>ParallelU instance name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPUP_PARALLELEU_PARAMS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_DATE_DERNIERE_ACTIVITE" xml:space="preserve">
+    <value>Last activity date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_DATE_PREMIERE_ACTIVITE" xml:space="preserve">
+    <value>Date of first activity</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_DUREE_EXPLOITATION" xml:space="preserve">
+    <value>Operating time</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_INSTANCE" xml:space="preserve">
+    <value>ParallelU instance name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TPU_PARALLELEUID" xml:space="preserve">
+    <value>TRAD_TPU_PARALLELEUID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TPU_PARALLELEUS_TSRV_SERVEURID" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TP_DATE_CREATION" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TP_LOGO" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TP_PERIMETRE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TP_PERIMETREID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TQM_QUALIF_MODELEID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TP_PERIMETRES_TRST_STATUTID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TQM_QUALIF_MODELES_TQM_LIB" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TQM_QUALIF_MODELES_TQM_QUALIF_MODELEID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TQM_QUALIF_MODELES_TQM_VALEUR_MAX" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TQM_QUALIF_MODELES_TQM_VALEUR_MIN" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRAPLAS_APPLICATIONS_AUTH_SCENARIOS_TRAPLAS_APPLICATIONS_AUTH_SCENARIOID" xml:space="preserve">
+    <value>TRAD_TRAPLAS_APPLICATIONS_AUTH_SCENARIOID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRAPLAS_APPLICATIONS_AUTH_SCENARIOS_TRAS_AUTH_SCENARIOID" xml:space="preserve">
+    <value>Authentication module name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRAPLAS_APPLICATIONS_AUTH_SCENARIOS_TRCLI_CLIENTAPPLICATIONID" xml:space="preserve">
+    <value>Application name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRAPL_APPLICATIONS_TRAPL_APPLICATIONID" xml:space="preserve">
+    <value>Application Id</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAPL_APPLICATIONS_TRAPL_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAPL_APPLICATIONS_TRAPL_LIB" xml:space="preserve">
+    <value>Wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TRAP_ATTENDU_PLANIFID" xml:space="preserve">
+    <value>ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TRAP_DATE_MODIF" xml:space="preserve">
+    <value>Modified on</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TRAP_STATUT" xml:space="preserve">
+    <value>Status</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TRA_ATTENDUID" xml:space="preserve">
+    <value>Expected</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TRP_PLANIFID" xml:space="preserve">
+    <value>Planning</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAP_ATTENDUS_PLANIFS_TTU_MODIFICATEURID" xml:space="preserve">
+    <value>Modified by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRAS_AUTH_SCENARIOS_TRAS_AUTH_SCENARIOID" xml:space="preserve">
+    <value>TRAD_TRAS_AUTH_SCENARIOID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRAS_AUTH_SCENARIOS_TRAS_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRAS_AUTH_SCENARIOS_TRAS_LABEL" xml:space="preserve">
+    <value>Module name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRAPL_APPLICATIONID" xml:space="preserve">
+    <value>Application</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_ATTENDUID" xml:space="preserve">
+    <value>Expected ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_AUTEUR" xml:space="preserve">
+    <value>Author</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_CODE" xml:space="preserve">
+    <value>Code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_COMMENTAIRE" xml:space="preserve">
+    <value>Comment</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_DEBUT_VALIDITE" xml:space="preserve">
+    <value>Start of validity of the expectation</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_DESTINATION" xml:space="preserve">
+    <value>Destination</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_DUREE_TRAITEMENT_MAX" xml:space="preserve">
+    <value>Max processing time</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_DUREE_TRAITEMENT_MIN" xml:space="preserve">
+    <value>Min processing time</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_FICHIER_AGE_MAX" xml:space="preserve">
+    <value>Max file age</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_FICHIER_AGE_MIN" xml:space="preserve">
+    <value>Min file age</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_FIN_VALIDITE" xml:space="preserve">
+    <value>End of validity of the expectation</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_MOTCLEF" xml:space="preserve">
+    <value>Key words</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_NB_LIGNES_ENTREE_MAX" xml:space="preserve">
+    <value>Max input lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_NB_LIGNES_ENTREE_MIN" xml:space="preserve">
+    <value>Min input lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_NB_LIGNES_SORTIE_MAX" xml:space="preserve">
+    <value>Max output lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_NB_LIGNES_SORTIE_MIN" xml:space="preserve">
+    <value>Min output lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_SOURCE" xml:space="preserve">
+    <value>Source</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_STATUT" xml:space="preserve">
+    <value>Status</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_TAILLE_FICHIER_ENTREE_MAX" xml:space="preserve">
+    <value>Max input file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_TAILLE_FICHIER_ENTREE_MIN" xml:space="preserve">
+    <value>Min input file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_TAILLE_FICHIER_SORTIE_MAX" xml:space="preserve">
+    <value>Max output file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRA_TAILLE_FICHIER_SORTIE_MIN" xml:space="preserve">
+    <value>Min Output file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRC_CONTRATID" xml:space="preserve">
+    <value>Contract</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRC_CRITICITEID" xml:space="preserve">
+    <value>Criticality</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRNF_NATURE_DESTINATIONID" xml:space="preserve">
+    <value>Destination nature</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRNF_NATURE_ORIGINEID" xml:space="preserve">
+    <value>Origin nature</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRNT_NATURE_TRAITEMENTID" xml:space="preserve">
+    <value>Treatment nature</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRR_RESULTATID" xml:space="preserve">
+    <value>Result</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRA_ATTENDUS_TRTT_TECHNO_TRAITEMENTID" xml:space="preserve">
+    <value>Treatment techno</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_CATALOG_CLAIMID" xml:space="preserve">
+    <value>TRAD_TRCCL_CATALOG_CLAIMID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_DESCRIPTION" xml:space="preserve">
+    <value>Value description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_KIND" xml:space="preserve">
+    <value>Authorisation type</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_VALUE" xml:space="preserve">
+    <value>Authorisation value</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCCL_VALUE_LABEL" xml:space="preserve">
+    <value>Authorisation wording</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCCL_CATALOG_CLAIMS_TRCL_CLAIMID" xml:space="preserve">
+    <value>Authorisation name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCLICL_CLAIM_VALUE" xml:space="preserve">
+    <value>Authorisation value</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCLICL_CLIENTAPPLICATION_CLAIMID" xml:space="preserve">
+    <value>TRAD_TRCLICL_CLIENTAPPLICATION_CLAIMID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCLICL_DESCRIPTION" xml:space="preserve">
+    <value>Assignment description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCLICL_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCLI_CLIENTAPPLICATIONID" xml:space="preserve">
+    <value>Application name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLICL_CLIENTAPPLICATIONS_CLAIMS_TRCL_CLAIMID" xml:space="preserve">
+    <value>Authorisation name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_AUTH_PUBLIC" xml:space="preserve">
+    <value>Application public ID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_AUTH_SECRET" xml:space="preserve">
+    <value>Application secret ID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_CLIENTAPPLICATIONID" xml:space="preserve">
+    <value>TRAD_TRCLI_CLIENTAPPLICATIONID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_DESCRIPTION" xml:space="preserve">
+    <value>Application description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_LABEL" xml:space="preserve">
+    <value>Application name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCLI_CLIENTAPPLICATIONS_TRCLI_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCL_CLAIMS_TRCLI_MULTIVALUE" xml:space="preserve">
+    <value>Multiple values accepted</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCL_CLAIMS_TRCL_CLAIMID" xml:space="preserve">
+    <value>TRAD_TRCL_CLAIMID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCL_CLAIMS_TRCL_CLAIM_DESCRIPTION" xml:space="preserve">
+    <value>Authorisation description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCL_CLAIMS_TRCL_CLAIM_NAME" xml:space="preserve">
+    <value>Authorisation name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRCL_CLAIMS_TRCL_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_CONTRATID" xml:space="preserve">
+    <value>Result Id</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_CONTRAT_CODE" xml:space="preserve">
+    <value>Contract code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_DATE_CREATION" xml:space="preserve">
+    <value>Creation date</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_DATE_MODIF" xml:space="preserve">
+    <value>Modification date</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_DATUM" xml:space="preserve">
+    <value>Datum</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_LIB" xml:space="preserve">
+    <value>Long wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_LIBC" xml:space="preserve">
+    <value>Short wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TRC_STATUT" xml:space="preserve">
+    <value>Status</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TTU_CREATEURID" xml:space="preserve">
+    <value>Created by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CONTRATS_TTU_MODIFICATEURID" xml:space="preserve">
+    <value>Modified by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CRITICITES_TRC_CRITICITEID" xml:space="preserve">
+    <value>Criticality ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CRITICITES_TRC_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRC_CRITICITES_TRC_LIB" xml:space="preserve">
+    <value>Wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TD_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TER_ETAT_RESSOURCEID" xml:space="preserve">
+    <value>Resource name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_FICHIER_PRESENT" xml:space="preserve">
+    <value>Existing file? (Y/N)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_NOM_FICHIER" xml:space="preserve">
+    <value>Resource</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_NOM_FICHIER_ORIGINAL" xml:space="preserve">
+    <value>Delivered resource</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_RESSOURCE_DEMANDEID" xml:space="preserve">
+    <value>TRAD_TRD_RESSOURCE_DEMANDEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRD_RESSOURCE_DEMANDES_TRD_TAILLE_FICHIER" xml:space="preserve">
+    <value>Size</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRGLI_REGLES_LIEES_TRGLRV_REGLES_VALEURID" xml:space="preserve">
+    <value>Reference rule</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLI_REGLES_LIEES_TRGLRV_REGLES_VALEURLIEEID" xml:space="preserve">
+    <value>Linked rules</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLI_REGLES_LIEES_TRGL_REGLELIEEID" xml:space="preserve">
+    <value>Linked rules ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TACT_ACTIONID" xml:space="preserve">
+    <value>Action</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_DEPART_LIMITE_TEMPS" xml:space="preserve">
+    <value>Departure time limit? (Y/N)</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_ORDRE_AFFICHAGE" xml:space="preserve">
+    <value>Display order</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_REGLES_VALEURID" xml:space="preserve">
+    <value>Rule value ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_VALEUR" xml:space="preserve">
+    <value>Value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_VALEUR_DEFAUT" xml:space="preserve">
+    <value>Default value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGLRV_VALEUR_ECHEANCE" xml:space="preserve">
+    <value>Value after deadline</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGLRV_REGLES_VALEURS_TRGL_REGLEID" xml:space="preserve">
+    <value>Rule</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGL_REGLES_TRGL_CODE_REGLE" xml:space="preserve">
+    <value>Rule code</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGL_REGLES_TRGL_DESC_REGLE" xml:space="preserve">
+    <value>Rule description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGL_REGLES_TRGL_LIB_REGLE" xml:space="preserve">
+    <value>Rule</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGL_REGLES_TRGL_LIMITE_TEMPS" xml:space="preserve">
+    <value>Time limit?</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRGL_REGLES_TRGL_REGLEID" xml:space="preserve">
+    <value>Rule ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TR_LNG_Languages_lng_code" xml:space="preserve">
+    <value>Language</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TR_LNG_Languages_lng_is_preferred_language" xml:space="preserve">
+    <value>Preferred language for platform</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRNF_NATURES_FLUX_TRNF_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRNF_NATURES_FLUX_TRNF_LIB" xml:space="preserve">
+    <value>Wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRNF_NATURES_FLUX_TRNF_NATURE_FLUXID" xml:space="preserve">
+    <value>Id nature of flow</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRNT_NATURES_TRAITEMENTS_TRNT_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRNT_NATURES_TRAITEMENTS_TRNT_LIB" xml:space="preserve">
+    <value>Wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRNT_NATURES_TRAITEMENTS_TRNT_NATURE_TRAITEMENTID" xml:space="preserve">
+    <value>Id nature of treatment</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_CRON" xml:space="preserve">
+    <value>Planning (CronTab)</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_DATE_DEBUT_PLANIF" xml:space="preserve">
+    <value>Starts on</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_DATE_FIN_PLANIF" xml:space="preserve">
+    <value>Ends on</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_PLANIFID" xml:space="preserve">
+    <value>Planning ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_STATUT" xml:space="preserve">
+    <value>Status</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TRP_TIMEZONE_INFOID" xml:space="preserve">
+    <value>User time zone</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TTU_CREATEURID" xml:space="preserve">
+    <value>Created by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRP_PLANIFS_TTU_MODIFICATEURID" xml:space="preserve">
+    <value>Modified by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRR_RESULTATS_TRR_CODE" xml:space="preserve">
+    <value>Code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRR_RESULTATS_TRR_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRR_RESULTATS_TRR_RESULTATID" xml:space="preserve">
+    <value>Result Id</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_INFO" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_INFO_EN" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE01" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE02" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE03" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE04" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE05" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE06" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE07" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE08" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE09" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_REGLE10" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRST_STATUTS_TRST_STATUTID" xml:space="preserve">
+    <value>ID Statut</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRS_RESSOURCE_SCENARIOS_TER_ETAT_RESSOURCEID" xml:space="preserve">
+    <value>Resource name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRS_RESSOURCE_SCENARIOS_TRS_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRS_RESSOURCE_SCENARIOS_TRS_FICHIER_OBLIGATOIRE" xml:space="preserve">
+    <value>Mandatory file?</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRS_RESSOURCE_SCENARIOS_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRTT_TECHNOS_TRAITEMENTS_TRTT_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRTT_TECHNOS_TRAITEMENTS_TRTT_LIB" xml:space="preserve">
+    <value>Wording</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRTT_TECHNOS_TRAITEMENTS_TRTT_TECHNO_TRAITEMENTID" xml:space="preserve">
+    <value>Techno Id</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TRTZ_TZS_TRTZ_INFO_TZ" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRTZ_TZS_TRTZ_PREFERED_TZ" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRTZ_TZS_TRTZ_TZID" xml:space="preserve">
+    <value>Time zone</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRCLI_CLIENTAPPLICATIONID" xml:space="preserve">
+    <value>Application</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRCL_CLAIMID" xml:space="preserve">
+    <value>Authorisation name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRUCL_CLAIM_VALUE" xml:space="preserve">
+    <value>Authorisation value</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRUCL_DESCRIPTION" xml:space="preserve">
+    <value>Assignment description</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRUCL_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRUCL_USER_CLAIMID" xml:space="preserve">
+    <value>TRAD_TRUCL_USER_CLAIMID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRUCL_USERS_CLAIMS_TRU_USERID" xml:space="preserve">
+    <value>User login</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_EMAIL" xml:space="preserve">
+    <value>Email</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_ALLOW_INTERNAL_AUTH" xml:space="preserve">
+    <value>Internal authentication</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_FIRST_NAME" xml:space="preserve">
+    <value>First Name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_FULLNAME" xml:space="preserve">
+    <value>User</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_LOGIN" xml:space="preserve">
+    <value>Login</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_NAME" xml:space="preserve">
+    <value>Name</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_PWD" xml:space="preserve">
+    <value>Password</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_STATUS" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRU_USERID" xml:space="preserve">
+    <value>Id user</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TETQ_ETIQUETTEID" xml:space="preserve">
+    <value>Label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TRU_ACTEURID" xml:space="preserve">
+    <value>Event originator</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TSEQ_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TSEQ_DATE_EVENEMENT" xml:space="preserve">
+    <value>Event date</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TSEQ_DESC" xml:space="preserve">
+    <value>Event description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TSEQ_SUIVI_EVENEMENT_ETQID" xml:space="preserve">
+    <value>Event ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSEQ_SUIVI_EVENEMENT_ETQS_TTE_TYPE_EVENEMENTID" xml:space="preserve">
+    <value>Event type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSL_SERVEUR_LOGICIELS_TL_LOGICIELID" xml:space="preserve">
+    <value>Software</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSL_SERVEUR_LOGICIELS_TSL_SERVEUR_LOGICIELID" xml:space="preserve">
+    <value>Software ?</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSL_SERVEUR_LOGICIELS_TSRV_SERVEURID" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSP_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSP_KEY" xml:space="preserve">
+    <value>Parameter key</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSP_SERVEUR_PARAMID" xml:space="preserve">
+    <value>TRAD_TSP_SERVEUR_PARAMID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSP_TYPE" xml:space="preserve">
+    <value>Parameter type</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSP_VALUE" xml:space="preserve">
+    <value>Value</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSP_SERVEUR_PARAMS_TSRV_SERVEURID" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_DATE_ACTIVATION" xml:space="preserve">
+    <value>Activation date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_DATE_DERNIERE_ACTIVITE" xml:space="preserve">
+    <value>Date of last activity</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_DESCR" xml:space="preserve">
+    <value>Description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_DUREE_EXPLOITATION" xml:space="preserve">
+    <value>Operating time</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_IP" xml:space="preserve">
+    <value>IP</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_NOM" xml:space="preserve">
+    <value>Name</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_OS" xml:space="preserve">
+    <value>OS</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSRV_SERVEURS_TSRV_SERVEURID" xml:space="preserve">
+    <value>ID Serveur</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TETQ_ETIQUETTEID" xml:space="preserve">
+    <value>Label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TETQ_ETIQUETTE_ENTREEID" xml:space="preserve">
+    <value>Entry label</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TSR_ENTREE" xml:space="preserve">
+    <value>Entry</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TSR_SUIVI_RESSOURCEID" xml:space="preserve">
+    <value>Resource Tracking ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TSR_VALEUR_ENTREE" xml:space="preserve">
+    <value>Entry value</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TSR_SUIVI_RESSOURCES_TTR_TYPE_RESSOURCEID" xml:space="preserve">
+    <value>Resource type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TE_ETATID" xml:space="preserve">
+    <value>DPU version ID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TRST_STATUTID" xml:space="preserve">
+    <value>Status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TS_DESCR" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TS_GUID" xml:space="preserve">
+    <value>TRAD_TS_GUID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TS_IS_DEFAULT" xml:space="preserve">
+    <value>TRAD_TS_IS_DEFAULT</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TS_NOM_SCENARIO" xml:space="preserve">
+    <value>Module</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TS_SCENARIOS_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TRU_USERID" xml:space="preserve">
+    <value>Utilisateur</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TTAU_AUTHENTIFICATIONID" xml:space="preserve">
+    <value>TRAD_TTAU_AUTHENTIFICATIONID</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TTAU_AUTH_CODE" xml:space="preserve">
+    <value>TRAD_TTAU_AUTH_CODE</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TTAU_AUTH_CODE_EXP" xml:space="preserve">
+    <value>TRAD_TTAU_AUTH_CODE_EXP</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TTAU_REFRESH_TOKEN" xml:space="preserve">
+    <value>TRAD_TTAU_REFRESH_TOKEN</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTAU_AUTHENTIFICATIONS_TTAU_REFRESH_TOKEN_EXP" xml:space="preserve">
+    <value>TRAD_TTAU_REFRESH_TOKEN_EXP</value>
+    <comment>univers - Authent</comment>
+  </data>
+  <data name="Display_TTDOM_TYPE_DOMAINES_TTDOM_CODE" xml:space="preserve">
+    <value>Domain type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTDOM_TYPE_DOMAINES_TTDOM_DESC" xml:space="preserve">
+    <value>Domain type description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTDOM_TYPE_DOMAINES_TTDOM_LIB" xml:space="preserve">
+    <value>Domain type wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTDOM_TYPE_DOMAINES_TTDOM_TYPE_DOMAINEID" xml:space="preserve">
+    <value>Domain type ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTE_TYPE_EVENEMENTS_TTE_CODE" xml:space="preserve">
+    <value>Event code type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTE_TYPE_EVENEMENTS_TTE_DESC" xml:space="preserve">
+    <value>Event type description</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTE_TYPE_EVENEMENTS_TTE_LIB" xml:space="preserve">
+    <value>Event type wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTE_TYPE_EVENEMENTS_TTE_TYPE_EVENEMENTID" xml:space="preserve">
+    <value>Event type ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TRA_ATTENDUID" xml:space="preserve">
+    <value>ID expected</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TRA_CODE" xml:space="preserve">
+    <value>Code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TRC_CONTRAT_CODE" xml:space="preserve">
+    <value>Contract code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTED_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_CODE_ANOMALIE" xml:space="preserve">
+    <value>Error code</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_DATE_DEBUT" xml:space="preserve">
+    <value>Start date</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_DATE_FIN" xml:space="preserve">
+    <value>End</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_DYNAMIC_OBJECT" xml:space="preserve">
+    <value>Dynamic content (Json)</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_FICHIER_ACTEUR_MODIF" xml:space="preserve">
+    <value>Edited by</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_FICHIER_DATE_MODIF" xml:space="preserve">
+    <value>Edition date</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_FICHIER_SOURCE" xml:space="preserve">
+    <value>Source file</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_GROUPEID" xml:space="preserve">
+    <value>Group ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_INFO" xml:space="preserve">
+    <value>Information</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_LOGID" xml:space="preserve">
+    <value>Log ID</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_NB_LIGNES_ENTREE" xml:space="preserve">
+    <value>Input Nb of lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_NB_LIGNES_SORTIE" xml:space="preserve">
+    <value>Output Nb of lines</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_RESULTAT" xml:space="preserve">
+    <value>Result</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_TAILLE_FICHIER_ENTREE" xml:space="preserve">
+    <value>Input file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTL_LOGS_TTL_TAILLE_FICHIER_SORTIE" xml:space="preserve">
+    <value>Output file size</value>
+    <comment>MSO</comment>
+  </data>
+  <data name="Display_TTR_TYPE_RESSOURCES_TTR_TYPE_ENTREE" xml:space="preserve">
+    <value>Entry type</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTR_TYPE_RESSOURCES_TTR_TYPE_ENTREE_DESC" xml:space="preserve">
+    <value>Entry typedescription</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTR_TYPE_RESSOURCES_TTR_TYPE_ENTREE_LIB" xml:space="preserve">
+    <value>Entry type wording</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TTR_TYPE_RESSOURCES_TTR_TYPE_RESSOURCEID" xml:space="preserve">
+    <value>Entry type ID</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_CATEGORIE" xml:space="preserve">
+    <value>Category</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_CODE_STATUT_DEMANDE" xml:space="preserve">
+    <value>Status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_DEMANDEUR" xml:space="preserve">
+    <value>Applicant</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_NB_RESSOURCES" xml:space="preserve">
+    <value>Resources number</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_REFERENT" xml:space="preserve">
+    <value>Point of contact</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_REFERENT_TECH" xml:space="preserve">
+    <value>Technical supervisor / manager</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_STATUT_DEMANDE_EN" xml:space="preserve">
+    <value>Request status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_STATUT_DEMANDE_FR" xml:space="preserve">
+    <value>Request status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_STATUT_ETAT_EN" xml:space="preserve">
+    <value>DPU status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_STATUT_ETAT_FR" xml:space="preserve">
+    <value>DPU status</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TBD_CODE_RETOUR" xml:space="preserve">
+    <value>Batch error code</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_COMMENTAIRE_GESTIONNAIRE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_COMMENTAIRE_UTILISATEUR" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_AVIS_GESTIONNAIRE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_DEMANDE" xml:space="preserve">
+    <value>Request date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_DERNIER_DOWNLOAD" xml:space="preserve">
+    <value>Last download date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_EXECUTION_SOUHAITEE" xml:space="preserve">
+    <value>Expected production date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_LIVRAISON" xml:space="preserve">
+    <value>Delivery date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_PIVOT" xml:space="preserve">
+    <value>Delivery date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DATE_PRISE_EN_CHARGE" xml:space="preserve">
+    <value>Pick-up date</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DEMANDE_ORIGINEID" xml:space="preserve">
+    <value>TRAD_TD_DEMANDE_ORIGINEID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_DUREE_PRODUCTION_REEL" xml:space="preserve">
+    <value>Processing duration</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_GUID" xml:space="preserve">
+    <value>ID technique</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_IGNORE_RESULT" xml:space="preserve">
+    <value>Results to ignore</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_INFO_RETOUR_TRAITEMENT" xml:space="preserve">
+    <value>Production information</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_PREREQUIS_DELAI_CHK" xml:space="preserve">
+    <value>Prerequisite timeout</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_QUALIF_BILAN" xml:space="preserve">
+    <value>Control</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_QUALIF_EXIST_FILE" xml:space="preserve">
+    <value>TRAD_TD_QUALIF_EXIST_FILE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_QUALIF_FILE_SIZE" xml:space="preserve">
+    <value>Collection size</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_RESULT_EXIST_FILE" xml:space="preserve">
+    <value>TRAD_TD_RESULT_EXIST_FILE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_RESULT_FILE_SIZE" xml:space="preserve">
+    <value>Result file size</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_RESULT_NB_DOWNLOAD" xml:space="preserve">
+    <value>TRAD_TD_RESULT_NB_DOWNLOAD</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_SEND_MAIL_CLIENT" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_SEND_MAIL_GESTIONNAIRE" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TD_SUSPEND_EXECUTION" xml:space="preserve">
+    <value>Request suspended</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TE_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_TE_COMMENTAIRE</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TE_ETATID" xml:space="preserve">
+    <value>TRAD_TE_ETATID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TE_NOM_ETAT" xml:space="preserve">
+    <value>DPU</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TE_NOM_ETAT_VERSION" xml:space="preserve">
+    <value>DPU - Version</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TPF_PLANIF_ORIGINEID" xml:space="preserve">
+    <value>TRAD_TPF_PLANIF_ORIGINEID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TRU_DEMANDEURID" xml:space="preserve">
+    <value>Applicant</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TRU_GESTIONNAIRE_VALIDEURID" xml:space="preserve">
+    <value>NON exploité -</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TSRV_NOM" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TSRV_SERVEURID" xml:space="preserve">
+    <value>Serveur</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TS_DESCR" xml:space="preserve">
+    <value>Module description</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TS_NOM_SCENARIO" xml:space="preserve">
+    <value>Module</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_VERSION" xml:space="preserve">
+    <value>DPU version</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TD_DEMANDEID" xml:space="preserve">
+    <value>Delivered resource</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_COMMENTAIRE" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_ETAT_RESSOURCEID" xml:space="preserve">
+    <value>TRAD_TER_ETAT_RESSOURCEID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_IS_PATTERN" xml:space="preserve">
+    <value>Existing pattern ? (Y/N)</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_MODELE_DOC" xml:space="preserve">
+    <value>Existing template</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_NOM_FICHIER" xml:space="preserve">
+    <value>Resource</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TER_NOM_MODELE" xml:space="preserve">
+    <value>Template</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TE_ETATID" xml:space="preserve">
+    <value>TRAD_TE_ETATID</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TRD_NOM_FICHIER_ORIGINAL" xml:space="preserve">
+    <value>Delivered resource</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TRD_TAILLE_FICHIER" xml:space="preserve">
+    <value>Siez</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_RESSOURCES_TRS_FICHIER_OBLIGATOIRE" xml:space="preserve">
+    <value>Mandatory file?</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_DECLARANT" xml:space="preserve">
+    <value>DECLARANT</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_NB_RESSOURCES" xml:space="preserve">
+    <value>Number of resources</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_PLANIF_STATUTID" xml:space="preserve">
+    <value>Planning status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_SCENARIO_STATUTID" xml:space="preserve">
+    <value>Module status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TD_COMMENTAIRE_UTILISATEUR" xml:space="preserve">
+    <value>Comment / Commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TD_DEMANDEID" xml:space="preserve">
+    <value>Request number</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_CRON" xml:space="preserve">
+    <value>CRON</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_DATE_DEBUT" xml:space="preserve">
+    <value>Start date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_DATE_FIN" xml:space="preserve">
+    <value>End date</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_DEMANDE_ORIGINEID" xml:space="preserve">
+    <value>TPF_DEMANDE_ORIGINEID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_PLANIFID" xml:space="preserve">
+    <value>PLANIFID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_PREREQUIS_DELAI_CHK" xml:space="preserve">
+    <value>Prerequisite timeout</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TPF_TIMEZONE_INFOID" xml:space="preserve">
+    <value>User time zone</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TRU_DECLARANTID" xml:space="preserve">
+    <value>TRU_DECLARANTID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPD_PLANIF_DETAILS_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_CATEGORIE" xml:space="preserve">
+    <value>Category</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_ELIGIBLE" xml:space="preserve">
+    <value>Eligible</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_REFERENT" xml:space="preserve">
+    <value>Point of contact</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_REFERENT_TECH" xml:space="preserve">
+    <value>Technical supervisor / manager</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_STATUT_ETAT_EN" xml:space="preserve">
+    <value>DPU status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_STATUT_ETAT_FR" xml:space="preserve">
+    <value>DPU status</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TEM_NOM_ETAT_MASTER" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TE_COMMENTAIRE" xml:space="preserve">
+    <value>DPU comment / commentary</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TE_ETATID" xml:space="preserve">
+    <value>TE_ETATID</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TE_NOM_ETAT" xml:space="preserve">
+    <value>Versioned DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TE_NOM_ETAT_VERSION" xml:space="preserve">
+    <value>DPU (version)</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TS_DESCR" xml:space="preserve">
+    <value>Module description</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TS_NOM_SCENARIO" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_TS_SCENARIOID" xml:space="preserve">
+    <value>Module</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VPE_PLANIF_ENTETES_VERSION" xml:space="preserve">
+    <value>Version</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VSCU_CTRL_STRUCTURE_UPLOADS_TE_ETATID" xml:space="preserve">
+    <value>DPU</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VSCU_CTRL_STRUCTURE_UPLOADS_TLEM_ACTION" xml:space="preserve">
+    <value>Action to control</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VSCU_CTRL_STRUCTURE_UPLOADS_TLEM_FILENAME_PATTERN" xml:space="preserve">
+    <value>Pattern</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VSCU_CTRL_STRUCTURE_UPLOADS_TLEM_FILE_TYPE" xml:space="preserve">
+    <value>Resource extension</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="Display_VSCU_CTRL_STRUCTURE_UPLOADS_TLEM_PATH_NAME" xml:space="preserve">
+    <value>Storage path</value>
+    <comment>UNIVERS</comment>
+  </data>
+  <data name="MIN_MAX_LENGTH" xml:space="preserve">
+    <value>The {0} field must be between {2} and {1} characters.</value>
+    <comment>Transverse</comment>
+  </data>
+  <data name="REQUIRED" xml:space="preserve">
+    <value>The {0} field is required.</value>
+    <comment>transverse</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_DATE_INITIALISATION" xml:space="preserve">
+    <value>TRAD_Date d'initialisation</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_DROIT_CONCERNE" xml:space="preserve">
+    <value>TRAD_Profil</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_EST_HABILITE" xml:space="preserve">
+    <value>TRAD_Est Habilité ?</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_HABILITATIONID" xml:space="preserve">
+    <value>TH_HABILITATIONS_TH_HABILITATIONID</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_HERITE_HABILITATIONID" xml:space="preserve">
+    <value> *NOT USED*</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TH_MAJ_DATE" xml:space="preserve">
+    <value>TRAD_Date mise à jour</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TRST_STATUTID" xml:space="preserve">
+    <value>TRAD_Statut d'association</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TRU_INITIALISATION_AUTEURID" xml:space="preserve">
+    <value>TRAD_Attributeur initial</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TRU_MAJ_AUTEURID" xml:space="preserve">
+    <value>TRAD_Dernier modificateur</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TRU_USERID" xml:space="preserve">
+    <value>TRAD_Utilisateurs</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TSG_SCENARIO_GPEID" xml:space="preserve">
+    <value>TRAD_Groupe de module</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TS_SCENARIOID" xml:space="preserve">
+    <value>TRAD_Module</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TH_HABILITATIONS_TTE_TEAMID" xml:space="preserve">
+    <value>TRAD_Groupe d'utilisateurs</value>
+    <comment>DataDriven_UNIVERS</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_FULLNAME" xml:space="preserve">
+    <value>DPU</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_ENV_VIERGE_DATE_DIAG_VALIDE" xml:space="preserve">
+    <value>TRAD_Date de dernier diagnostic avec réussite de l'env. vierge (création du zip)</value>
+    <comment>univers DTM</comment>
+  </data>
+  <data name="Display_TE_ETATS_TE_ENV_VIERGE_DATE_MODIF_HORS_ZIP" xml:space="preserve">
+    <value>TRAD_Date de dernière modification des fichiers des l'env.vierge (hors Zip)</value>
+    <comment>univers DTM</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_COMMANDEID" xml:space="preserve">
+    <value>TRAD_n°Commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_CLOTURE" xml:space="preserve">
+    <value>TRAD_date de cloture</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_CREATION" xml:space="preserve">
+    <value>TRAD_Date création</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_LIVRAISON" xml:space="preserve">
+    <value>TRAD_date de livraison souhaitée</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_LIVRAISON_SOUHAITEE" xml:space="preserve">
+    <value>TRAD_date de livraison souhaitée</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_MODIF" xml:space="preserve">
+    <value>TRAD_date de dernière modification</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_PASSAGE_CMD" xml:space="preserve">
+    <value>TRAD_Date de passage de commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_PREVISIONNELLE_LIVRAISON" xml:space="preserve">
+    <value>TRAD_date prévisionnelle de livraison</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_DATE_PRISE_EN_CHARGE" xml:space="preserve">
+    <value>TRAD_date de prise en charge fournisseur</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_MC_MODE_CREATIONID" xml:space="preserve">
+    <value>TRAD_Mode de création</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_ORIGINEID" xml:space="preserve">
+    <value>TRAD_Commande d'origine</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TCMD_PH_PHASEID" xml:space="preserve">
+    <value>TRAD_Phase</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TDOM_DOMAINEID" xml:space="preserve">
+    <value>TRAD_Domaine</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TE_ETATID" xml:space="preserve">
+    <value>TRAD_UTD</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TRU_COMMANDITAIREID" xml:space="preserve">
+    <value>TRAD_Commanditaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TRU_EXPLOITANTID" xml:space="preserve">
+    <value>TRAD_Traité par</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_COMMANDES_TS_SCENARIOID" xml:space="preserve">
+    <value>TRAD_Module</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_CR_CMD_RAISON_PHASES_TCMD_CR_CMD_RAISON_PHASEID" xml:space="preserve">
+    <value>TRAD_ID</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_CR_CMD_RAISON_PHASES_TCMD_RP_RAISON_PHASEID" xml:space="preserve">
+    <value>TRAD_Raison</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_CR_CMD_RAISON_PHASES_TCMD_SP_SUIVI_PHASEID" xml:space="preserve">
+    <value>TRAD_Phase</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TCMD_COMMANDEID" xml:space="preserve">
+    <value>TRAD_n°Commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TCMD_DA_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TCMD_DA_DATE_ASSOCIATION" xml:space="preserve">
+    <value>TRAD_Date d'association</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TCMD_DA_DEMANDES_ASSOCIEEID" xml:space="preserve">
+    <value>TRAD_ID</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TCMD_DA_VERSION_NOTABLE" xml:space="preserve">
+    <value>TRAD_Notable</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TD_DEMANDEID" xml:space="preserve">
+    <value>TRAD_n°Demande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DA_DEMANDES_ASSOCIEES_TRU_AUTEURID" xml:space="preserve">
+    <value>TRAD_Attribué par</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_COMMANDEID" xml:space="preserve">
+    <value>TRAD_n°Commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_DOC_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_DOC_DATE" xml:space="preserve">
+    <value>TRAD_Date d'upload</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_DOC_DOCUMENTID" xml:space="preserve">
+    <value>TRAD_ID Doc</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_DOC_FILENAME" xml:space="preserve">
+    <value>TRAD_Nom du fichier</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_TD_TYPE_DOCUMENTID" xml:space="preserve">
+    <value>TRAD_Type Doc</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_MC_MODE_CREATIONS_TCMD_MC_CODE" xml:space="preserve">
+    <value>TRAD_Code</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_MC_MODE_CREATIONS_TCMD_MC_LIB_EN" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_MC_MODE_CREATIONS_TCMD_MC_LIB_FR" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_MC_MODE_CREATIONS_TCMD_MC_MODE_CREATIONID" xml:space="preserve">
+    <value>TRAD_ID mode création</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_PH_PHASES_TCMD_PH_CODE" xml:space="preserve">
+    <value>TRAD_Code</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_PH_PHASES_TCMD_PH_LIB_EN" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_PH_PHASES_TCMD_PH_LIB_FR" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_PH_PHASES_TCMD_PH_PHASEID" xml:space="preserve">
+    <value>TRAD_Phase</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_RP_RAISON_PHASES_TCMD_PH_PHASEID" xml:space="preserve">
+    <value>TRAD_Phase</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_RP_RAISON_PHASES_TCMD_RP_LIB_EN" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_RP_RAISON_PHASES_TCMD_RP_LIB_FR" xml:space="preserve">
+    <value>TRAD_Libellé</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_RP_RAISON_PHASES_TCMD_RP_RAISON_PHASEID" xml:space="preserve">
+    <value>TRAD_Raison</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_COMMANDEID" xml:space="preserve">
+    <value>TRAD_n°Commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_PH_PHASE_APRESID" xml:space="preserve">
+    <value>TRAD_Nouvelle Phase</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_PH_PHASE_AVANTID" xml:space="preserve">
+    <value>TRAD_Phase origine</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_SP_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_SP_DATE_MODIF" xml:space="preserve">
+    <value>TRAD_Date de modification</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TCMD_SP_SUIVI_PHASEID" xml:space="preserve">
+    <value>TRAD_ID</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_SP_SUIVI_PHASES_TRU_AUTEUR_MODIFID" xml:space="preserve">
+    <value>TRAD_Auteur</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_TD_TYPE_DOCUMENTS_TCMD_TD_COMMENTAIRE" xml:space="preserve">
+    <value>TRAD_Commentaire</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_TD_TYPE_DOCUMENTS_TCMD_TD_TYPE" xml:space="preserve">
+    <value>TRAD_Type Doc</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TCMD_TD_TYPE_DOCUMENTS_TCMD_TD_TYPE_DOCUMENTID" xml:space="preserve">
+    <value>TRAD_ID</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TDC_DEMANDES_COMMANDES_TCMD_COMMANDEID" xml:space="preserve">
+    <value>TRAD_n°Commande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TDC_DEMANDES_COMMANDES_TDC_DEMANDES_COMMANDEID" xml:space="preserve">
+    <value>TRAD_ID</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TDC_DEMANDES_COMMANDES_TD_DEMANDEID" xml:space="preserve">
+    <value>TRAD_n°Demande</value>
+    <comment>univers - CMD</comment>
+  </data>
+  <data name="Display_TPRCP_PRC_PERIMETRES_TPRCP_ALLOW_DTS_ACCESS" xml:space="preserve">
+    <value>TRAD_Visible dans DTS ?</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRLG_LNGID" xml:space="preserve">
+    <value>Language</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TRU_USERS_TRTZ_TZID" xml:space="preserve">
+    <value>TimeZone</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_VDE_DEMANDES_ETENDUES_TC_CATEGORIEID" xml:space="preserve">
+    <value>ID Catégorie</value>
+    <comment>univers</comment>
+  </data>
+  <data name="Display_TCMD_DOC_DOCUMENTS_TCMD_DOC_TAILLE" xml:space="preserve">
+    <value>File size</value>
+    <comment>univers CMD</comment>
+  </data>
+  <data name="Display_TCMD_PH_PHASES_TCMD_PH_DELAI_RECYCLAGE" xml:space="preserve">
+    <value>Recycling period</value>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_etiquette_id" xml:space="preserve">
+    <value>Etiquette</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_user_id" xml:space="preserve">
+    <value>Utilisateur</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_status_id" xml:space="preserve">
+    <value>Statut</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_initializing_user_id" xml:space="preserve">
+    <value>Créé par</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_initializing_date" xml:space="preserve">
+    <value>Créé le</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_comments" xml:space="preserve">
+    <value>Commentaire</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_update_by" xml:space="preserve">
+    <value>Mis à jour par</value>
+    <comment>Mis à jour par</comment>
+  </data>
+  <data name="Display_ETQ_TM_AET_Authorization_aet_update_date" xml:space="preserve">
+    <value>Mis à jour le</value>
+    <comment>ETQ</comment>
+  </data>
+  <data name="Display_REF_DbConnection_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Display_REF_DbConnection_creation_date" xml:space="preserve">
+    <value>Creation date</value>
+  </data>
+  <data name="Display_REF_DbConnection_database_name" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Display_REF_DbConnection_database_type" xml:space="preserve">
+    <value>Type Bdd</value>
+  </data>
+  <data name="Display_REF_DbConnection_is_active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Display_REF_DbConnection_label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="Display_REF_DbConnection_login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Display_REF_DbConnection_password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Display_REF_DbConnection_server" xml:space="preserve">
+    <value>Server name or ip</value>
+  </data>
+  <data name="Display_REF_DbConnection_server_port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Display_REF_Historical_label_code" xml:space="preserve">
+    <value>Label code</value>
+  </data>
+  <data name="Display_REF_Historical_process_status" xml:space="preserve">
+    <value>Process status</value>
+  </data>
+  <data name="Display_REF_Historical_process_type" xml:space="preserve">
+    <value>Process type</value>
+  </data>
+  <data name="Display_REF_Historical_status_code" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Display_REF_Historical_table_description" xml:space="preserve">
+    <value>Table Description</value>
+  </data>
+  <data name="Display_REF_Historical_table_functional_name" xml:space="preserve">
+    <value>Functional table name</value>
+  </data>
+  <data name="Display_REF_Historical_table_name" xml:space="preserve">
+    <value>Table name</value>
+  </data>
+  <data name="Display_REF_Historical_update_by" xml:space="preserve">
+    <value>Update by</value>
+  </data>
+  <data name="Display_REF_Historical_update_date" xml:space="preserve">
+    <value>Update date</value>
+  </data>
+  <data name="Display_REF_Settings_connection" xml:space="preserve">
+    <value>Database connection</value>
+  </data>
+  <data name="Display_REF_Settings_created_by" xml:space="preserve">
+    <value>Creation by</value>
+  </data>
+  <data name="Display_REF_Settings_creation_date" xml:space="preserve">
+    <value>Creation date</value>
+  </data>
+  <data name="Display_REF_Settings_data_cloned_in_progress_list" xml:space="preserve">
+    <value>Cloned Data list in Progress</value>
+  </data>
+  <data name="Display_REF_Settings_data_stewart" xml:space="preserve">
+    <value>Data Stewart</value>
+  </data>
+  <data name="Display_REF_Settings_Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="Display_REF_Settings_error_message" xml:space="preserve">
+    <value>Error message</value>
+  </data>
+  <data name="Display_REF_Settings_is_backup_needed" xml:space="preserve">
+    <value>Rollback</value>
+  </data>
+  <data name="Display_REF_Settings_is_update_send_to_gdb" xml:space="preserve">
+    <value>Table Data sent to GDB</value>
+  </data>
+  <data name="Display_REF_Settings_label_code" xml:space="preserve">
+    <value>Label code</value>
+  </data>
+  <data name="Display_REF_Settings_label_code_field_name" xml:space="preserve">
+    <value>Label code field name</value>
+  </data>
+  <data name="Display_REF_Settings_job_scenario_id" xml:space="preserve">
+    <value>Request id</value>
+  </data>
+  <data name="Display_REF_Settings_schema" xml:space="preserve">
+    <value>Schema</value>
+  </data>
+  <data name="Display_REF_Settings_send_to_gdb_date" xml:space="preserve">
+    <value>Table Data sent to GDB Date</value>
+  </data>
+  <data name="Display_REF_Settings_status_code" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_approval_date" xml:space="preserve">
+    <value>Data approval date</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_approved" xml:space="preserve">
+    <value>Data approved</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_approved_by" xml:space="preserve">
+    <value>Data approved by</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_max_rows_expected_to_receive" xml:space="preserve">
+    <value>Max rows expected to receive</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_max_rows_expected_to_send" xml:space="preserve">
+    <value>Max rows expected to send</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_min_rows_expected_to_send" xml:space="preserve">
+    <value>Min rows expected to send</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_need_to_refreshed" xml:space="preserve">
+    <value>Data need to refreshed</value>
+  </data>
+  <data name="Display_REF_Settings_table_data_to_approuve" xml:space="preserve">
+    <value>Data to approve</value>
+  </data>
+  <data name="Display_REF_Settings_table_description" xml:space="preserve">
+    <value>Table description</value>
+  </data>
+  <data name="Display_REF_Settings_table_functional_name" xml:space="preserve">
+    <value>Table functional name</value>
+  </data>
+  <data name="Display_REF_Settings_table_last_refresh_date" xml:space="preserve">
+    <value>Table Data last refresh date</value>
+  </data>
+  <data name="Display_REF_Settings_table_name" xml:space="preserve">
+    <value>Table name</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_criteria" xml:space="preserve">
+    <value>Table query criteria</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_delete" xml:space="preserve">
+    <value>Table query Delete</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_insert" xml:space="preserve">
+    <value>Table query Insert</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_select" xml:space="preserve">
+    <value>Table query Select</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_update" xml:space="preserve">
+    <value>Table query Update</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_update_columns" xml:space="preserve">
+    <value>Table query Update Columns</value>
+  </data>
+  <data name="Display_REF_Settings_table_query_update_keys" xml:space="preserve">
+    <value>Table query Update Column Keys</value>
+  </data>
+  <data name="Display_REF_Settings_table_typology" xml:space="preserve">
+    <value>Table typology</value>
+  </data>
+  <data name="Display_REF_Settings_update_by" xml:space="preserve">
+    <value>Updated by</value>
+  </data>
+  <data name="Display_REF_Settings_update_date" xml:space="preserve">
+    <value>Update date</value>
+  </data>
+  <data name="Display_TR_LNG_Languages_lng_id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Display_TR_LNG_Languages_lng_label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_lng_code" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_additional_code" xml:space="preserve">
+    <value>Code Bis</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_comments" xml:space="preserve">
+    <value>Commentaire</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_created_by" xml:space="preserve">
+    <value>Crée par</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_creation_date" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_body" xml:space="preserve">
+    <value>Corps du mail</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_footer" xml:space="preserve">
+    <value>Pied de mail</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_importance" xml:space="preserve">
+    <value>Importance</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_recipients" xml:space="preserve">
+    <value>Destinataire(s)</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_recipients_in_bcc" xml:space="preserve">
+    <value>Destinataire(s) en copie cachée</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_recipients_in_cc" xml:space="preserve">
+    <value>Destinataire(s) en copie</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_email_subject" xml:space="preserve">
+    <value>Objet</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_update_by" xml:space="preserve">
+    <value>Mise à jour par</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_mel_update_date" xml:space="preserve">
+    <value>Mise à jour le</value>
+  </data>
+  <data name="Display_TR_MEL_EMail_Templates_sta_code" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Display_REF_Settings_scenario_id" xml:space="preserve">
+    <value>UTD - Module</value>
+  </data>
+</root>

@@ -1,0 +1,207 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width="1200px"
+          MinHeight="320px"
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @if (Order.TCMD_COMMANDEID.Equals(default))
+            {
+                @Trad.Keys["DTS:OrderCreation"]
+            }
+            else
+            {
+                @string.Format(Trad.Keys["DTS:OrderEdition"], Order.TCMD_COMMANDEID)
+            }
+        </Header>
+
+        <Content>
+            <SfSpinner @bind-Visible=_isBusy />
+
+            @if (_canChangeCreationMode)
+            {
+                <div class="row">
+                    <div class="col">
+                        <SfRadioButton @bind-Checked=_checkedValue
+                                       Label=@Trad.Keys["DTS:ByDomain"]
+                                       Name=@_buttonName
+                                       Value=@CreationModes.Domain
+                                       TChecked=string
+                                       ValueChange=OnCheckedValueChange />
+
+                        &emsp; &emsp; &emsp;
+
+                        <SfRadioButton @bind-Checked=_checkedValue
+                                       Label=@Trad.Keys["DTS:ByDPU"]
+                                       Name=@_buttonName
+                                       Value=@CreationModes.UTD
+                                       TChecked=string
+                                       ValueChange=OnCheckedValueChange />
+                    </div>
+                </div>
+            }
+
+            <p>
+                @if (CreationModes.Domain.Equals(_checkedValue))
+                {
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="custom-title">@_domainTitle</label>
+                            <SfAutoComplete @bind-Value=_domainLabel
+                                            TValue=string
+                                            TItem=TDOM_DOMAINES
+                                            Query=_domainQuery
+                                            EnableVirtualization=true
+                                            ShowPopupButton=true
+                                            Autofill=true
+                                            Highlight=true
+                                            IgnoreAccent=true
+                                            IgnoreCase=true
+                                            AllowCustom=false
+                                            Enabled=_canChangeCreationMode>
+                                <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TDOM_DOMAINES>)
+                                               Adaptor=Adaptors.CustomAdaptor />
+                                <AutoCompleteFieldSettings Value=@nameof(TDOM_DOMAINES.TDOM_LIB) />
+                                <AutoCompleteEvents TValue=string
+                                                    TItem=TDOM_DOMAINES
+                                                    ValueChange=DomainValueChange />
+                            </SfAutoComplete>
+                        </div>
+                    </div>
+
+                    @if (_domainDescription is not null)
+                    {
+                        <div class="row">
+                            <div class="col-12 custom-info">
+                                <span class="info-title">@_domainDescriptionTitle :</span>&nbsp;
+                                @_domainDescription
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <UTDSelectComponent IsEnabled=_canChangeCreationMode
+                                        IsAdmin=true
+                                        _etatId=Order.TE_ETATID
+                                        _scenarioId=Order.TS_SCENARIOID
+                                        OnEtatChanged=@(etatId => OnEtatChanged(etatId))
+                                        OnScenarioChanged=@(args => OnScenarioChanged(args.Item2)) />
+                }
+            </p>
+
+            @if (!string.IsNullOrWhiteSpace(_uploaderAllowedExtensions)
+            && !_upladerMaxFileSize.Equals(default))
+            {
+                <p class="@(_isDraft ? "" : "hide-remove")">
+                    <SfUploader @ref=@_uploaderReference
+                                ID=UploadFiles
+                                AllowedExtensions=@_uploaderAllowedExtensions
+                                MaxFileSize=@_upladerMaxFileSize
+                                AutoUpload=false>
+
+                        <UploaderAsyncSettings SaveUrl=@_uploaderSaveUrl
+                                               RemoveUrl=@_uploaderRemoveUrl
+                                               RetryAfterDelay=@(double.Parse(Config["Uploading:RetryAfterDelay"] ?? "1"))
+                                               RetryCount=@(int.Parse(Config["Uploading:RetryCount"] ?? "1")) />
+
+                        <UploaderEvents BeforeUpload=OnBeforeUploadAsync
+                                        BeforeRemove=OnBeforeRemove
+                                        OnActionComplete=OnActionCompleteAsync
+                                        FileSelected=FileSelected
+                                        OnRemove=OnRemove />
+
+                        <UploaderFiles>
+                            @foreach (var doc in Order.TCMD_DOC_DOCUMENTS)
+                            {
+                                <UploaderUploadedFiles Name=@Path.GetFileNameWithoutExtension(doc.TCMD_DOC_FILENAME)
+                                                       Size="@((double)doc.TCMD_DOC_TAILLE)"
+                                                       Type=@Path.GetExtension(doc.TCMD_DOC_FILENAME) />
+                            }
+                        </UploaderFiles>
+                    </SfUploader>
+                </p>
+            }
+
+            <p>
+                <SfTooltip @ref=_refCommentTooltip
+                           Target=#CommentTextBox
+                           OpensOn=@OpenMode.Custom.ToString()
+                           Content=@Trad.Keys["COMMON:RequiredField"]
+                           CssClass=e-griderror>
+                    <SfTextBox @bind-Value=Order.TCMD_COMMENTAIRE
+                               ID=CommentTextBox
+                               Placeholder=@_commentPlaceholder
+                               FloatLabelType=@FloatLabelType.Always
+                               Enabled=_isDraft
+                               Multiline=true
+                               CssClass=e-outline
+                               HtmlAttributes=_commentHtmlAttributes
+                               ValueChange=OnCommentChangeAsync />
+                </SfTooltip>
+            </p>
+
+            <div class="row">
+                <div class="col">
+                    <SfTooltip @ref=_refDeliveryDateTooltip
+                               Target=#DeliveryDatePicker
+                               OpensOn=@OpenMode.Custom.ToString()
+                               Content=@Trad.Keys["COMMON:RequiredField"]
+                               CssClass=e-griderror>
+                        <SfDatePicker @bind-Value=Order.TCMD_DATE_LIVRAISON_SOUHAITEE
+                                      ID=DeliveryDatePicker
+                                      Placeholder=@_datePickerPlaceholder
+                                      FloatLabelType=FloatLabelType.Always
+                                      TValue=DateTime?
+                                      Enabled=_isDraft
+                                      Min=_minDate
+                                      WeekNumber=true
+                                      StrictMode=true
+                                      ShowClearButton=true
+                                      Width=170px>
+                            <DatePickerEvents TValue=DateTime?
+                                              ValueChange=OnDeliveryDateChangeAsync />
+                        </SfDatePicker>
+                    </SfTooltip>
+                </div>
+            </div>
+
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=SaveOrderAsync
+                      Content=@Trad.Keys["COMMON:Save"]
+                      Disabled=_areButtonsDisabled />
+
+        @if (_isDraft)
+        {
+            <DialogButton OnClick=ValidateOrderAsync
+                          Content=@Trad.Keys["COMMON:Validate"]
+                          Disabled=_areButtonsDisabled
+                          IsPrimary=true
+                          CssClass=e-success />
+        }
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    .info-title {
+        display: inline-block;
+        width: 130px;
+    }
+
+    /* Hide uploader "remove" button when removing documents is forbidden. */
+    .hide-remove span.e-file-delete-btn {
+        visibility: hidden;
+    }
+
+    /* Hide uploader footer. */
+    .e-upload-actions {
+        display: none;
+        visibility: hidden;
+    }
+</style>

@@ -1,0 +1,28 @@
+﻿@using Krialys.Data.EF.Etq
+@using FilterType = Syncfusion.Blazor.DropDowns.FilterType
+
+<SfTooltip @ref=_dropdownTooltipReference
+           Target=#EtqDropDown
+           OpensOn=Custom
+           Content=@Trad.Keys["COMMON:RequiredField"]
+           CssClass=e-griderror>
+    <SfDropDownList Value=EtqId
+                    ID=EtqDropDown
+                    TItem=TETQ_ETIQUETTES
+                    TValue=int
+                    Placeholder=@_placeholder
+                    FloatLabelType=FloatLabelType.Always
+                    AllowFiltering=true
+                    FilterType=FilterType.Contains
+                    ShowClearButton=true
+                    EnableVirtualization=true
+                    Query=_query>
+        <DropDownListFieldSettings Text=@nameof(TETQ_ETIQUETTES.TETQ_CODE)
+                                   Value=@nameof(TETQ_ETIQUETTES.TETQ_ETIQUETTEID) />
+        <DropDownListEvents TItem=TETQ_ETIQUETTES
+                            TValue=int
+                            ValueChange=ValueChangeAsync />
+        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TETQ_ETIQUETTES>)
+                       Adaptor=Adaptors.CustomAdaptor />
+    </SfDropDownList>
+</SfTooltip>

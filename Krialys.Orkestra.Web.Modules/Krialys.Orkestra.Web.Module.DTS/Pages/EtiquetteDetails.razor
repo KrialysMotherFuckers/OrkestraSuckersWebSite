@@ -1,0 +1,172 @@
+﻿@page "/dts_etq_details"
+@using Krialys.Orkestra.Web.Module.Common.Components.DTF.UTD.Dialogs.Qualifs
+
+@attribute [Authorize]
+
+<section class="etq-details-layout">
+    <aside class="etq-aside">
+        <div class="etq-filterblock">
+            <h1>@Trad.Keys["DTS:Export"]</h1>
+
+            <div class="etq-filteritem">
+                @if (_etiquette is not null && _etiquette.DEMANDEID.HasValue &&
+                _demande is not null && _demande.TD_RESULT_EXIST_FILE == StatusLiteral.Yes)
+                {
+                    <SfButton OnClick=@(() => Download.DownloadResult(_etiquette.DEMANDEID.Value))
+                              IsPrimary=false
+                              CssClass="e-flat"
+                              IconCss="e-icons e-download"
+                              Content=@Trad.Keys["DTF:Result"] />
+                }
+            </div>
+        </div>
+    </aside>
+
+    <header class="etq-details-header">
+        <SfButton OnClick=@OnBackButtonClick
+                  IconCss="e-icons e-previous"
+                  CssClass="e-flat"
+                  Content=@Trad.Keys["DTS:BackToEtqList"] />
+
+        @if (_showCheckBox)
+        {
+            @* Show/hide toolbox *@
+            <SfCheckBox @bind-Checked=@isChecked
+                        id="chkPortail_DTS_etiquettes_arbo"
+                        CssClass="subtitle"
+                        EnablePersistence=true>
+                @Trad.Keys["DTS:ToolBoxHideOrShow"]
+            </SfCheckBox>
+        }
+
+        <div class="title">@_etiquette?.TETQ_CODE</div>
+        <div class="subtitle">@_etiquette?.TETQ_LIB</div>
+    </header>
+
+    <main class="etq-details-content">
+        <SfTab ID=@(Litterals.Portail + "Etq_dts_etq_details")
+               @ref=_refTab
+               EnablePersistence=true
+               LoadOn="ContentLoad.Dynamic"
+               OverflowMode=OverflowMode.Popup
+               ScrollStep=150>
+
+            @* Animation settings *@
+            <TabAnimationSettings>
+                <TabAnimationPrevious Effect=AnimationEffect.None />
+                <TabAnimationNext Effect=AnimationEffect.None />
+            </TabAnimationSettings>
+
+            <TabEvents Selecting=OnTabSelecting />
+
+            <TabItems>
+
+                <TabItem Disabled=@Disabled>
+                    <ChildContent>
+                        <TabHeader Text=@Trad.Keys["DTS:Information"] />
+                    </ChildContent>
+
+                    <ContentTemplate>
+                        <div class="etq-info">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_DESC)))</th>
+                                        <td>@_etiquette?.TETQ_DESC</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<TDOM_DOMAINES>(nameof(TDOM_DOMAINES.TDOM_LIB)))</th>
+                                        <td>@_etiquette?.TPRCP_PRC_PERIMETRE?.TDOM_DOMAINES?.TDOM_LIB</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<TPRCP_PRC_PERIMETRES>(nameof(TPRCP_PRC_PERIMETRES.TPRCP_LIB)))</th>
+                                        <td>@_etiquette?.TPRCP_PRC_PERIMETRE?.TPRCP_LIB</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.TETQ_DATE_CREATION)))</th>
+                                        <td>@_etiquette?.TETQ_DATE_CREATION.ToString("g")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">@Trad.Keys["DTS:ProcessedBy"]</th>
+                                        <td>@_demande?.DEMANDEUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<VDE_DEMANDES_ETENDUES>(nameof(VDE_DEMANDES_ETENDUES.REFERENT)))</th>
+                                        <td>@_demande?.REFERENT</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">@(DataAnnotations.Display<TETQ_ETIQUETTES>(nameof(TETQ_ETIQUETTES.DEMANDEID)))</th>
+                                        <td>@_etiquette?.DEMANDEID</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ContentTemplate>
+
+                </TabItem>
+
+                <TabItem Disabled=@Disabled>
+                    <ChildContent>
+                        <TabHeader Text=@Trad.Keys["DTS:LifeCycle"] />
+                    </ChildContent>
+                    <ContentTemplate>
+                        @if (_etiquette is not null)
+                        {
+                            <TSEQ_SUIVI_EVENEMENT_ETQS_GridComponent EtiquetteId=@_etiquette.TETQ_ETIQUETTEID />
+                        }
+                    </ContentTemplate>
+                </TabItem>
+
+                <TabItem Disabled=@Disabled>
+                    <ChildContent>
+                        <TabHeader Text=@Trad.Keys["DTS:Quality"] />
+                    </ChildContent>
+                    <ContentTemplate>
+                        @if (_etiquette is not null && _etiquette.DEMANDEID is not null)
+                        {
+                            <TDQ_DEMANDE_QUALIFS_TableComponent DemandeId=@_etiquette.DEMANDEID.Value />
+                            @if (_demande?.TD_QUALIF_BILAN is not null)
+                            {
+                                <SfButton OnClick=@(() => Download.DownloadQualif((int)_etiquette.DEMANDEID))
+                                          IsPrimary=true
+                                          IconCss="e-icons e-download"
+                                          CssClass="e-flat"
+                                          Content=@Trad.Keys["DTF:RecueilDownload"] />
+                            }
+                        }
+                    </ContentTemplate>
+                </TabItem>
+
+                <TabItem Disabled=@Disabled>
+                    <ChildContent>
+                        <TabHeader Text=@Trad.Keys["DTS:Production"] />
+                    </ChildContent>
+                    <ContentTemplate>
+                        @if (_etiquette is not null)
+                        {
+                            <ArboEtiquette EtiquetteId=@_etiquette.TETQ_ETIQUETTEID
+                                           SidebarToggle=@isChecked
+                                           Mode=ArboEtiquettes.Mode.Production />
+                        }
+                    </ContentTemplate>
+                </TabItem>
+
+                <TabItem Disabled=@Disabled>
+                    <ChildContent>
+                        <TabHeader Text=@Trad.Keys["DTS:Consumption"] />
+                    </ChildContent>
+                    <ContentTemplate>
+                        @if (_etiquette is not null)
+                        {
+                            <ArboEtiquette EtiquetteId=@_etiquette.TETQ_ETIQUETTEID
+                                           SidebarToggle=@isChecked
+                                           Mode=ArboEtiquettes.Mode.Consommation />
+                        }
+                    </ContentTemplate>
+                </TabItem>
+
+            </TabItems>
+        </SfTab>
+    </main>
+</section>

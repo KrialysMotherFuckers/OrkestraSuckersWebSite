@@ -1,0 +1,93 @@
+﻿@* Ajout des librairies .Net Core pour RazorLib. *@
+@using Blazored.LocalStorage
+@using Krialys.Data.EF.Resources;
+@using Krialys.Orkestra.WebApi.Proxy;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Caching.Memory;
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.JSInterop
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Runtime.ExceptionServices
+@using System.Security.Claims
+@using System.Threading
+@using System.Timers
+@using System.Text.Json
+@using BlazorComponentBus
+
+@* Ajout des librairies SyncFusion pour RazorLib. *@
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor.FileManager
+
+@* Ajout des librairies communes. *@
+@using Krialys.Orkestra.Web.Module.ADM.Components
+@using Krialys.Orkestra.Web.Module.ADM.Pages
+@using Krialys.Orkestra.Web.Module.ADM.Pages.Settings
+@using Krialys.Orkestra.Web.Module.ADM.Pages.Technical
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders
+@using Krialys.Common.Localization;
+
+@using Krialys.Orkestra.Web.Module.ADM.Components.Claims
+@using Krialys.Orkestra.Web.Module.ADM.Components.DTSAdmin
+@using Krialys.Orkestra.Web.Module.ADM.Components.UsersAdministration
+@using Krialys.Orkestra.Web.Module.ADM.Components.ApplicationsAdministration
+
+@* Ajout des librairies communes et personnelles. *@
+@using Krialys.Orkestra.Web.Module.Common.Components
+@using Krialys.Orkestra.Web.Module.Common.Components.SfToast
+@using Krialys.Orkestra.Web.Module.Common.Components.CronManager
+@using Krialys.Orkestra.Web.Module.Common.Components.EnvironmentManager
+@using Krialys.Orkestra.Web.Module.Common.Components.ETQ
+@using Krialys.Orkestra.Web.Module.Common.Components.FilesAndBatchsManager
+@using Krialys.Orkestra.Web.Module.Common.Components.Users
+@using Krialys.Orkestra.Web.Module.Common.Models
+@using Krialys.Orkestra.Web.Module.Common.DI
+@using Krialys.Orkestra.Web.Module.Common.Shared
+@using Krialys.Orkestra.Web.Module.Common.Authentication
+@using Krialys.Common.Literals;
+@using Krialys.Entities.COMMON
+@using Krialys.Data.EF.Etq
+@using Krialys.Data.EF.Univers
+@using Krialys.Orkestra.Web.Module.Common.BusEvents
+
+
+@* @using Krialys.Orkestra.Web.Common.ApiClient;
+@inject IRefManagerClient _iRefManagerClient *@
+
+@* Misc Components *@
+@using MudBlazor
+@inject IDialogService DialogService
+
+@* Injected services. *@
+@inject ILanguageContainerService Trad
+@inject ICronServices CronServices
+@inject ISessionServices Session
+@inject IHttpProxyCore ProxyCore
+@inject ISfToastServices Toast
+@inject IDataAnnotations DataAnnotations
+@inject IMemoryCache MemCache
+@inject IComponentBus Bus
+@inject IConfiguration Config
+@inject NavigationManager NavigationManager
+@inject IJSInProcessRuntime JsInProcessRuntime
+@inject IJSRuntime JsInteropRuntime
+@inject ISnackbar Snackbar

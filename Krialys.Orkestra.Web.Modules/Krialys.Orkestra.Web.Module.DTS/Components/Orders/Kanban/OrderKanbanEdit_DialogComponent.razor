@@ -1,0 +1,148 @@
+﻿<SfDialog @bind-Visible=@IsVisible
+          Width="840px"
+          ShowCloseIcon=true
+          IsModal=true>
+
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>
+            @_dialogHeader
+        </Header>
+
+        <Content>
+            <SfSpinner @bind-Visible=_isBusy />
+
+            @if (_isInfoDisplayed)
+            {
+                <p class="info-title">
+                    @Order.TCMD_COMMENTAIRE
+                </p>
+            }
+
+            @if (Order.TCMD_DOC_DOCUMENTS.Any() && _isInfoDisplayed)
+            {
+                <p class="info">
+                    @Trad.Keys["DTS:AttachedFiles"]
+
+                    <SfButton OnClick=DisplayOrderDocumentsDialog
+                          HtmlAttributes=_documentsButtonHtmlAttributes
+                          IconCss="e-icons e-open-link"
+                          CssClass="e-flat e-documents-command" />
+                </p>
+            }
+
+            @if (Order.TDOM_DOMAINEID.HasValue && _isInfoDisplayed)
+            {
+                <p class="info">
+                    <span class="info-title">
+                        @(DataAnnotations.Display<TDOM_DOMAINES>(nameof(TDOM_DOMAINES.TDOM_LIB)))
+
+                        @if (Trad.IsCultureFr)
+                        {
+                            <span> : </span>
+                        }
+                        else
+                        {
+                            <span>: </span>
+                        }
+                    </span>
+
+                    @if (_domain is not null)
+                    {
+                        @_domain.TDOM_LIB
+                    }
+                </p>
+            }
+
+            @if (Order.TE_ETATID.HasValue && _isInfoDisplayed)
+            {
+                <p class="info">
+                    <span class="info-title">
+                        @(DataAnnotations.Display<TE_ETATS>(nameof(TE_ETATS.TE_FULLNAME)))
+
+                        @if (Trad.IsCultureFr)
+                        {
+                            <span> : </span>
+                        }
+                        else
+                        {
+                            <span>: </span>
+                        }
+                    </span>
+
+                    @Order.TE_ETAT?.TE_FULLNAME
+                </p>
+            }
+
+            @if (_isHandlerDropdownDisplayed)
+            {
+                <p>
+                    <OrderHandler_DropDownComponent @ref=_handlerDropdownReference
+                                                @bind-HandlerId=@Order.TRU_EXPLOITANTID />
+                </p>
+            }
+
+            @if (_isDeliveryDatePickerDisplayed)
+            {
+                <p>
+                    <SfTooltip @ref=_deleveryDateTooltipReference
+                           Target=#DeliveryDatePicker
+                           OpensOn=Custom
+                           Content=@Trad.Keys["COMMON:RequiredField"]
+                           CssClass=e-griderror>
+                        <SfDatePicker @bind-Value=Order.TCMD_DATE_PREVISIONNELLE_LIVRAISON
+                                  ID=DeliveryDatePicker
+                                  Placeholder=@_datePickerPlaceholder
+                                  FloatLabelType=FloatLabelType.Always
+                                  TValue=DateTime?
+                                  Min=_minDate
+                                  WeekNumber=true
+                                  StrictMode=true
+                                  ShowClearButton=true
+                                  Width=200px>
+                            <DatePickerEvents TValue=DateTime?
+                                          ValueChange=OnDeliveryDateValueChange />
+                        </SfDatePicker>
+                    </SfTooltip>
+                </p>
+            }
+
+            @if (_isProductionMultiSelectDisplayed)
+            {
+                <p>
+                    <NotableProductions_MultiselectComponent @ref=_productionMultiselectReference
+                                                         OrderId=Order.TCMD_COMMANDEID
+                                                         IsRequired=_isProductionSelectionRequired />
+                </p>
+            }
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick=SaveOrderAsync
+                      Content=@Trad.Keys["COMMON:Save"]
+                      Disabled=_isSaveButtonDisabled
+                      IsPrimary=true
+                      CssClass=e-success />
+        <DialogButton OnClick=CloseDialogAsync
+                      Content=@Trad.Keys["COMMON:Cancel"] />
+    </DialogButtons>
+</SfDialog>
+
+@if (_isOrderDocumentsDialogDisplayed)
+{
+    <OrderDocuments_DialogComponent @bind-IsVisible=_isOrderDocumentsDialogDisplayed
+                                Order=Order />
+}
+
+<style>
+    .e-dlg-content .info-title {
+        color: rgba(0,0,0,0.54);
+        font-weight: 700;
+    }
+
+    .e-dlg-content .info {
+        color: rgba(0,0,0,0.54);
+    }
+</style>

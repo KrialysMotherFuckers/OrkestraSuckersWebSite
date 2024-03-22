@@ -1,0 +1,46 @@
+﻿@using Krialys.Data.EF.Univers
+@if (Qualifs is not null && Qualifs.Any())
+{
+    <p></p>
+    <table class="table table-striped table-hover table-bordered">
+        <thead style="background: #E7F3F7;">
+            <tr>
+                @* Les libellés sont remplacés par leurs valeurs issues des DataAnnotations *@
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_NUM_ORDRE)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_CODE)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_NOM)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_VALEUR)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_NATURE)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_DATASET)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_TYPOLOGIE)))</th>
+                <th scope="col">@(DataAnnotations.Display<TDQ_DEMANDE_QUALIFS>(nameof(TDQ_DEMANDE_QUALIFS.TDQ_COMMENT)))</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var q in Qualifs)
+            {
+                <tr style="vertical-align: middle;">
+                    <td>
+                        @if (q.TDQ_NUM_ORDRE != null)
+                        {
+                            @q.TDQ_NUM_ORDRE.Value
+                        }
+                    </td>
+                    <td>@(q.TDQ_CODE ?? "-")</td>
+                    <td>@(q.TDQ_NOM ?? "-")</td>
+                    <td>
+                        <img src="@($"{QualifsLiterals.GetQualifImgSrc(q.TDQ_VALEUR)}")" alt="" style="height:24px;" loading="lazy">
+                    </td>
+                    <td>@(q.TDQ_NATURE ?? "-")</td>
+                    <td>@(q.TDQ_DATASET ?? "-")</td>
+                    <td>@(q.TDQ_TYPOLOGIE)</td>
+                    <td>@(q.TDQ_COMMENT ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div style="padding-top:10px;text-align:center;"><h5>@Trad.Keys["DTF:EmptyQualifs"]</h5></div>
+}

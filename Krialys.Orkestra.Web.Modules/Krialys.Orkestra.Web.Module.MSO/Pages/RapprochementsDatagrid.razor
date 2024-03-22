@@ -1,0 +1,60 @@
+﻿@*@page "/mso_rapprochements_datagrid"*@
+
+@attribute [Authorize(Policy = PoliciesLiterals.RapprochementsViewer)]
+
+@*<h4><b>@Trad.Keys["MSO:RapprochementsTitle"]</b> - @Trad.Keys["MSO:RapprochementsText1"]</h4>*@
+
+<OrkaGenericGridComponent TEntity=TRA_ATTENDUS
+                       @ref=Ref_Grid
+                       SuffixId="Rapprochements"
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=true>
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TRA_ATTENDUS
+                    DataBound=Ref_Grid.DataBoundHander
+                    OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=AllowModify
+                          AllowEditing=AllowModify
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog=Extends.GridEditSettingDialog>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => Ref_Grid.DataGrid.EndEditAsync())>
+                    @Ref_Grid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => Ref_Grid.DataGrid.CloseEditAsync())>
+                    @Ref_Grid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+        @* Hierarchy grid: Display planifications linked to this row. *@
+                <GridTemplates>
+                    <DetailTemplate Context="customerContext">
+                        <span>@Trad.Keys["MSO:LogsLinkedToAttendu"]</span>
+                        @{
+                            // Get specific attendu of this template.
+                            var attendus = customerContext as TRA_ATTENDUS;
+                            // Query logs linked to attendus with TRA_CODE.
+                            var selectedLogs = new Query()
+                                .Where("TRA_CODE", "equal", attendus?.TRA_CODE);
+                            <RapprochementsLogsGridComponent Query=selectedLogs TRA_CODE=@attendus?.TRA_CODE />
+                        }
+                    </DetailTemplate>
+                </GridTemplates>
+    </ChildContent>
+</OrkaGenericGridComponent>

@@ -1,0 +1,251 @@
+﻿@page "/referencesp1"
+@* Administration *@
+
+@attribute [Authorize]
+
+<SfTab EnablePersistence=true
+       ID=@(Litterals.Portail + "Etq_referencesp1")
+       LoadOn="ContentLoad.Dynamic"
+       OverflowMode="OverflowMode.Popup"
+       ScrollStep="150">
+
+    @* Animation settings *@
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+
+    <TabEvents Selecting="OnTabSelecting" />
+
+    <TabItems>
+
+        @* Catégorie administration *@
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="@Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTES_TITLE"]"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <EtqModeleComponent />
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Périmètres" IconCss="e-icons e-copy"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TPRCP_PRC_PERIMETRES"
+                                       @ref="Ref_TPRCP_PRC_PERIMETRES"
+                                       IsWithinTab=true
+                                       AllowResizing="true"
+                                       AllowPdfExport="false"
+                                       AllowExcelExport="true"
+                                       AllowCsvExport="false"
+                                       EnablePersistence="true"
+                                       AutoGenerateColumns="false">
+
+                    <GridColumns>
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_PRC_PERIMETREID)" Visible="false" AllowAdding="false" AllowEditing="false" IsPrimaryKey="true">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_CODE)" Visible="true" AllowAdding="true" AllowEditing="false">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_LIB)" Visible="true" AllowAdding="true" AllowEditing="true">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_DESC)" Visible="true" AllowAdding="true" AllowEditing="true">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_PRM_DYN)" Visible="true" AllowAdding="true" AllowEditing="false">
+                            <Template>
+                                @Trad.Keys[$"BOOL:{((TPRCP_PRC_PERIMETRES)context).TPRCP_PRM_DYN}"]
+                            </Template>
+                            <EditTemplate>
+                                @{
+                                    var tprcpPrcPerimetre = (context as TPRCP_PRC_PERIMETRES);
+
+                                    <YesNoDropdownComponent TItem=TPRCP_PRC_PERIMETRES
+                                                        Field=@nameof(TPRCP_PRC_PERIMETRES.TPRCP_PRM_DYN)
+                                                        Enabled=@(tprcpPrcPerimetre is {TPRCP_PRC_PERIMETREID: 0 })
+                                                        @bind-Value=@(((TPRCP_PRC_PERIMETRES)context).TPRCP_PRM_DYN) />
+                                }
+                            </EditTemplate>
+                        </GridColumn>
+
+                        @{
+                            var fieldTDOM_DOMAINEID = nameof(TPRCP_PRC_PERIMETRES.TDOM_DOMAINEID);
+                            var propTDOM_DOMAINEID = Ref_TPRCP_PRC_PERIMETRES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field.Equals(fieldTDOM_DOMAINEID, StringComparison.Ordinal));
+
+                            <GridForeignColumn Field="@propTDOM_DOMAINEID?.Field"
+                                           HeaderText="@propTDOM_DOMAINEID?.HeaderText"
+                                           ForeignKeyField="Id"
+                                           ForeignKeyValue="Label"
+                                           ForeignDataSource="@propTDOM_DOMAINEID?.ForeignValuesList"
+                                           AutoFit="@propTDOM_DOMAINEID!.Autofit"
+                                           MinWidth="150"
+                                           AllowAdding="true" AllowEditing="false" />
+                        }
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_ALLOW_DTS_ACCESS)" Visible="true" AllowAdding="true" AllowEditing="true" DisplayAsCheckBox="true">
+                        </GridColumn>
+
+                        <GridForeignColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TRU_ACTEURID)" HeaderText="Acteur" AllowAdding="false" AllowEditing="false"
+                                           ForeignDataSource="TruUsersData" ForeignKeyField="TRU_USERID" ForeignKeyValue="TRU_FULLNAME">
+                            <EditTemplate />
+                        </GridForeignColumn>
+
+                        <GridColumn Field="@nameof(TPRCP_PRC_PERIMETRES.TPRCP_DATE_CREATION)" AllowAdding="false" AllowEditing="false">
+                            <EditTemplate />
+                        </GridColumn>
+                    </GridColumns>
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TPRCP_PRC_PERIMETRES"
+                                    DataBound=Ref_TPRCP_PRC_PERIMETRES.DataBoundHander
+                                    OnActionBegin="ActionBeginHandlerPerimetres"
+                                    OnActionFailure="@Ref_TPRCP_PRC_PERIMETRES.ActionFailureAsync"
+                                    OnToolbarClick="@Ref_TPRCP_PRC_PERIMETRES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TPRCP_PRC_PERIMETRES.OnContextMenuItemClickedAsync"
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TPRCP_PRC_PERIMETRES.OnLoadHandler Destroyed=Ref_TPRCP_PRC_PERIMETRES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="true"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <HeaderTemplate>
+                                <span>@GetHeaderPerimetre((context as TPRCP_PRC_PERIMETRES))</span>
+                            </HeaderTemplate>
+
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TPRCP_PRC_PERIMETRES, entity))">
+                                    @Ref_TPRCP_PRC_PERIMETRES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TPRCP_PRC_PERIMETRES.DataGrid.CloseEditAsync())">
+                                    @Ref_TPRCP_PRC_PERIMETRES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+
+        <TabItem Disabled=@Disabled>
+            <ChildContent>
+                <TabHeader Text="Domaines" IconCss="e-icons e-copy"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                @* Customisable datagrid parameters *@
+                <OrkaGenericGridComponent TEntity="TDOM_DOMAINES"
+                                          @ref="Ref_TDOM_DOMAINES"
+                                          IsWithinTab=true
+                                          AllowResizing="true"
+                                          AllowPdfExport="false"
+                                          AllowExcelExport="true"
+                                          AllowCsvExport="false"
+                                          EnableColumnMenu="false"
+                                          EnablePersistence="true"
+                                          AutoGenerateColumns="false">
+
+                    <GridColumns>
+                        <GridColumn Field="@nameof(TDOM_DOMAINES.TDOM_DOMAINEID)" HeaderText="a cacher" Visible="false" AllowAdding="false" AllowEditing="false" IsPrimaryKey="true">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TDOM_DOMAINES.TDOM_CODE)" Visible="true" AllowAdding="true" AllowEditing="false">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TDOM_DOMAINES.TDOM_LIB)" Visible="true" AllowAdding="true" AllowEditing="true">
+                        </GridColumn>
+
+                        <GridColumn Field="@nameof(TDOM_DOMAINES.TDOM_DESC)" Visible="true" AllowAdding="true" AllowEditing="true">
+                        </GridColumn>
+
+                        @{
+                            var fieldTTDOM_TYPE_DOMAINEID = nameof(TDOM_DOMAINES.TTDOM_TYPE_DOMAINEID);
+                            var propTTDOM_TYPE_DOMAINEID = Ref_TDOM_DOMAINES.GridColumnParametersList
+                            .FirstOrDefault(x => x.IsInGrid && x.Field.Equals(fieldTTDOM_TYPE_DOMAINEID, StringComparison.Ordinal));
+
+                            <GridForeignColumn Field="@propTTDOM_TYPE_DOMAINEID?.Field"
+                                               HeaderText="@propTTDOM_TYPE_DOMAINEID?.HeaderText"
+                                               ForeignKeyField="Id"
+                                               ForeignKeyValue="Label"
+                                               ForeignDataSource="@propTTDOM_TYPE_DOMAINEID?.ForeignValuesList"
+                                               AutoFit="@propTTDOM_TYPE_DOMAINEID!.Autofit"
+                                               MinWidth="150"
+                                               AllowAdding="true" AllowEditing="false" />
+                        }
+
+                        <GridForeignColumn Field="@nameof(TDOM_DOMAINES.TRU_ACTEURID)"
+                                           HeaderText="Acteur"
+                                           AllowAdding="false" AllowEditing="false"
+                                           ForeignDataSource="TruUsersData"
+                                           ForeignKeyField="@nameof(TRU_USERS.TRU_USERID)"
+                                           ForeignKeyValue="@nameof(TRU_USERS.TRU_FULLNAME)">
+                            <EditTemplate />
+                        </GridForeignColumn>
+
+                        <GridColumn Field="@nameof(TDOM_DOMAINES.TDOM_DATE_CREATION)" AllowAdding="false" AllowEditing="false">
+                            <EditTemplate />
+                        </GridColumn>
+
+                    </GridColumns>
+
+                    <ChildContent>
+
+                        @* Customisable datagrid events *@
+                        <GridEvents TValue="TDOM_DOMAINES"
+                                    DataBound=Ref_TDOM_DOMAINES.DataBoundHander
+                                    OnActionBegin="ActionBeginHandler"
+                                    OnActionFailure="@Ref_TDOM_DOMAINES.ActionFailureAsync"
+                                    OnToolbarClick="@Ref_TDOM_DOMAINES.OnToolbarClickAsync"
+                                    ContextMenuItemClicked="@Ref_TDOM_DOMAINES.OnContextMenuItemClickedAsync"
+                                    RowSelected="OnRowSelected"
+                                    OnDataBound=BeforeDataBound OnLoad=Ref_TDOM_DOMAINES.OnLoadHandler Destroyed=Ref_TDOM_DOMAINES.OnDestroyed />
+
+                        <GridEditSettings AllowAdding="true"
+                                          AllowEditing="true"
+                                          AllowDeleting="true"
+                                          ShowConfirmDialog="true"
+                                          ShowDeleteConfirmDialog="true"
+                                          Mode="EditMode.Dialog"
+                                          Dialog="@Extends.GridEditSettingDialog">
+
+                            @* Header *@
+                            <HeaderTemplate>
+                                <span>@GetHeaderDomaine((context as TDOM_DOMAINES))</span>
+                            </HeaderTemplate>
+
+                            @* Customisable edit/save/cancel dialog events *@
+                            <FooterTemplate Context="entity">
+                                <SfButton IsPrimary="true"
+                                          CssClass="e-success"
+                                          OnClick="@(() => SaveAsync(Ref_TDOM_DOMAINES, entity))">
+                                    @Ref_TDOM_DOMAINES.EditButtonText
+                                </SfButton>
+                                <SfButton OnClick="@(() => Ref_TDOM_DOMAINES.DataGrid.CloseEditAsync())">
+                                    @Ref_TDOM_DOMAINES.CancelButtonText
+                                </SfButton>
+                            </FooterTemplate>
+
+                        </GridEditSettings>
+
+                    </ChildContent>
+
+                </OrkaGenericGridComponent>
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>

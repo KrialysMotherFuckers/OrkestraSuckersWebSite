@@ -1,0 +1,204 @@
+﻿@page "/dtm_utd"
+
+@inherits OrkaAuthorizedPage;
+
+@using Krialys.Common.Literals;
+
+@attribute [Authorize(Policy = nameof(PoliciesLiterals.UTDViewer))]
+
+@* Customizable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TEM_ETAT_MASTERS"
+                          @ref="Ref_TEM_ETAT_MASTERS"
+                          AutoGenerateColumns="false"
+                          AllowResizing="true"
+                          AllowPdfExport="false"
+                          AllowExcelExport="true"
+                          AllowCsvExport="false"
+                          EnablePersistence="true"
+                          AllowGrouping="false">
+
+    <ChildContent>
+        @* Customizable datagrid events *@
+        <GridEvents TValue="TEM_ETAT_MASTERS"
+                    OnToolbarClick="OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TEM_ETAT_MASTERS.OnContextMenuItemClickedAsync"
+                    OnActionFailure="@Ref_TEM_ETAT_MASTERS.ActionFailureAsync"
+                    OnActionBegin="OnActionBeginAsync"
+                    OnActionComplete="OnActionCompleteAsync"
+                    RowSelected="RowSelected"
+                    RowDeselected="RowDeselected" OnLoad=Ref_TEM_ETAT_MASTERS.OnLoadHandler Destroyed=@Ref_TEM_ETAT_MASTERS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+            <HeaderTemplate>
+                @{
+                    var headerText = GetEditHeader((context as TEM_ETAT_MASTERS));
+                    <span>@headerText</span>
+                }
+            </HeaderTemplate>
+
+            @* Customizable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          Disabled="ButtonSaveDisabled"
+                          OnClick="@(() => SaveAsync(Ref_TEM_ETAT_MASTERS, entity))">
+                    @Ref_TEM_ETAT_MASTERS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TEM_ETAT_MASTERS.DataGrid.CloseEditAsync())">
+                    @Ref_TEM_ETAT_MASTERS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+        @* Hierarchy grid: Display versions linked to this UTD. *@
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    @* Get current object Id. *@
+                    var temEtatMaster = (context as TEM_ETAT_MASTERS);
+                    var id = temEtatMaster!.TEM_ETAT_MASTERID;
+
+                    @* Query to filter child grid with the current object Id. *@
+                    var gridQuery = new Query().Where("TEM_ETAT_MASTERID", "equal", id).Sort(nameof(TE_ETATS.TE_VERSION), "Descending");
+
+                    <UtdVersions GridQuery=gridQuery EtatMasterId="@id" OnGridRefresh="@OnGridRefresh"
+                                 Job="@temEtatMaster"
+                                 NomEtatMaster="@temEtatMaster.TEM_NOM_ETAT_MASTER"
+                                 StatutEtatMaster="@temEtatMaster.TRST_STATUTID"
+                                 AllowModify=@(AllowModify && (temEtatMaster.TRST_STATUTID == StatusLiteral.Available)) />
+                }
+            </DetailTemplate>
+        </GridTemplates>
+
+        <GridSortSettings>
+            <GridSortColumns>
+                <GridSortColumn Field=@nameof(TEM_ETAT_MASTERS.TEM_DATE_CREATION)
+                                Direction="Syncfusion.Blazor.Grids.SortDirection.Descending" />
+            </GridSortColumns>
+        </GridSortSettings>
+
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TEM_ETAT_MASTERS.TEM_ETAT_MASTERID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        <GridColumn Field=@nameof(TEM_ETAT_MASTERS.TEM_NOM_ETAT_MASTER)
+                    MinWidth=100
+                    Width=235 />
+
+        <GridColumn Field=@nameof(TEM_ETAT_MASTERS.TEM_DATE_CREATION)
+                    MinWidth=100
+                    Width=155 />
+
+        <GridColumn Field=@nameof(TEM_ETAT_MASTERS.TRST_STATUTID)
+                    MinWidth=100
+                    Width=115>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as TEM_ETAT_MASTERS)!).TRST_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridForeignColumn Field=@nameof(TEM_ETAT_MASTERS.TRU_RESPONSABLE_FONCTIONNELID)
+                           TValue=TRU_USERS
+                           ForeignKeyField=@nameof(TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)
+                           MinWidth=100
+                           Width=160>
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TRU_USERS>)" Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+
+        <GridForeignColumn Field=@nameof(TEM_ETAT_MASTERS.TRU_RESPONSABLE_TECHNIQUEID)
+                           TValue=TRU_USERS
+                           ForeignKeyField=@nameof(TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)
+                           MinWidth=100
+                           Width=160>
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TRU_USERS>)" Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+
+        <GridForeignColumn Field=@nameof(TEM_ETAT_MASTERS.TC_CATEGORIEID)
+                           ForeignKeyValue=@nameof(TC_CATEGORIES.TC_NOM)
+                           ForeignDataSource=@_categories
+                           MinWidth=100>
+            <EditTemplate>
+                <SfDropDownList ID="Categories"
+                                TItem=TC_CATEGORIES
+                                @bind-Value=@(((TEM_ETAT_MASTERS)context).TC_CATEGORIEID)
+                                TValue=int?
+                                DataSource=@ActiveCategories
+                                FloatLabelType=FloatLabelType.Always
+                                Placeholder=@(DataAnnotations.Display<TEM_ETAT_MASTERS>(nameof(TEM_ETAT_MASTERS.TC_CATEGORIEID)))>
+                    <DropDownListFieldSettings Value=@nameof(TC_CATEGORIES.TC_CATEGORIEID)
+                                               Text=@nameof(TC_CATEGORIES.TC_NOM) />
+                </SfDropDownList>
+            </EditTemplate>
+        </GridForeignColumn>
+
+        <GridColumn Field=@nameof(TEM_ETAT_MASTERS.TEM_COMMENTAIRE)
+                    MinWidth=100 />
+
+        <GridColumn HeaderText="@Trad.Keys["DTM:Farms"]"
+                    MinWidth="150"
+                    Width="220">
+            <Template>
+                <div>@GetFarmsDescriptions(((TEM_ETAT_MASTERS)context).TEM_ETAT_MASTERID)</div>
+            </Template>
+            <EditTemplate>
+                @{
+                    var etatMasterId = ((TEM_ETAT_MASTERS)context).TEM_ETAT_MASTERID;
+                    <SfTooltip @ref="_fermesTooltipObj"
+                               OpensOn="Custom"
+                               CssClass="e-griderror"
+                               Target="#FermesMultiSelect">
+                        <ContentTemplate>
+                            <label class="e-error">@Trad.Keys["COMMON:RequiredField"]</label>
+                        </ContentTemplate>
+                    </SfTooltip>
+                    <FarmSelectionComponent @bind-SelectedFarms="SelectedFarms"
+                                            EtatMasterId="etatMasterId"
+                                            Fermes="ActiveFermes"
+                                            EtatMasterFermes="_etatMasterFermes" />
+                }
+            </EditTemplate>
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (IsInactivateDialogDisplayed)
+{
+    <SfDialog ShowCloseIcon=true Width=500 IsModal=true>
+        <DialogEvents Closed=CloseInactivateDialog />
+
+        <DialogTemplates>
+            <Header>
+                @string.Format(Trad.Keys["DTM:UTDInactivateDialogHeader"], _selectedRecord.TEM_NOM_ETAT_MASTER)
+            </Header>
+            <Content>
+                <p style="padding-top: 18px;">
+                    @Trad.Keys["DTM:UTDInactivateDialog"]
+                </p>
+            </Content>
+        </DialogTemplates>
+
+        <DialogButtons>
+            <DialogButton OnClick=InactivateDialogOnConfirm
+                          IsPrimary=true
+                          CssClass=e-success
+                          Content=@Trad.Keys["COMMON:Confirm"] />
+            <DialogButton OnClick=CloseInactivateDialog
+                          Content=@Trad.Keys["COMMON:Cancel"] />
+        </DialogButtons>
+    </SfDialog>
+}

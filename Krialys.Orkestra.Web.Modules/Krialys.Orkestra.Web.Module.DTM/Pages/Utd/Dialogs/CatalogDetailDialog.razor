@@ -1,0 +1,59 @@
+﻿<SfDialog @bind-Visible="@IsDisplayed"
+          Width="1200px"
+          MinHeight="480px"
+          ShowCloseIcon="true"
+          IsModal=true>
+    <DialogEvents OnClose=CloseCatalog />
+
+    <DialogTemplates>
+        <Header>@Header</Header>
+
+        <Content>
+            <OrkaTab Identifier=@(Litterals.Portail + "DTM_utd_catalog")>
+
+                <TabEvents Selecting="OnTabSelecting" />
+
+                <TabItems>
+                    <TabItem Disabled=@Disabled>
+                        <ChildContent>
+                            <TabHeader Text="@Trad.Keys["DTM:UTDCatalogResources"]" />
+                        </ChildContent>
+                        <ContentTemplate>
+                            <Krialys.Orkestra.Web.Module.DTM.Pages.Utd.Components.TER_ETAT_RESSOURCES_GridComponent EtatId=EtatId
+                                                                                                            GridQuery=_etatIdQuery
+                                                                                                            AllowModify=@canModify() />
+                        </ContentTemplate>
+                    </TabItem>
+
+                    <TabItem Disabled=@Disabled>
+                        <ChildContent>
+                            <TabHeader Text="@Trad.Keys["DTM:UTDCatalogBatchs"]" />
+                        </ChildContent>
+                        <ContentTemplate>
+                            <Krialys.Orkestra.Web.Module.DTM.Pages.Utd.Components.TEB_ETAT_BATCHS_GridComponent GridQuery="_etatIdBatchQuery"
+                                                                                                        AllowModify=@canModify() />
+                        </ContentTemplate>
+                    </TabItem>
+
+                    <TabItem Disabled=@Disabled>
+                        <ChildContent>
+                            <TabHeader Text="@Trad.Keys["DTM:UTDCatalogPrerequiste"]" />
+                        </ChildContent>
+                        <ContentTemplate>
+                            <Krialys.Orkestra.Web.Module.DTM.Pages.Utd.Components.TEP_ETAT_PREREQUIS_GridComponent EtatId=EtatId
+                                                                                                           GridQuery="_etatIdQuery"
+                                                                                                           AllowModify=@canModify() />
+                        </ContentTemplate>
+                    </TabItem>
+
+                </TabItems>
+            </OrkaTab>
+
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@(async () => { await CloseCatalog(); })"
+                      Content=@Trad.Keys["COMMON:Close"] />
+    </DialogButtons>
+</SfDialog>

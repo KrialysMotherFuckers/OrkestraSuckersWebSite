@@ -1,0 +1,37 @@
+﻿@page "/dts_orders"
+
+@attribute [Authorize]
+
+<ReasonSelect_DialogComponent />
+
+<SfTab ID=@(Litterals.Portail + "Etq_dts_order")
+       EnablePersistence=true
+       LoadOn=ContentLoad.Dynamic
+       OverflowMode=OverflowMode.Popup>
+
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect=AnimationEffect.None />
+        <TabAnimationNext Effect=AnimationEffect.None />
+    </TabAnimationSettings>
+
+    <TabEvents Selecting=OnTabSelecting />
+
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["DTS:List"] />
+            </ChildContent>
+            <ContentTemplate>
+                <TCMD_COMMANDES_GridComponent />
+            </ContentTemplate>
+        </TabItem>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text=@Trad.Keys["DTS:Monitoring"] />
+            </ChildContent>
+            <ContentTemplate>
+                <Order_KanbanComponent />
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>

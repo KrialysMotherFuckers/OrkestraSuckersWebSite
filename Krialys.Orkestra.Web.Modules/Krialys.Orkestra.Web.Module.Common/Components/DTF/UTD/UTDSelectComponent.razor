@@ -1,0 +1,145 @@
+﻿@using Krialys.Data.EF.Univers
+<div class="row">
+    <div class="col-xl-3">
+        <label class="custom-title">@Trad.Keys["DTF:Category"]</label><br />
+        <SfAutoComplete TValue=string
+                        TItem=TC_CATEGORIES
+                        DataSource=CategoryList
+                        Query=CategoryQuery
+                        Enabled=IsEnabled
+                        EnableVirtualization=true
+                        ShowPopupButton=true
+                        Autofill=true
+                        Highlight=true
+                        IgnoreAccent=true
+                        IgnoreCase=true
+                        AllowCustom=false>
+            <AutoCompleteFieldSettings Value=@nameof(TC_CATEGORIES.TC_NOM) />
+            <AutoCompleteEvents TValue=string
+                                TItem=TC_CATEGORIES
+                                ValueChange=CategoryValueChangeAsync />
+        </SfAutoComplete>
+    </div>
+    <div class="col-xl-5">
+        <label class="custom-title">@Trad.Keys["DTF:UTDLong*"]</label><br />
+        <SfAutoComplete @ref=EtatAutoCompleteReference @bind-Value=SelectedEtatValue
+                        TValue=string
+                        TItem=TE_ETATS
+                        DataSource=EtatsList
+                        Query=EtatsQuery
+                        Enabled=IsEnabled
+                        EnableVirtualization=true
+                        ShowPopupButton=true
+                        Autofill=true
+                        Highlight=true
+                        IgnoreAccent=true
+                        IgnoreCase=true
+                        AllowCustom=false>
+            <AutoCompleteFieldSettings Value=@nameof(TE_ETATS.TE_FULLNAME)
+                                       GroupBy="TEM_ETAT_MASTER.TC_CATEGORIE.TC_NOM" />
+            <AutoCompleteEvents TValue=string
+                                TItem=TE_ETATS
+                                ValueChange=EtatValueChangeAsync />
+            <AutoCompleteTemplates TItem=TE_ETATS>
+                <ItemTemplate>
+                    <div>
+                        @EtatAutoCompleteHighlightSearch(context.TE_FULLNAME)
+                        &nbsp;
+                        @if (StatusLiteral.Prototype.Equals(context.TRST_STATUTID))
+                        {
+                            <span class="prototype">(@Trad.Keys["DTF:Prototype"])</span>
+                        }
+                    </div>
+                </ItemTemplate>
+            </AutoCompleteTemplates>
+        </SfAutoComplete>
+    </div>
+    <div class="col-xl-4">
+        <label class="custom-title">
+            @Trad.Keys["DTF:AppModule"]
+            @if (IsModuleRequired)
+            {
+                <span>*</span>
+            }
+        </label>
+        <br />
+        <SfAutoComplete @bind-Value=SelectedScenarioValue
+                        TValue=string
+                        TItem=TS_SCENARIOS
+                        DataSource=ScenariosList
+                        Enabled=ScenarioSelectionEnabled
+                        ShowPopupButton=true
+                        Autofill=true
+                        Highlight=true
+                        IgnoreAccent=true
+                        IgnoreCase=true
+                        AllowCustom=false>
+            <AutoCompleteFieldSettings Value=@nameof(TS_SCENARIOS.TS_NOM_SCENARIO) />
+            <AutoCompleteEvents TValue=string
+                                TItem=TS_SCENARIOS
+                                ValueChange=ScenarioValueChangeAsync />
+        </SfAutoComplete>
+    </div>
+</div>
+
+@if (CategoryComment is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:CategoryInfo"]</span>&nbsp;
+            @CategoryComment
+        </div>
+    </div>
+}
+
+@if (EtatMasterComment is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:UTDInfo"]:</span>&nbsp;
+            @EtatMasterComment
+        </div>
+    </div>
+}
+
+@if (EtatComment is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:VersionInfo"]</span>&nbsp;
+            @EtatComment
+        </div>
+    </div>
+}
+
+@if (EtatInfoRevision is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:RevisionInfo"]</span>&nbsp;
+            @EtatInfoRevision
+        </div>
+    </div>
+}
+
+@if (ScenarioDescription is not null)
+{
+    <div class="row">
+        <div class="col-12 custom-info">
+            <span class="info-title">@Trad.Keys["DTF:AppModuleInfo"]:</span>&nbsp;
+            @ScenarioDescription
+        </div>
+    </div>
+}
+
+<style>
+    .info-title {
+        display: inline-block;
+        width: 175px;
+    }
+
+    .prototype {
+        color: grey;
+        font-style: italic;
+    }
+</style>

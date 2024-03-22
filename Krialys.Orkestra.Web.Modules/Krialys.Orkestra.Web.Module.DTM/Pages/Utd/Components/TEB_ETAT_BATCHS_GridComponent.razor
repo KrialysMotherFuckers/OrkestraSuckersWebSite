@@ -1,0 +1,71 @@
+﻿<OrkaGenericGridComponent TEntity="TEB_ETAT_BATCHS"
+                       @ref="Ref_TEB_ETAT_BATCHS"
+                       AutoGenerateColumns="false"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true"
+                       AllowGrouping="false"
+                       Query="GridQuery">
+    <ChildContent>
+
+        <GridEvents TValue="TEB_ETAT_BATCHS"
+                    DataBound=Ref_TEB_ETAT_BATCHS.DataBoundHander
+                    OnToolbarClick="@Ref_TEB_ETAT_BATCHS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TEB_ETAT_BATCHS.OnContextMenuItemClickedAsync"
+                    OnActionFailure="@Ref_TEB_ETAT_BATCHS.ActionFailureAsync"
+                    OnActionBegin=OnActionBeginAsync
+                    OnActionComplete=OnActionCompleteAsync OnLoad=Ref_TEB_ETAT_BATCHS.OnLoadHandler Destroyed=Ref_TEB_ETAT_BATCHS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="false"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+            <HeaderTemplate>
+                <span>@GetEditHeader(context as TEB_ETAT_BATCHS)</span>
+            </HeaderTemplate>
+
+            <FooterTemplate>
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => Ref_TEB_ETAT_BATCHS.DataGrid.EndEditAsync())">
+                    @Ref_TEB_ETAT_BATCHS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TEB_ETAT_BATCHS.DataGrid.CloseEditAsync())">
+                    @Ref_TEB_ETAT_BATCHS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TEB_ETAT_BATCHS.TEB_ETAT_BATCHID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        <GridColumn Field=@nameof(TEB_ETAT_BATCHS.TRST_STATUTID)
+                    MinWidth=100
+                    Width=115>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as TEB_ETAT_BATCHS)!).TRST_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TEB_ETAT_BATCHS.TEB_NOM_AFFICHAGE)
+                    MinWidth=100 />
+
+        <GridColumn Field=@nameof(TEB_ETAT_BATCHS.TEB_DATE_CREATION)
+                    MinWidth=100
+                    Width=170 />
+
+        <GridColumn Field=@nameof(TEB_ETAT_BATCHS.TEB_DESCR)
+                    MinWidth=100 />
+    </GridColumns>
+</OrkaGenericGridComponent>

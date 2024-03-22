@@ -1,0 +1,22 @@
+﻿<SfMultiSelect TValue="TL_LOGICIELS[]"
+               TItem="TL_LOGICIELS"
+               @bind-Value="@MultiselectValues"
+               DataSource="@Logiciels"
+               ID="LogicielsMultiSelect"
+               PopupHeight="350px"
+               Mode="@VisualMode.CheckBox"
+               Placeholder=@Trad.Keys["DTM:Softwares"]
+               AllowFiltering="false"
+               FilterBarPlaceholder=@Trad.Keys["COMMON:Search"]
+               ShowSelectAll="true"
+               EnableSelectionOrder="true"
+               ShowDropDownIcon="true"
+               EnablePersistence="false"
+               FloatLabelType='@FloatLabelType.Always'>
+
+    <MultiSelectFieldSettings Text="TL_NOM_LOGICIEL" />
+
+    <MultiSelectEvents TValue="TL_LOGICIELS[]"
+                       TItem="TL_LOGICIELS"
+                       ValueChange="OnValueChange" />
+</SfMultiSelect>

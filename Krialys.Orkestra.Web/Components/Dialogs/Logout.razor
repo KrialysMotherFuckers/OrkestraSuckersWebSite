@@ -1,0 +1,55 @@
+﻿@using Krialys.Orkestra.Web.Module.Common.Models
+@using Krialys.Orkestra.WebApi.Proxy
+@using Krialys.Orkestra.Web.Module.Common.Authentication
+@using System.Security.Claims
+
+@inject IAuthenticationService AuthService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Logout" Class="mr-3 mb-n1" />
+            Déconnection
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>@ContentText</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@Cancel">Cancel</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Logout" Color="@Color" Variant="Variant.Filled" OnClick="@Submit">@ButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+    @code {
+    [Parameter] public string ContentText { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+    [Parameter] public Color Color { get; set; }
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+
+    [Inject] IUserSessionStatus State { get; set; }
+    [Inject] IHttpProxyCore ProxyCore { get; set; }
+    [Inject] ILocalStorageService LocalStorage { get; set; }
+
+    private async Task Submit()
+    {
+        if (State.IsConnected)
+        {
+            State.IsConnected = false;
+            State.Claims = Enumerable.Empty<Claim>();
+            await LocalStorage.RemoveItemsAsync(await LocalStorage.KeysAsync());
+            ProxyCore.CacheClear();
+
+            await AuthService.LogOut();
+
+            Snackbar.Add("Déconnection", Severity.Info);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+
+        Navigation.NavigateTo("login", false, true);
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+}

@@ -1,0 +1,168 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity=TETQR_ETQ_REGLES
+                       @ref=Ref_TETQR_ETQ_REGLES
+                       SuffixId=@EtiquetteId.ToString()
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=false
+                       AllowGrouping=false
+                       Query=@GridQuery
+                       AutoGenerateColumns=false
+                       AllowTracking=true>
+
+    <GridColumns>
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_ETQ_REGLEID)
+                    Visible=false
+                    AllowAdding=false
+                    AllowEditing=false
+                    IsPrimaryKey=true />
+        @{
+            var propEtq = Ref_TETQR_ETQ_REGLES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == nameof(TETQR_ETQ_REGLES.TETQ_ETIQUETTEID));
+            @if (propEtq is not null)
+            {
+                <GridForeignColumn Field=@propEtq.Field
+                           HeaderText=@propEtq.HeaderText
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource=@propEtq.ForeignValuesList
+                           AutoFit=@propEtq.Autofit
+                           MinWidth="150"
+                           Visible=true
+                           AllowEditing=false
+                           AllowAdding=false />
+            }
+        }
+
+        @{
+            var prop = Ref_TETQR_ETQ_REGLES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == nameof(TETQR_ETQ_REGLES.TRGL_REGLEID));
+            @if (prop is not null)
+            {
+                <GridForeignColumn Field=@prop.Field
+                           HeaderText=@prop.HeaderText
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource=@prop.ForeignValuesList
+                           AutoFit=@prop.Autofit
+                           MinWidth="150"
+                           Visible=true
+                           AllowEditing=false
+                           AllowAdding=false />
+            }
+        }
+
+        @{
+            var propfieldRegleValeur = Ref_TETQR_ETQ_REGLES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == nameof(TETQR_ETQ_REGLES.TRGLRV_REGLES_VALEURID));
+            @if (propfieldRegleValeur is not null)
+            {
+                <GridForeignColumn Field=@propfieldRegleValeur.Field
+                           HeaderText=@propfieldRegleValeur.HeaderText
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource=@propfieldRegleValeur.ForeignValuesList
+                           AutoFit=@propfieldRegleValeur.Autofit
+                           MinWidth="150"
+                           Visible=true
+                           AllowEditing=true
+                           AllowAdding=false>
+                    <EditTemplate>
+                        @if (_listeRegleValeurEtq.Any())
+                        {
+                            rgvaleur(((context as TETQR_ETQ_REGLES)!).TRGL_REGLEID, ((context as TETQR_ETQ_REGLES)!).TRGLRV_REGLES_VALEURID);
+
+                            <SfDropDownList ID="IDTRGLRV_REGLES_VALEURS"
+                                TValue=int TItem=TRGLRV_REGLES_VALEURS
+                                Placeholder="Valeur à attribuer"
+                                DataSource=@ListeRegleValeurfiltre
+                                    @bind-Value=@RegleValeurSelected>
+                                <DropDownListFieldSettings Text=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_VALEUR)
+                                               Value=@nameof(TRGLRV_REGLES_VALEURS.TRGLRV_REGLES_VALEURID) />
+                            </SfDropDownList>
+
+                            <div class="form-group col-6">
+                                <SfTextBox ID="CommentaireId"
+                                    Placeholder="Commentaire"
+                                    @bind-Value=@UserComment
+                                    Multiline=true />
+                            </div>
+                        }
+                    </EditTemplate>
+                </GridForeignColumn>
+            }
+        }
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_DATE_DEBUT) AllowAdding=false AllowEditing=false>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_DATE_FIN) AllowAdding=false AllowEditing=false>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_ECHEANCE) AllowAdding=false AllowEditing=false>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_ETQ_REGLES_ACTION) AllowAdding=false AllowEditing=false>
+            <EditTemplate>
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_LIMITE_ATTEINTE) AllowAdding=false AllowEditing=false AllowFiltering=false>
+            <Template>
+
+                @Trad.Keys[$"BOOL:{(((TETQR_ETQ_REGLES)context).TETQR_LIMITE_ATTEINTE ?? StatusLiteral.No)}"]
+
+            </Template>
+            <EditTemplate />
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TETQR_ETQ_REGLES.TETQR_REGLE_LIEE) AllowAdding=false AllowEditing=false>
+            <EditTemplate />
+        </GridColumn>
+
+    </GridColumns>
+
+    <ChildContent>
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TETQR_ETQ_REGLES
+                    OnToolbarClick=@Ref_TETQR_ETQ_REGLES.OnToolbarClickAsync
+                    ContextMenuItemClicked=@Ref_TETQR_ETQ_REGLES.OnContextMenuItemClickedAsync
+                    OnActionFailure=@Ref_TETQR_ETQ_REGLES.ActionFailureAsync
+                    OnActionBegin=OnActionBegin OnLoad=Ref_TETQR_ETQ_REGLES.OnLoadHandler Destroyed=@Ref_TETQR_ETQ_REGLES.OnDestroyed />
+
+        <GridEditSettings AllowAdding=false
+                          AllowEditing=true
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=@EditMode.Dialog
+                          Dialog=@Extends.GridEditSettingDialog
+                          AllowEditOnDblClick=true>
+
+            <HeaderTemplate>
+                @{
+                    var text = GetHeader((context as TETQR_ETQ_REGLES));
+                    <span>@text</span>
+                }
+            </HeaderTemplate>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => SaveAsync(Ref_TETQR_ETQ_REGLES, entity))>
+                    @Ref_TETQR_ETQ_REGLES.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => Ref_TETQR_ETQ_REGLES.DataGrid.CloseEditAsync())>
+                    @Ref_TETQR_ETQ_REGLES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+    </ChildContent>
+</OrkaGenericGridComponent>

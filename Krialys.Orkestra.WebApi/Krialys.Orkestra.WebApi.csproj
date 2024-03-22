@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+    </PropertyGroup>
+
+    <!-- GC management, ref.: https://github.com/dotnet/runtime/discussions/47659 -->
+    <PropertyGroup>
+        <NoWin32Manifest>true</NoWin32Manifest>
+        <!-- Optional: You can also set specific options (if all are set to true, but avoid ServerGarbageCollection to true since it is very greedy in RAM) -->
+        <ServerGarbageCollection>false</ServerGarbageCollection>
+        <ServerGarbageCollectionConcurrent>true</ServerGarbageCollectionConcurrent>
+        <ServerGarbageCollectionCpuGroups>2</ServerGarbageCollectionCpuGroups>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Orkestra.WebApi.Controllers\Krialys.Orkestra.WebApi.Controllers.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.WebApi.Infrastructure\Krialys.Orkestra.WebApi.Infrastructure.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.WebApi.Serilog.SQLite\Krialys.Orkestra.WebApi.Serilog.SQLite.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="App_Data\Update\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="App_Data\Update\Krialys.Orkestra.ParallelU.exe">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Debug'">
+            <ItemGroup>
+                <None Update="App_Data\Database\db-ETQ.db3">
+                    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                </None>
+
+                <None Update="App_Data\Database\db-MSO.db3">
+                    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                </None>
+
+                <None Update="App_Data\Database\db-Univers.db3">
+                    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                </None>
+            </ItemGroup>
+        </When>
+        <When Condition="'$(Configuration)' != 'Debug'">
+            <ItemGroup>
+                <None Update="App_Data\Database\db-ETQ.db3">
+                    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+                </None>
+
+                <None Update="App_Data\Database\db-MSO.db3">
+                    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+                </None>
+
+                <None Update="App_Data\Database\db-Univers.db3">
+                    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+                </None>
+            </ItemGroup>
+        </When>
+    </Choose>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+        <!--<Copy SourceFiles="$(OutputPath)appsettings.Development.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Debug'" />-->
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Dev.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Dev'" />
+
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Uat.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Uat'" />
+
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Staging-Aew.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Staging-Aew'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Staging-Sncf.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Staging-Sncf'" />
+        
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Prod-Demo.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Demo'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Prod-Krialys.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Krialys'" />
+
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Prod-Aew.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Aew'" />
+        <Copy SourceFiles="$(OutputPath)appsettings.Release-Prod-Sncf.json" DestinationFiles="$(OutDir)appsettings.Production.json" Condition="$(Configuration) == 'Release-Prod-Sncf'" />
+
+        <Delete Files="$(OutputPath)appsettings.Development.json" Condition="$(Configuration) != 'Debug'" />
+        <Delete Files="$(OutputPath)appsettings.Release-*.json" />
+
+        <!--dotnet tool install - -global swashbuckle.aspnetcore.cli - -version 6.3.0-->
+        <!--dotnet tool uninstall Swashbuckle.AspNetCore.Cli - -global-->
+        <Exec Command="swagger tofile --output $(ProjectName).Swagger.json  $(OutDir)$(TargetFileName) v1" Condition="$(Configuration) == 'Debug'" />
+
+    </Target>
+
+</Project>

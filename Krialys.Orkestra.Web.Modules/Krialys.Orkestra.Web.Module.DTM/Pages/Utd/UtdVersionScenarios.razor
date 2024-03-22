@@ -1,0 +1,231 @@
+@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent @ref="Ref_TS_SCENARIOS"
+                          TEntity="TS_SCENARIOS"
+                          SuffixId=@GetSuffixId
+                          AllowResizing="true"
+                          AllowPdfExport="false"
+                          AllowExcelExport="true"
+                          AllowCsvExport="false"
+                          EnablePersistence="false"
+                          AllowGrouping="false"
+                          Query="GridQuery"
+                          AutoGenerateColumns="false">
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TS_SCENARIOS.TS_SCENARIOID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        <GridColumn Field=@nameof(TS_SCENARIOS.TS_NOM_SCENARIO)
+                    Uid=@nameof(TS_SCENARIOS.TS_NOM_SCENARIO)
+                    MinWidth=100 />
+
+        <GridColumn Field=@nameof(TS_SCENARIOS.TRST_STATUTID)
+                    Uid=@nameof(TS_SCENARIOS.TRST_STATUTID)
+                    AllowAdding="false"
+                    AllowEditing="false"
+                    MinWidth=100
+                    Width=112>
+            <Template>
+                @Trad.Keys[$"STATUS:{((context as TS_SCENARIOS)!).TRST_STATUTID}"]
+            </Template>
+            <FilterItemTemplate>
+                @Trad.Keys[$"STATUS:{((context as FilterItemTemplateContext)!).Value}"]
+            </FilterItemTemplate>
+        </GridColumn>
+
+        <GridColumn Uid="StatusColumn"
+                    HeaderText="StatusColumn"
+                    Visible=false>
+            <EditTemplate>
+                @{
+                    if (context is TS_SCENARIOS scenario && scenario.TS_SCENARIOID != 0)
+                    {
+                        <div class="control-section">
+                            <div class="radio-control">
+                                <h4 class="row">@Trad.Keys["COMMON:ChangeStatus"]</h4>
+
+                                <StatusComponent @bind-ItemStatus="scenario.TRST_STATUTID"
+                                                 Module="StatusComponent.ModuleType.Scenario"
+                                                 JobStatus="@Job.TRST_STATUTID"
+                                                 VersionStatus="@JobVersion.TRST_STATUTID"></StatusComponent>
+                            </div>
+                        </div>
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TS_SCENARIOS.TS_DESCR)
+                    Uid=@nameof(TS_SCENARIOS.TS_DESCR)
+                    MinWidth=100 />
+
+        <GridColumn Uid="NbBatchsColumn"
+                    HeaderText=@Trad.Keys["DTM:NbBatchs"]
+                    MinWidth=100
+                    Width=180>
+            <Template>
+                @{
+                    if (_batchScenarios.Any())
+                    {
+                        var nbBatchs = _batchScenarios.Count(x => x.TS_SCENARIOID.Equals(((context as TS_SCENARIOS)!).TS_SCENARIOID));
+                        <label>@nbBatchs</label>
+                    }
+                    else
+                    {
+                        <label>-</label>
+                    }
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Uid="NbResourcesColumn"
+                    HeaderText=@Trad.Keys["DTM:NbResources"]
+                    MinWidth=100
+                    Width=180>
+            <Template>
+                @{
+                    if (_ressourceScenarios.Any())
+                    {
+                        var nbRessources = _ressourceScenarios.Count(x => x.TS_SCENARIOID.Equals(((context as TS_SCENARIOS)!).TS_SCENARIOID));
+                        <label>@nbRessources</label>
+                    }
+                    else
+                    {
+                        <label>-</label>
+                    }
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Uid="NbPrerequisitesColumn"
+                    HeaderText=@Trad.Keys["DTM:NbPrerequisites"]
+                    MinWidth=100
+                    Width=180>
+            <Template>
+                @{
+                    if (_prerequisScenarios.Any())
+                    {
+                        var nbPrerequis = _prerequisScenarios.Count(x => x.TS_SCENARIOID.Equals(((context as TS_SCENARIOS)!).TS_SCENARIOID));
+                        <label>@nbPrerequis</label>
+                    }
+                    else
+                    {
+                        <label>-</label>
+                    }
+                }
+            </Template>
+        </GridColumn>
+
+        <GridColumn Uid="ManageAssociationsColumn"
+                    HeaderText=@Trad.Keys["DTM:ManageAssociations"]
+                    TextAlign=TextAlign.Left
+                    MinWidth=100
+                    Width=180>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["DTM:ManageAssociations"]
+                                   ID="CommandGererAssociation"
+                                   ButtonOption="@(new CommandButtonOptions { IconCss = "e-icons e-replace", CssClass = "e-flat" })">
+                </GridCommandColumn>
+            </GridCommandColumns>
+        </GridColumn>
+
+    </GridColumns>
+
+    <ChildContent>
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TS_SCENARIOS
+                    OnToolbarClick=@Ref_TS_SCENARIOS.OnToolbarClickAsync
+                    ContextMenuItemClicked=@Ref_TS_SCENARIOS.OnContextMenuItemClickedAsync
+                    OnActionBegin=OnActionBeginAsync
+                    OnActionComplete=OnActionCompleteAsync
+                    DataBound=DataBoundHandlerAsync
+                    CommandClicked=OnCommandClicked OnLoad=Ref_TS_SCENARIOS.OnLoadHandler Destroyed=Ref_TS_SCENARIOS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            <HeaderTemplate>
+                <span>@GetHeader(context as TS_SCENARIOS)</span>
+            </HeaderTemplate>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TS_SCENARIOS, entity))">
+                    @Ref_TS_SCENARIOS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TS_SCENARIOS.DataGrid.CloseEditAsync())">
+                    @Ref_TS_SCENARIOS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+    </ChildContent>
+</OrkaGenericGridComponent>
+
+<SfDialog @bind-Visible="@InfoDialogIsVisible" Width="580px" ShowCloseIcon="true" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["DTM:Info"]</Header>
+        <Content>
+            <br />
+            <div>
+                <p>
+                    @Trad.Keys["DTM:ComplianceControl"]
+                </p>
+            </div>
+            <hr />
+            <div style="background-color: #ffca1c; text-align: center; word-break:break-word;">
+                <pre style="white-space:pre;"><b>@ErrorMsg  </b></pre>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkInfoClick" Content=@Trad.Keys["COMMON:Ok"]>
+        </DialogButton>
+    </DialogButtons>
+</SfDialog>
+
+<SfDialog @ref="InfoAccesImpossible" @bind-Visible="@InfoAccesImpossibleIsVisible" Width="580px" ShowCloseIcon="true" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["DTM:Info"]</Header>
+        <Content>
+            <br />
+            <hr />
+            <div style="background-color: #ffca1c; text-align: center; word-break:break-word;">
+                <pre style="white-space:pre;"><b>@InfoAccesImpossibleMsg  </b></pre>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkInfoAccesImpossibleClick" Content=@Trad.Keys["COMMON:Ok"]>
+        </DialogButton>
+    </DialogButtons>
+</SfDialog>
+
+<SfDialog @ref="SfGererAssociation"
+          @bind-Visible="@IsGererAssociationDisplayed"
+          Width="1200px"
+          ShowCloseIcon="true"
+          IsModal="true">
+    <DialogTemplates>
+        <Header>
+            @string.Format(Trad.Keys["DTM:ScenarioManageAssociationHeader"], GererAssociationScenarioName)
+        </Header>
+        <Content>
+            <FilesAndBatchsManagerComponent OnAssociationChange=DataBoundHandlerAsync
+                                            ScenarioId="@GererAssociationScenarioID"
+                                            EtatId="@GererAssociationEtatId"
+                                            Job=@Job
+                                            JobVersion=@JobVersion
+                                            ReadOnly="@ReadOnly" />
+        </Content>
+    </DialogTemplates>
+</SfDialog>

@@ -1,0 +1,100 @@
+﻿<SfDialog @bind-Visible=IsVisible
+          Width=920px
+          Height=610px
+          ShowCloseIcon=true
+          IsModal=true>
+    <DialogEvents OnClose=CloseDialogAsync />
+
+    <DialogTemplates>
+        <Header>@Trad.Keys["DTF:ChooseProductionMode"]</Header>
+
+        <Content>
+            <div class="row select-scheduling-mode">
+                <div class="col-12 custom-box border-primary">
+                    <span>
+                        <SfIcon Name=IconName.AgendaDateRange
+                                Size=IconSize.Large />
+                        &nbsp;<b>@Trad.Keys["DTF:Scheduling"] :</b>&nbsp;
+                    </span>
+                    <SfRadioButton @bind-Checked=SelectedSchedulingMode
+                                   Label=@Trad.Keys["DTF:Deferred"]
+                                   Name=@SchedulerRbName
+                                   TChecked=SchedulingMode
+                                   Value=@SchedulingMode.Deferred.ToString() />
+                    &nbsp;
+                    @if (!IsPrototype)
+                    {
+                        <SfRadioButton @bind-Checked=SelectedSchedulingMode
+                                       Label=@Trad.Keys["DTF:Recurrent"]
+                                       Name=@SchedulerRbName
+                                       TChecked=SchedulingMode
+                                       Value=@SchedulingMode.Recurrent.ToString() />
+                    }
+                </div>
+            </div>
+
+            @if (SelectedSchedulingMode.Equals(SchedulingMode.Deferred))
+            {
+                <code style="color: darkviolet;">&nbsp;> @Trad.Keys["DTF:DateTime"]</code>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-6 custom-box">
+                        <span>
+                            <SfIcon Name=IconName.TimelineWorkWeek Size=IconSize.Large />
+                            &nbsp;@Trad.Keys["DTF:DateTimeStart"] :
+                        </span>
+                        <SfTooltip @ref=_refScheduledDateTooltip
+                                   Target=#ScheduledDateTimePicker
+                                   OpensOn=Custom
+                                   Content=@Trad.Keys["COMMON:RequiredField"]
+                                   CssClass=e-griderror>
+                            <SfDateTimePicker @bind-Value=_executionDate
+                                          ID=ScheduledDateTimePicker
+                                          Placeholder=@Trad.Keys["DTF:DateTime"]
+                                          TValue=DateTime?
+                                          Min=DateExtensions.GetLocaleNow().AddMinutes(1)
+                                          StrictMode=true
+                                          WeekNumber=true
+                                          EnableMask=true
+                                          Format="g"
+                                          Step=5
+                                          ShowClearButton=true>
+                                <DateTimePickerEvents TValue=DateTime?
+                                                  ValueChange=OnScheduledDateChangeAsync />
+                            </SfDateTimePicker>
+                        </SfTooltip>
+                    </div>
+                </div>
+            }
+            else if (SelectedSchedulingMode.Equals(SchedulingMode.Recurrent))
+            {
+                <CronManagerComponent @bind-Cron=_cron
+                @bind-IsCronValid=_isCronValid
+                @bind-StartDate=_cronStartDate
+                @bind-EndDate=_cronEndDate />
+            }
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton Content=@Trad.Keys["COMMON:Back"]
+                      OnClick=CloseDialogAsync
+                      IsPrimary=false />
+        <DialogButton Content=@Trad.Keys["DTF:ValidateScheduling"]
+                      OnClick=ProductionValidateAsync
+                      IsPrimary=true
+                      CssClass=e-success />
+    </DialogButtons>
+</SfDialog>
+
+<style>
+    .select-scheduling-mode {
+        margin-top: 10px;
+    }
+
+    /* Align icons with text. */
+    .e-icons {
+        vertical-align: middle;
+    }
+</style>

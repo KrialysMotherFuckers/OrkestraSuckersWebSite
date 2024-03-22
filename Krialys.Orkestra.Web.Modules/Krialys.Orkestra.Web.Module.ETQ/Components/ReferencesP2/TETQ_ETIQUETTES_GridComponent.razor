@@ -1,0 +1,87 @@
+﻿<OrkaGenericGridComponent @ref=_gridRef
+                          TEntity=TETQ_ETIQUETTES
+                          SuffixId="REF"
+                          IsWithinTab=true
+                          AllowResizing=true
+                          AllowPdfExport=false
+                          AllowExcelExport=true
+                          AutoGenerateColumns=true
+                          OnLoadFields=_customLoadFields
+                          OnEditFields=_customEditFields
+                          EnablePersistence=true
+                          AllowTracking=true
+                          Query=_gridQuery
+                          UseDataManager=false>
+    <ChildContent>
+        <SfDataManager AdaptorInstance=@typeof(IWasmDataAdaptor<TETQ_ETIQUETTES>)
+                       Adaptor=Adaptors.CustomAdaptor />
+
+        <GridEvents TValue=TETQ_ETIQUETTES
+                    OnDataBound=OnDataBoundAsync
+                    DataBound=DataBound
+                    OnActionBegin=_gridRef.OnActionBeginAsync
+                    OnActionComplete=_gridRef.OnActionCompleteAsync
+                    OnActionFailure=_gridRef.ActionFailureAsync
+                    OnToolbarClick=_gridRef.OnToolbarClickAsync
+                    ContextMenuItemClicked=_gridRef.OnContextMenuItemClickedAsync
+                    OnLoad=_gridRef.OnLoadHandler Destroyed=_gridRef.OnDestroyed
+                    CommandClicked=CommandClicked />
+
+        <GridEditSettings AllowAdding="false"
+                          AllowEditing="true"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            <HeaderTemplate>
+                @string.Format(Trad.Keys["ETQ:EtqGridEditHeader"], (context as TETQ_ETIQUETTES).TETQ_CODE)
+            </HeaderTemplate>
+
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => _gridRef.DataGrid.EndEditAsync())>
+                    @_gridRef.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => _gridRef.DataGrid.CloseEditAsync())>
+                    @_gridRef.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    @* Get current object Id. *@
+                    var tetqEtiquettes = (context as TETQ_ETIQUETTES);
+                    @* Query to filter child grid with the current object Id. *@
+                    var gridQueryReglesEtq = new Query().Where("TETQ_ETIQUETTEID", "equal", tetqEtiquettes!.TETQ_ETIQUETTEID);
+                    <TETQR_ETQ_REGLES_GridComponent GridQuery=gridQueryReglesEtq EtiquetteId="@tetqEtiquettes.TETQ_ETIQUETTEID" ObjetEtiquetteId="@tetqEtiquettes.TOBJE_OBJET_ETIQUETTEID" />
+                }
+            </DetailTemplate>
+        </GridTemplates>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn HeaderText=@Trad.Keys["COMMON:Actions"]
+                    TextAlign=Syncfusion.Blazor.Grids.TextAlign.Left
+                    MinWidth=100
+                    Width=100>
+            <GridCommandColumns>
+                <GridCommandColumn Title=@Trad.Keys["ETQ:AuthorizationManagementTooltip"]
+                                   ID=@AuthorizationCommandId
+                                   ButtonOption=@(new CommandButtonOptions{
+                                   IconCss="e-icons e-people",
+                                   CssClass = "e-flat" }) />
+            </GridCommandColumns>
+        </GridColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@if (_isEtqAuthorizationDialogDisplayed)
+{
+    <EtqAuthorization_DialogComponent @bind-IsVisible=_isEtqAuthorizationDialogDisplayed
+                                      Label=_selectedLabel />
+}

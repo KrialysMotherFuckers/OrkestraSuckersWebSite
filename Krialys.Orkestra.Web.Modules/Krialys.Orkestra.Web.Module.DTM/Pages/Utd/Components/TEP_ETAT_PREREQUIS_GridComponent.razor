@@ -1,0 +1,83 @@
+﻿<OrkaGenericGridComponent TEntity="TEP_ETAT_PREREQUISS"
+                       @ref="Ref_TEP_ETAT_PREREQUISS"
+                       AutoGenerateColumns="false"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true"
+                       AllowGrouping="false"
+                       Query="GridQuery">
+    <ChildContent>
+
+        <GridEvents TValue="TEP_ETAT_PREREQUISS"
+                    DataBound=Ref_TEP_ETAT_PREREQUISS.DataBoundHander
+                    OnToolbarClick="@Ref_TEP_ETAT_PREREQUISS.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TEP_ETAT_PREREQUISS.OnContextMenuItemClickedAsync"
+                    OnActionFailure="@Ref_TEP_ETAT_PREREQUISS.ActionFailureAsync" OnLoad=Ref_TEP_ETAT_PREREQUISS.OnLoadHandler Destroyed=Ref_TEP_ETAT_PREREQUISS.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="AllowModify"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog"
+                          AllowEditOnDblClick="false">
+            <HeaderTemplate>
+                <span>@GetEditHeader(context as TEP_ETAT_PREREQUISS)</span>
+            </HeaderTemplate>
+
+            <FooterTemplate>
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(context))">
+                    @Ref_TEP_ETAT_PREREQUISS.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TEP_ETAT_PREREQUISS.DataGrid.CloseEditAsync())">
+                    @Ref_TEP_ETAT_PREREQUISS.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        @* Browse through displayed fields list. *@
+        @foreach (var field in _displayedFields)
+        {
+
+            @* Get column parameters (based on reflection on the entities attributes.) *@
+            var prop = Ref_TEP_ETAT_PREREQUISS.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == field);
+
+            @* Column parameters not found. *@
+            if (prop is null)
+            {
+                continue;
+            }
+
+            if (prop.IsForeignKey)
+            {
+                <GridForeignColumn Field="@prop.Field"
+                           HeaderText="@prop.HeaderText"
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource="@prop.ForeignValuesList"
+                           AutoFit="@prop.Autofit"
+                           MinWidth="150" />
+            }
+            else
+            {
+                <GridColumn Field="@prop.Field"
+                    HeaderText="@prop.HeaderText"
+                    IsPrimaryKey="@prop.IsPrimaryKey"
+                    IsIdentity="@prop.IsIdentity"
+                    Visible="@prop.Visible"
+                    Format="@prop.Format"
+                    Type="@prop.ColumnType"
+                    EnableGroupByFormat="@(prop.Format == default)"
+                    AutoFit="@prop.Autofit"
+                    MinWidth="150"
+                    Width="@prop.Width" />
+            }
+        }
+    </GridColumns>
+</OrkaGenericGridComponent>

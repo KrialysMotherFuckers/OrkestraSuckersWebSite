@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+
+        <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="8.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="MudBlazor" Version="6.17.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+        <PackageReference Include="NSwag.ApiDescription.Client" Version="14.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="NSwag.MSBuild" Version="14.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="TextCopy" Version="6.2.1" />
+
+    </ItemGroup>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+        <Exec Command="del $(ProjectDir)ApiClient\OrkaApiClient.cs /q" />
+    </Target>
+
+    <ItemGroup>
+        <OpenApiReference Include="..\Krialys.Orkestra.WebApi\Krialys.Orkestra.WebApi.Swagger.json" Link="OpenAPIs\Krialys.Orkestra.WebApi.Swagger.json" CodeGenerator="NSwagCSharp" Namespace="Krialys.Orkestra.Web.Common.ApiClient" ClassName="{controller}Client" OutputPath="..\ApiClient\OrkaApiClient.cs" Options="/JsonLibrary:SystemTextJson /generateClientClasses:true /generateClientInterfaces:true /clientBaseInterface:IOrkaApiClient /generateExceptionClasses:true /exceptionClass:ApiException /operationGenerationMode:MultipleClientsFromFirstTagAndPathSegments /useHttpClientCreationMethod:false /useBaseUrl:false">
+        </OpenApiReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Krialys.Orkestra.Common\Krialys.Orkestra.Common.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Etq\Krialys.Data.EF.Etq.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Logs\Krialys.Data.EF.Logs.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Mso\Krialys.Data.EF.Mso.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.RefManager\Krialys.Data.EF.RefManager.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.Univers\Krialys.Data.EF.Univers.csproj" />
+        <ProjectReference Include="..\Krialys.Data\Krialys.Data.EF.FileStorage\Krialys.Data.EF.FileStorage.csproj" />
+        <ProjectReference Include="..\Krialys.Orkestra.WebApi.Proxy\Krialys.Orkestra.WebApi.Proxy.csproj" />
+    </ItemGroup>
+
+</Project>

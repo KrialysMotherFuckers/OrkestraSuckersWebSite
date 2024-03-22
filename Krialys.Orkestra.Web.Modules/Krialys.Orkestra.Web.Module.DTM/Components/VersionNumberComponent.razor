@@ -1,0 +1,51 @@
+﻿
+<div class="row">
+    <label>@Trad.Keys["DTM:Version"]</label>
+    <div class="col-4">
+        <SfNumericTextBox TValue="int" value="@MajeurVersion" @onchange="OnMajeurVersionChanged" Enabled=@AllowModify />
+    </div>
+    <div class="col-4">
+        <SfNumericTextBox TValue="int" value="@MinorVersion" @onchange="OnMinorVersionChanged" Enabled=@AllowModify />
+    </div>
+    <div class="col-4">
+        <SfNumericTextBox TValue="int" value="@BuildVersion" @onchange="OnBuildVersionChanged" Enabled=@AllowModify />
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public int MajeurVersion { get; set; }
+    [Parameter] public int MinorVersion { get; set; }
+    [Parameter] public int BuildVersion { get; set; }
+
+    [Parameter] public bool AllowModify { get; set; }
+
+    [Parameter] public EventCallback<int> MajeurVersionChanged { get; set; }
+    [Parameter] public EventCallback<int> MinorVersionChanged { get; set; }
+    [Parameter] public EventCallback<int> BuildVersionChanged { get; set; }
+
+    public async Task OnMajeurVersionChanged(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        var val = int.Parse(e.Value.ToString());
+
+        MajeurVersion = val;
+        await MajeurVersionChanged.InvokeAsync(MajeurVersion);
+    }
+
+    public async Task OnMinorVersionChanged(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        var val = int.Parse(e.Value.ToString());
+
+        MinorVersion = val;
+        await MinorVersionChanged.InvokeAsync(MinorVersion);
+    }
+
+    public async Task OnBuildVersionChanged(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        var val = int.Parse(e.Value.ToString());
+
+        BuildVersion = val;
+        await BuildVersionChanged.InvokeAsync(BuildVersion);
+    }
+}
+

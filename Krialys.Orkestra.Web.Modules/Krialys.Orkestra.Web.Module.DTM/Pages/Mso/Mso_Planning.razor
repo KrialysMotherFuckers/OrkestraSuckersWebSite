@@ -1,0 +1,136 @@
+﻿@page "/mso_planifications"
+
+@using Krialys.Data.EF.Mso;
+@using Krialys.Data.EF.Univers;
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders;
+
+@attribute [Authorize(Policy = PoliciesLiterals.PlanifsViewer)]
+
+@*<h4><b>@Trad.Keys["MSO:PlanifsTitle"]</b> - @Trad.Keys["MSO:PlanifsText1"]</h4>*@
+
+<OrkaGenericGridComponent TEntity=TRP_PLANIFS
+                       @ref=_refGrid
+                       Query=_query
+                       IsWithinTab=true
+                       AutoGenerateColumns=false
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=true>
+    <ChildContent>
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TRP_PLANIFS
+                    OnToolbarClick=_refGrid.OnToolbarClickAsync
+                    ContextMenuItemClicked=_refGrid.OnContextMenuItemClickedAsync
+                    OnActionFailure=_refGrid.ActionFailureAsync
+                    DataBound=_refGrid.DataBoundHander
+                    OnActionBegin=OnActionBegin OnLoad=_refGrid.OnLoadHandler Destroyed=_refGrid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=AllowModify
+                          AllowEditing=AllowModify
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog=GridDialogSettings>
+            <Template>
+                @{
+                    @if (context is TRP_PLANIFS planif)
+                    {
+                        <div class="row">
+                            <div class="col-12 custom-box">
+                                <SfTextBox ID=@nameof(TRP_PLANIFS.TRP_DESCRIPTION)
+                                       @bind-Value=planif.TRP_DESCRIPTION
+                                           Placeholder=@(DataAnnotations.Display<TRP_PLANIFS>(nameof(TRP_PLANIFS.TRP_DESCRIPTION)))
+                                           FloatLabelType=FloatLabelType.Always
+                                           Multiline=true/>
+                            </div>
+                        </div>
+                        //<CronManagerComponent @bind-Cron=planif.TRP_CRON
+                        //                      @bind-IsCronValid=_isCronValid
+                        //                      @bind-StartDate=planif.TRP_DATE_DEBUT_PLANIF
+                        //                      @bind-EndDate=planif.TRP_DATE_FIN_PLANIF/>
+                    }
+                }
+            </Template>
+
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          Disabled=@(!_isCronValid)
+                          OnClick=@(() => SaveAsync(context as TRP_PLANIFS))>
+                    @_refGrid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => _refGrid.DataGrid.CloseEditAsync())>
+                    @_refGrid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+    </ChildContent>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_PLANIFID)
+                    IsPrimaryKey=true
+                    IsIdentity=true
+                    Visible=false />
+
+        @*<GridColumn Field=@nameof(TRP_PLANIFS.TRP_STATUT)
+                    MinWidth=100
+                    Width=115>
+            <Template>
+                @Trad.Keys[$"STATUS:{(context as TRP_PLANIFS).TRP_STATUT}"]
+            </Template>
+        </GridColumn>*@
+
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_DESCRIPTION)
+                    MinWidth=100
+                    Width=300 />
+
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_CRON)
+                    MinWidth=100
+                    Width=400>
+            <Template>
+                @CronServices.GetDescription((context as TRP_PLANIFS)?.TRP_CRON)
+            </Template>
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_DATE_DEBUT_PLANIF)
+                    Type=ColumnType.DateTime
+                    EditType=EditType.DateTimePickerEdit
+                    MinWidth=100
+                    Width=170 />
+
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_DATE_FIN_PLANIF)
+                    Type=ColumnType.DateTime
+                    EditType=EditType.DateTimePickerEdit
+                    MinWidth=100
+                    Width=151 />
+
+        <GridColumn Field=@nameof(TRP_PLANIFS.TRP_TIMEZONE_INFOID)
+                    MinWidth=100
+                    Width=245 />
+
+        <GridForeignColumn Field=@nameof(TRP_PLANIFS.TTU_CREATEURID)
+                           TValue=TRU_USERS
+                           ForeignKeyField=@nameof(TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)
+                           AllowEditing=false
+                           AllowAdding=false
+                           MinWidth=100
+                           Width=200>
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TRU_USERS>)" Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+
+        <GridForeignColumn Field=@nameof(TRP_PLANIFS.TTU_MODIFICATEURID)
+                           TValue=TRU_USERS
+                           ForeignKeyField=@nameof(TRU_USERS.TRU_USERID)
+                           ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)
+                           AllowEditing=false
+                           AllowAdding=false
+                           MinWidth=100
+                           Width=200>
+            <SfDataManager AdaptorInstance="typeof(IWasmDataAdaptor<TRU_USERS>)" Adaptor="Adaptors.CustomAdaptor" />
+        </GridForeignColumn>
+    </GridColumns>
+</OrkaGenericGridComponent>

@@ -1,0 +1,49 @@
+﻿<table>
+    <tr>
+        <td>  <label style="font-size:13px">@Trad.Keys["Administration:DataDrivenDTFCopyMsg1"] 	&nbsp;</label> </td>
+        <td>
+            <SfDropDownList ID="userDest"
+                            TItem=Data.EF.Univers.TRU_USERS
+                            @bind-Value=@UserDest
+                            TValue=string
+                            DataSource=@ActiveUsers
+                            Query="@UserQuery"
+                            FloatLabelType=FloatLabelType.Never>
+               
+                <DropDownListFieldSettings Value=@nameof(Data.EF.Univers.TRU_USERS.TRU_USERID)
+                                           Text=@nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME) />
+            </SfDropDownList>
+        </td>
+        <td>  <label style="font-size:13px">&nbsp; @Trad.Keys["Administration:DataDrivenDTFCopyMsg2"] 	&nbsp;</label>  </td>
+        <td>
+            <SfDropDownList ID="userSrc"
+                            TItem=Data.EF.Univers.TRU_USERS
+                            @bind-Value=@UserSrc
+                            TValue=string
+                            DataSource="@ActiveUsers"
+                            Query="@UserQuery"
+                            FloatLabelType=FloatLabelType.Never>
+                <DropDownListFieldSettings Value=@nameof(Data.EF.Univers.TRU_USERS.TRU_USERID)
+                                           Text=@nameof(Data.EF.Univers.TRU_USERS.TRU_FULLNAME) />
+            </SfDropDownList>
+        </td>
+    </tr>
+</table>
+
+
+
+<br />
+
+<p></p>
+
+
+
+<SfButton IsPrimary="true"
+          CssClass="e-success"
+          OnClick="@SaveAsync">
+    @Trad.Keys["GridSource:EditButtonText"]
+</SfButton>
+
+
+
+

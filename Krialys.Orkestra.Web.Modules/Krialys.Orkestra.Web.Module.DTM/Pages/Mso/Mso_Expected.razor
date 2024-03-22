@@ -1,0 +1,184 @@
+﻿ @page "/mso_attendus"
+
+@using Krialys.Data.EF.Mso;
+@using Krialys.Orkestra.Web.Module.Common.Components.DataManager
+@using Krialys.Orkestra.Web.Module.Common.PolicyBuilders;
+
+@attribute [Authorize(Policy = PoliciesLiterals.AttendusViewer)]
+
+@*<h4><b>@Trad.Keys["MSO:AttendusTitle"]</b> - @Trad.Keys["MSO:AttendusText1"]</h4>*@
+
+<OrkaGenericGridComponent TEntity=TRA_ATTENDUS
+                       @ref=Ref_Grid
+                       IsWithinTab=true
+                       AutoGenerateColumns=false
+                       AllowResizing=true
+                       AllowPdfExport=false
+                       AllowExcelExport=true
+                       AllowCsvExport=false
+                       EnablePersistence=true>
+    <ChildContent>
+        @* Customisable datagrid events *@
+        <GridEvents TValue=TRA_ATTENDUS
+                    OnToolbarClick=Ref_Grid.OnToolbarClickAsync
+                    ContextMenuItemClicked=Ref_Grid.OnContextMenuItemClickedAsync
+                    OnActionFailure=Ref_Grid.ActionFailureAsync
+                    DataBound=Ref_Grid.DataBoundHander
+                    CommandClicked=CommandClickedAsync OnLoad=Ref_Grid.OnLoadHandler Destroyed=Ref_Grid.OnDestroyed />
+
+        <GridEditSettings AllowAdding=AllowModify
+                          AllowEditing=AllowModify
+                          AllowDeleting=false
+                          ShowConfirmDialog=true
+                          ShowDeleteConfirmDialog=true
+                          Mode=EditMode.Dialog
+                          Dialog=Extends.GridEditSettingDialog>
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate>
+                <SfButton IsPrimary=true
+                          CssClass="e-success"
+                          OnClick=@(() => Ref_Grid.DataGrid.EndEditAsync())>
+                    @Ref_Grid.EditButtonText
+                </SfButton>
+                <SfButton OnClick=@(() => Ref_Grid.DataGrid.CloseEditAsync())>
+                    @Ref_Grid.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+        </GridEditSettings>
+
+        @* Hierarchy grid: Display planifications linked to this row. *@
+        <GridTemplates>
+            <DetailTemplate Context="customerContext">
+                <span>@Trad.Keys["MSO:PlanifsLinkedToAttendu"]</span>
+                <ExpectedPlanningComponent TRA_ATTENDUID=@(((customerContext as TRA_ATTENDUS)!).TRA_ATTENDUID) AllowModify=AllowModify />
+            </DetailTemplate>
+        </GridTemplates>
+    </ChildContent>
+
+    <GridColumns>
+        @* Redirect to "attendus/planifs" with the selected "attendus" entry.*@
+        <GridColumn HeaderText=@Trad.Keys["MSO:Schedule"] Width=165 TextAlign=Syncfusion.Blazor.Grids.TextAlign.Left>
+            <GridCommandColumns>
+                <GridCommandColumn ButtonOption=ScheduleButtonOption Title=@Trad.Keys["MSO:PlanifButtonTitle"] />
+            </GridCommandColumns>
+        </GridColumn>
+
+        @foreach (var prop in Ref_Grid.GridColumnParametersList.Where(x => x.IsInGrid))
+        {
+            // Construct datagrid.
+            if (prop.IsForeignKey)
+            {
+                if (prop.ForeignKeyName == "TRAPL_APPLICATIONID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@Applications"
+                                       Width="170">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRC_CRITICITEID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@Criticites"
+                                       Width="150">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRR_RESULTATID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@Resultats"
+                                       Width="150">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRNF_NATURE_ORIGINEID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyField="TRNF_NATURE_FLUXID"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@NatureFluxes"
+                                       Width="185">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRNF_NATURE_DESTINATIONID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyField="TRNF_NATURE_FLUXID"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@NatureFluxes"
+                                       Width="205">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRNT_NATURE_TRAITEMENTID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@NatureTraitements"
+                                       Width="200">
+                    </GridForeignColumn>
+                }
+                else if (prop.ForeignKeyName == "TRTT_TECHNO_TRAITEMENTID")
+                {
+                    <GridForeignColumn Field="@prop.Field"
+                                       HeaderText="@prop.HeaderText"
+                                       ForeignKeyValue="@prop.ForeignKeyValue"
+                                       ForeignDataSource="@TechnoTraitements"
+                                       Width="205">
+                    </GridForeignColumn>
+                }
+            }
+            else
+            {
+                <GridColumn Field="@prop.Field"
+                            HeaderText="@prop.HeaderText"
+                            IsPrimaryKey="@prop.IsPrimaryKey"
+                            IsIdentity="@prop.IsIdentity"
+                            Visible="@prop.Visible"
+                            Format="@prop.Format"
+                            Type="@prop.ColumnType"
+                            EnableGroupByFormat="@(prop.Format == default)"
+                            Width="@prop.Width"></GridColumn>
+            }
+        }
+    </GridColumns>
+</OrkaGenericGridComponent>
+
+@* Planif dialog : Choose your planification. *@
+<SfDialog Width=400 IsModal=true @bind-Visible="@IsPlanifDialogVisible">
+    <DialogTemplates>
+        <Header>@Trad.Keys["MSO:PlanifDialogHeader"]</Header>
+        <Content>
+            <SfTooltip @ref="_planifTooltip"
+                       Content=@Trad.Keys["MSO:PlanifDialogTooltipContent"]
+                       OpensOn="Custom"
+                       Position=Syncfusion.Blazor.Popups.Position.BottomCenter
+                       CssClass="e-griderror">
+                <SfDropDownList TValue="string"
+                                TItem=TRP_PLANIFS
+                                Placeholder=@Trad.Keys["MSO:PlanifDialogDropdownPlaceholder"]
+                                DataSource="@_planifsNotLinked"
+                                @bind-Value="_selectedPlanifId">
+                    <DropDownListFieldSettings Value="TRP_PLANIFID"
+                                               Text="TRP_DESCRIPTION">
+                    </DropDownListFieldSettings>
+                </SfDropDownList>
+            </SfTooltip>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content=@Trad.Keys["MSO:Schedule"]
+                      OnClick=LinkPlanif
+                      CssClass="e-success"
+                      IsPrimary=true />
+        <DialogButton Content=@Trad.Keys["MSO:Cancel"]
+                      OnClick=ClosePlanifDialog />
+    </DialogButtons>
+</SfDialog>

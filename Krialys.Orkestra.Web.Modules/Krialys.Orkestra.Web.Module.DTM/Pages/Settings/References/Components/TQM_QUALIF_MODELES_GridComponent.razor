@@ -1,0 +1,39 @@
+﻿@* Customisable datagrid parameters *@
+<OrkaGenericGridComponent TEntity="TQM_QUALIF_MODELES"
+                       @ref="Ref_TQM_QUALIF_MODELES"
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="false"
+                       EnablePersistence="true">
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TQM_QUALIF_MODELES"
+                    OnToolbarClick="@Ref_TQM_QUALIF_MODELES.OnToolbarClickAsync"
+                    ContextMenuItemClicked="@Ref_TQM_QUALIF_MODELES.OnContextMenuItemClickedAsync" OnLoad=Ref_TQM_QUALIF_MODELES.OnLoadHandler Destroyed=Ref_TQM_QUALIF_MODELES.OnDestroyed />
+
+        <GridEditSettings AllowAdding="AllowModify"
+                          AllowEditing="AllowModify"
+                          AllowDeleting="false"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="true"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog">
+
+            @* Customisable edit/save/cancel dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(Ref_TQM_QUALIF_MODELES, entity))">
+                    @Ref_TQM_QUALIF_MODELES.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TQM_QUALIF_MODELES.DataGrid.CloseEditAsync())">
+                    @Ref_TQM_QUALIF_MODELES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+
+    </ChildContent>
+</OrkaGenericGridComponent>

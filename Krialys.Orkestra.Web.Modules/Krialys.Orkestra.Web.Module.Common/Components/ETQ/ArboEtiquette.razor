@@ -1,0 +1,230 @@
+﻿@using Syncfusion.Blazor.Diagram
+@using PageOrientation = Syncfusion.Blazor.Diagram.PageOrientation
+@using Krialys.Data.EF.Etq
+@* Autocomplete lookup *@
+@*    <div class="w3-row">
+    <SfAutoComplete TValue="int?"
+    TItem="TETQ_ETIQUETTES"
+    @ref="autoObj"
+    Width="440px"
+    PopupHeight="620px"
+    MinLength=minLength
+    Placeholder="Saisie partielle d'un nom d'étiquette..."
+    AllowFiltering="true">
+
+    <AutoCompleteFieldSettings Text="@sourceField"
+    Value="@targetField" />
+
+    <AutoCompleteEvents TValue="int?"
+    TItem="TETQ_ETIQUETTES"
+    Filtering="OnFiltering"
+    ValueChange="OnValueChange" />
+
+    </SfAutoComplete>
+    <span style="color:darkgray">@targetValue</span>
+    </div>*@
+
+<div class="text-content" style="text-align:left;">
+    <div class="@(!SidebarToggle ? "e-hidden" : string.Empty)">
+        <SfSidebar @ref="sidebarDetailsEtiquette"
+                   Width="368px"
+                   Position=@Position
+                   ShowBackdrop=false
+                   EnableGestures=false
+                   EnablePersistence=false>
+
+            <ChildContent>
+                <div style="text-align: center;">
+
+                    <div>
+                        @* Action buttons: refresh, download and close *@
+                        <span>
+                            <SfButton @onclick="DataSourceRefreshAsync"
+                                      IsPrimary=true
+                                      HtmlAttributes="@(new Dictionary<string, object> { {"style", "width:290px;"}, {"title", "Génération de l'arbre"} })"
+                                      CssClass="e-btn w3-left">
+                                Rafraichir les données
+                            </SfButton>
+
+                            <SfDropDownButton IconCss="e-icons e-download"
+                                              CssClass="w3-right"
+                                              title="Exporter l'arbre">
+                                <DropDownButtonEvents ItemSelected="OnExportDropDown"></DropDownButtonEvents>
+                                <DropDownMenuItems>
+                                    <DropDownMenuItem Text="CSV" IconCss="e-icons e-save"></DropDownMenuItem>
+                                    @*<DropDownMenuItem Separator=true></DropDownMenuItem>
+                                    <DropDownMenuItem Text="JPG" IconCss="e-icons e-save"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="PNG" IconCss="e-icons e-save"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="SVG" IconCss="e-icons e-save"></DropDownMenuItem>*@
+                                </DropDownMenuItems>
+                            </SfDropDownButton>
+                        </span>
+                    </div>
+
+                    <div style="padding-top: 40px;">
+                        @* Etiquette details *@
+                        @if (etiquetteDemandeEtendue is not null)
+                        {
+                            <div class="etq-info" style="text-align:left;">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Code étiquette</th>
+                                            <td>@etiquetteDemandeEtendue.TETQ_CODE</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Libellé</th>
+                                            <td>@etiquetteDemandeEtendue.TETQ_LIB</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Description</th>
+                                            <td>@etiquetteDemandeEtendue.TETQ_DESC</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Créé le</th>
+                                            <td>@etiquetteDemandeEtendue.TETQ_DATE_CREATION.ToString("g")</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Libellé domaine</th>
+                                            <td>@etiquetteDemandeEtendue.TDOM_LIB</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Libellé périmètre</th>
+                                            <td>@etiquetteDemandeEtendue.TPRCP_LIB</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Nom UTD</th>
+                                            <td>@etiquetteDemandeEtendue.TE_NOM_ETAT_VERSION</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Libellé module</th>
+                                            <td>@etiquetteDemandeEtendue.TS_DESCR</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Producteur</th>
+                                            <td>@etiquetteDemandeEtendue.DEMANDEUR</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Id demande</th>
+                                            <td>@etiquetteDemandeEtendue.TD_DEMANDEID</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Référent</th>
+                                            <td>@etiquetteDemandeEtendue.REFERENT</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </ChildContent>
+
+        </SfSidebar>
+
+        @* Trick to avoid a vertical scroll bar in middle of the screen, don't remove code below *@
+        @*<SfButton CssClass="invisible" />*@
+    </div>
+</div>
+
+@* Organization chart *@
+<div id=@_diagramId class="container-fluid container-row">
+    <SfDiagramComponent @ref="@Diagram"
+                        Width="100%"
+                        SelectionChanged="OnSelectionChanged"
+                        NodeCreating="OnNodeCreating"
+                        InteractionController="DiagramInteractions.None"
+                        ConnectorCreating="OnConnectorCreating">
+
+        <ScrollSettings @bind-ScrollLimit="@scrollLimit" />
+
+        <DataSourceSettings ID="@sourceId"
+                            ParentID="@sourceParentID"
+                            DataSource="@DataSource" />
+
+        <Layout @bind-Type="@Type"
+        @bind-HorizontalSpacing="@HorizontalSpacing"
+        @bind-Orientation="@OrientationType"
+        @bind-VerticalSpacing="@VerticalSpacing"
+        @bind-HorizontalAlignment="@HorizontalAlignment"
+        @bind-VerticalAlignment="@VerticalAlignment"
+                GetLayoutInfo="GetLayoutInfo">
+
+            <LayoutMargin @bind-Top="@Top"
+            @bind-Bottom="@Bottom"
+            @bind-Right="@Right"
+            @bind-Left="@Left" />
+        </Layout>
+
+        <PageSettings MultiplePage=true Width=@Width Height=@Height Orientation=PageOrientation.Landscape ShowPageBreaks=false>
+            <BackgroundStyle Background="white"></BackgroundStyle>
+            <PageMargin Left=@Left Right=@Right Top=@Top Bottom=@Bottom></PageMargin>
+        </PageSettings>
+
+        <SnapSettings Constraints="SnapConstraints.None" />
+
+        <DiagramTemplates>
+            <NodeTemplate>
+                @{
+                    // Build node
+                    if (context?.Data is ArboEtiquettes tree)
+                    {
+                        var imageurl = $"Icons/Etiquettes/{tree.IMAGE_URL}.svg";
+                        <div class="e-orgchart-template-div-style w3-border w3-round-xxlarge w3-border-grey" style="height:140px;">
+                            <span style="width:355px;">
+                                <!-- Icon, title and DateTime -->
+                                <table border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td style="width:32px;padding:8px;"><img src="@imageurl" alt="Etiquette" height=32 width=32 loading="lazy" /></td>
+                                        <td style="width:145px;"><b>@tree.TETQ_CODE</b></td>
+                                        <td style="width:145px;text-align:right; color:darkblue;">@tree.TETQ_DATE_CREATION.ToString("g")</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Content -->
+                                <table border="0">
+                                    <tr><td style="padding-left:8px">@Shortenize("Lib : " + tree.TETQ_LIB)</td></tr>
+                                    <tr><td style="padding-left:8px">@Shortenize("Descr : " + tree.TETQ_DESC)</td></tr>
+                                    <tr><td style="padding-left:8px">@Shortenize("Domaine : " + tree.TDOM_LIB)</td></tr>
+                                    <tr><td style="padding-left:8px">@Shortenize("Périmètre : " + tree.TPRCP_LIB)</td></tr>
+                                </table>
+                                <p></p>
+                            </span>
+                        </div>     
+                    }
+                }
+                </NodeTemplate>
+            </DiagramTemplates>
+        </SfDiagramComponent>
+    </div>
+
+    <style scoped>
+        .e-sidebar.e-right.e-open {
+            transition: transform 2.5s ease;
+        }
+
+        .e-sidebar {
+            top: 172px !important;
+            height: 78%;
+            position: fixed;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #e7edf2;
+            /*z-index: 0 !important;*/
+        }
+
+        diagram-space {
+            scrollbar-gutter: stable;
+        }
+
+        .e-diagram-layer {
+            background: #FAFAFA;
+        }
+
+        .container-row {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+    </style>

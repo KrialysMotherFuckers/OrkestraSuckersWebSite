@@ -1,0 +1,314 @@
+﻿@using TextAlign = Syncfusion.Blazor.Grids.TextAlign
+@*@page "/etqmodele"*@
+@*
+    futur evol : prise en charge duplication
+    fonction pour conversion statut objet et lib
+*@
+
+@attribute [Authorize]
+
+@*
+    <SfTab EnablePersistence="false"
+    ID="WASMGridTab"
+    LoadOn="ContentLoad.Init"
+    OverflowMode="OverflowMode.Popup"
+    ScrollStep="150">
+    <TabAnimationSettings>
+    <TabAnimationPrevious Effect="AnimationEffect.None" Duration="0"></TabAnimationPrevious>
+    <TabAnimationNext Effect="AnimationEffect.None" Duration="0"></TabAnimationNext>
+    </TabAnimationSettings>
+    <TabItems>
+    <TabItem>
+    <ChildContent>
+    <TabHeader Text="@Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTES_TITLE"]"></TabHeader>
+    </ChildContent>
+    <ContentTemplate> *@
+
+                @* Generic customisable Datagrid *@
+<OrkaGenericGridComponent TEntity="TOBJE_OBJET_ETIQUETTES"
+                       @ref="Ref_TOBJE_OBJET_ETIQUETTES"
+                       IsWithinTab=true
+                       AllowResizing="true"
+                       AllowPdfExport="false"
+                       AllowExcelExport="true"
+                       AllowCsvExport="true"
+                       EnablePersistence="true"
+                       AllowGrouping=false
+                       AutoGenerateColumns="false">
+
+    <GridColumns>
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_OBJET_ETIQUETTEID) Visible="false" AllowAdding="false" AllowEditing="false" IsPrimaryKey="true">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_CODE) Visible="true" AllowAdding="true" AllowEditing="false">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_VERSION) Visible="true" AllowAdding="false" AllowEditing="false">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_VERSION_ETQ_STATUT) Visible="true" AllowAdding="false" AllowEditing="false">
+            <Template>
+                @{
+                    var tobje_objet_etiquette = (context as TOBJE_OBJET_ETIQUETTES);
+
+                    switch (tobje_objet_etiquette?.TOBJE_VERSION_ETQ_STATUT)
+                    {
+                        case 0:
+                            <text>
+                                <label>Ancienne version</label>
+                            </text>
+                            break;
+
+
+                        case 1:
+                            <text>
+                                <label>Actif</label>
+                            </text>
+                            break;
+
+
+                        case 2:
+                            <text>
+                                <label>Prototype</label>
+                            </text>
+                            break;
+                    }
+
+                }
+            </Template>
+            <EditTemplate>
+                @{
+                    if (context is TOBJE_OBJET_ETIQUETTES tobjeObjetEtiquette && tobjeObjetEtiquette.TOBJE_OBJET_ETIQUETTEID != 0)
+                    {
+                        <div class="control-section">
+                            <div class="radio-control">
+                                <h4 class="row">@Trad.Keys["COMMON:ChangeStatus"]</h4>
+                                <div class="row">
+                                    <SfRadioButton Label=@Trad.Keys["COMMON:NoChange"] Name="statut" Value="Unchanged" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                    <p></p>
+                                </div>
+
+                                @switch (tobjeObjetEtiquette.TOBJE_VERSION_ETQ_STATUT)
+                                {
+                                    case 0: // ancien
+                                        <SfRadioButton Label="Actif" Name="statut" Value="1" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        <p></p>
+                                        <SfRadioButton Label="Prototype" Name="statut" Value="2" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        break;
+                                    case 1: // actif
+                                        <SfRadioButton Label="Ancienne version" Name="statut" Value="0" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        <p></p>
+                                        <SfRadioButton Label="Prototype" Name="statut" Value="2" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        break;
+                                    case 2: // proto
+                                        <SfRadioButton Label="Ancienne version" Name="statut" Value="0" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        <p></p>
+                                        <SfRadioButton Label="Actif" Name="statut" Value="1" Checked="@CheckedValueStatut" @onchange="SfRadioButtonStatutOnChange"></SfRadioButton>
+                                        break;
+                                }
+
+                            </div>
+                        </div>
+                    }
+                }
+            </EditTemplate>
+        </GridColumn>
+
+        @{
+            var field = nameof(TOBJE_OBJET_ETIQUETTES.TDOM_DOMAINEID);
+            var prop = Ref_TOBJE_OBJET_ETIQUETTES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == field);
+            <GridForeignColumn Field="@prop?.Field"
+                           HeaderText="@prop?.HeaderText"
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource="@prop?.ForeignValuesList"
+                           AutoFit="@prop!.Autofit"
+                           MinWidth="150"
+                           Visible="true" />
+        }
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_CODE_ETIQUETTAGE) Visible="true" AllowAdding="true" AllowEditing="false">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_LIB) Visible="true" AllowAdding="true" AllowEditing="true">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_DESC) Visible="true" AllowAdding="true" AllowEditing="true">
+        </GridColumn>
+
+        @{
+            var fieldTOBF_OBJ_FORMATID = nameof(TOBJE_OBJET_ETIQUETTES.TOBF_OBJ_FORMATID);
+            var propTOBF_OBJ_FORMATID = Ref_TOBJE_OBJET_ETIQUETTES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == fieldTOBF_OBJ_FORMATID);
+
+            <GridForeignColumn Field="@propTOBF_OBJ_FORMATID?.Field"
+                           HeaderText="@propTOBF_OBJ_FORMATID?.HeaderText"
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource="@propTOBF_OBJ_FORMATID?.ForeignValuesList"
+                           AutoFit="@propTOBF_OBJ_FORMATID.Autofit"
+                           MinWidth="150" />
+        }
+
+        @{
+            var fieldTOBN_OBJ_NATUREID = nameof(TOBJE_OBJET_ETIQUETTES.TOBN_OBJ_NATUREID);
+            var propTOBN_OBJ_NATUREID = Ref_TOBJE_OBJET_ETIQUETTES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == fieldTOBN_OBJ_NATUREID);
+
+            <GridForeignColumn Field="@propTOBN_OBJ_NATUREID?.Field"
+                           HeaderText="@propTOBN_OBJ_NATUREID?.HeaderText"
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource="@propTOBN_OBJ_NATUREID?.ForeignValuesList"
+                           AutoFit="@propTOBN_OBJ_NATUREID.Autofit"
+                           MinWidth="150" />
+        }
+
+        @*la codif devrait etre choisissable ultérieurement*@
+        @{
+            var fieldTEQC_ETQ_CODIFID = nameof(TOBJE_OBJET_ETIQUETTES.TEQC_ETQ_CODIFID);
+            var propTEQC_ETQ_CODIFID = Ref_TOBJE_OBJET_ETIQUETTES.GridColumnParametersList.FirstOrDefault(x => x.IsInGrid && x.Field == fieldTEQC_ETQ_CODIFID);
+
+            <GridForeignColumn Field="@propTEQC_ETQ_CODIFID?.Field"
+                           HeaderText="@propTEQC_ETQ_CODIFID?.HeaderText"
+                           ForeignKeyField="Id"
+                           ForeignKeyValue="Label"
+                           ForeignDataSource="@propTEQC_ETQ_CODIFID?.ForeignValuesList"
+                           AutoFit="@propTEQC_ETQ_CODIFID!.Autofit"
+                           MinWidth="150"
+                           Visible="false"
+                           AllowAdding="false"
+                           AllowEditing="false" />
+        }
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_DATE_CREATION) AllowAdding="false" AllowEditing="false">
+            <EditTemplate />
+        </GridColumn>
+
+
+        <GridForeignColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TRU_ACTEURID) HeaderText="Acteur" AllowAdding="false" AllowEditing="false"
+                           ForeignDataSource="TruUsersData" ForeignKeyField=@nameof(TRU_USERS.TRU_USERID) ForeignKeyValue=@nameof(TRU_USERS.TRU_FULLNAME)>
+            <EditTemplate />
+        </GridForeignColumn>
+
+        <GridColumn Field=@nameof(TOBJE_OBJET_ETIQUETTES.TOBJE_VERSION_ETQ_DESC) Visible="true" AllowAdding="true" AllowEditing="true">
+        </GridColumn>
+
+
+        <GridColumn HeaderText="Dupliquer" Visible="true"
+                    MinWidth=80
+                    Width=112
+                    TextAlign=TextAlign.Left>
+            <GridCommandColumns>
+                <GridCommandColumn Title="Dupliquer"
+                                   ID="CommandDupliquer"
+                                   ButtonOption="@(new CommandButtonOptions { IconCss = "e-icons e-copy", CssClass = "e-flat" })">
+                </GridCommandColumn>
+            </GridCommandColumns>
+        </GridColumn>
+    </GridColumns>
+
+    <ChildContent>
+
+        @* Customisable datagrid events *@
+        <GridEvents TValue="TOBJE_OBJET_ETIQUETTES"
+                    DataBound=Ref_TOBJE_OBJET_ETIQUETTES.DataBoundHander
+                    ContextMenuItemClicked="@Ref_TOBJE_OBJET_ETIQUETTES.OnContextMenuItemClickedAsync"
+                    OnToolbarClick="@Ref_TOBJE_OBJET_ETIQUETTES.OnToolbarClickAsync"
+                    OnActionBegin="ActionBeginHandler"
+                    OnActionComplete="OnActionComplete"
+                    OnActionFailure="OnActionFailureAsync"
+                    RowSelected="RowSelectHandler"
+                    CommandClicked="OnCommandClickedAsync" OnLoad=Ref_TOBJE_OBJET_ETIQUETTES.OnLoadHandler Destroyed=Ref_TOBJE_OBJET_ETIQUETTES.OnDestroyed />
+
+        <GridEditSettings AllowAdding="true"
+                          AllowEditing="true"
+                          AllowDeleting="true"
+                          ShowConfirmDialog="true"
+                          ShowDeleteConfirmDialog="false"
+                          Mode="EditMode.Dialog"
+                          Dialog="@Extends.GridEditSettingDialog"
+                          AllowEditOnDblClick="true">
+            <HeaderTemplate>
+                <span>@GetHeader(context as TOBJE_OBJET_ETIQUETTES)</span>
+            </HeaderTemplate>
+
+            @* Customisable edit/save Dialog events *@
+            <FooterTemplate Context="entity">
+                <SfButton IsPrimary="true"
+                          CssClass="e-success"
+                          OnClick="@(() => SaveAsync(entity))">
+                    @Ref_TOBJE_OBJET_ETIQUETTES.EditButtonText
+                </SfButton>
+                <SfButton OnClick="@(() => Ref_TOBJE_OBJET_ETIQUETTES.DataGrid.CloseEditAsync())">
+                    @Ref_TOBJE_OBJET_ETIQUETTES.CancelButtonText
+                </SfButton>
+            </FooterTemplate>
+
+        </GridEditSettings>
+        @* Hierarchy grid: Display versions linked to this UTD. *@
+        <GridTemplates>
+            <DetailTemplate>
+                @{
+                    @* Get current object Id. *@
+                    @* Query to filter child grid with the current object Id. *@
+                    if (context is TOBJE_OBJET_ETIQUETTES objEtiquette)
+                    {
+                        var gridQueryRegles = new Query().Where("TOBJE_OBJET_ETIQUETTEID", "equal", objEtiquette.TOBJE_OBJET_ETIQUETTEID);
+
+                        <TOBJR_OBJET_REGLES_GridComponent GridQuery=@gridQueryRegles ObjetEtiquetteId="@objEtiquette.TOBJE_OBJET_ETIQUETTEID"
+                                                          StatutObjet="@objEtiquette.TOBJE_VERSION_ETQ_STATUT" />
+                    }
+
+                }
+            </DetailTemplate>
+        </GridTemplates>
+    </ChildContent>
+
+</OrkaGenericGridComponent>
+
+<SfDialog @bind-Visible="@DeleteDialogIsVisible" Width="580px" ShowCloseIcon="true" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESDeleteDialogHeader"]</Header>
+        <Content>
+            <br />
+            <div>
+                @Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESDeleteDialogContent1"] <code><b>@_selectedData.TOBJE_CODE</b></code>
+                <p></p>
+                @Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESDeleteDialogContent2"] <code><b>@_selectedData.TOBJE_VERSION</b></code>
+            </div>
+            <hr />
+            <div style="background-color: #ffca1c; text-align: center;">
+                <pre><b>@_msgDelete</b></pre>
+                <pre><b>@_msgDelete2</b></pre>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkDeleteClickAsync" IsPrimary="true" Content="OK" Disabled="@OkDeleteDisabled" />
+        <DialogButton OnClick="@CancelDeleteClick" Content="@Ref_TOBJE_OBJET_ETIQUETTES.CancelButtonText" />
+    </DialogButtons>
+</SfDialog>
+
+<SfDialog @ref="_infoDialog" @bind-Visible="@InfoDialogIsVisible" Width="580px" ShowCloseIcon="true" IsModal="true">
+    <DialogTemplates>
+        <Header>@Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESAddUpdateDialogHeader"]</Header>
+        <Content>
+            <br />
+            <div>
+                <p>
+                    @Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESAddUpdateDialogContent1"]
+                </p>
+            </div>
+            <hr />
+            <div style="background-color: #ffca1c; text-align: center;">
+                <pre><b>@Trad.Keys["ETQ:TOBJE_OBJET_ETIQUETTESAddUpdateDialogContent2"]</b></pre>
+            </div>
+        </Content>
+    </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton OnClick="@OkInfoClick" Content="OK">
+        </DialogButton>
+
+    </DialogButtons>
+</SfDialog>

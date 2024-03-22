@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+	  <None Remove="Resources\en-US.yml" />
+	  <None Remove="Resources\fr-FR.yml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\en-US.yml" />
+	  <EmbeddedResource Include="Resources\fr-FR.yml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+		<PackageReference Include="ExcelDataReader" Version="3.7.0-develop00385" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0-develop00385" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.2" />
+		<PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
+		<PackageReference Include="NJsonSchema" Version="11.0.0" />
+		<PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
+
+		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.0" />
+
+		<PackageReference Include="TimeZoneConverter.Posix" Version="4.1.0" />
+
+		<PackageReference Include="YamlDotNet" Version="15.1.2" />
+		<PackageReference Include="Cronos" Version="0.8.4" />
+		<PackageReference Include="CronExpressionDescriptor" Version="2.32.0" />
+
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.16" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Krialys.Model\Krialys.Model.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,318 @@
+image:  mcr.microsoft.com/dotnet/sdk:7.0
+
+definitions:
+  steps:
+      - step: &buildWebApi
+          name: Build OrKestra WebApi
+          script:
+            - cd Krialys.Orkestra.WebApi
+            - dotnet restore -r win-x64
+            - dotnet publish --no-restore -c Release -o $BITBUCKET_CLONE_DIR/OrkaWebApi -f net6.0 -r win-x64 -p:IncludeNativeLibrariesForSelfExtract=true -p:LaunchSiteAfterPublish=true -p:PublishProvider=FileSystem
+          artifacts:
+            - OrkaWebApi/**
+
+      - step: &AutoUpdater
+          name: Build Orkestra AutoUpdater
+          script:
+            - cd Krialys.Orkestra.AutoUpdater
+            - dotnet restore -r win-x64
+            - dotnet publish --no-restore -o $BITBUCKET_CLONE_DIR/AutoUpdater -c Release -f net6.0 -r win-x64 --self-contained true -p:PublishProtocol=FileSystem -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=false -p:TrimmerRemoveSymbols=false -p:TrimMode=Link -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeSymbolsInSingleFile=false -p:EnableUnsafeUTF7Encoding=false
+          artifacts:
+            - AutoUpdater/**
+
+      - step: &buildWeb
+          name: Build OrKestra Web
+          script:
+            - apt-get update && apt-get install -y python3
+
+            - dotnet workload install wasm-tools
+            - dotnet workload restore
+
+            - cd Krialys.Orkestra.Web
+            - dotnet restore -r win-x64
+            - dotnet publish --no-restore -o $BITBUCKET_CLONE_DIR/OrkaWeb -c Release -f net6.0 -r win-x64 -p:PublishProtocol=FileSystem -p:PublishTrimmed=false -p:TrimmerRemoveSymbols=false -p:TrimMode=Link -p:IncludeNativeLibrariesForSelfExtract=false -p:IncludeSymbolsInSingleFile=false -p:EnableUnsafeUTF7Encoding=false -p:WebPublishMethod=FileSystem -p:LaunchSiteAfterPublish=true -p:ExcludeApp_Data=false -p:RuntimeIdentifier=browser-wasm
+          artifacts:
+            - OrkaWeb/**
+
+      - step: &buildParallelU
+          name: Build ParallelU
+          caches:
+            - dotnetcore
+          script:
+            - cd Krialys.Orkestra.ParallelU
+            - dotnet restore -r win-x64
+            - dotnet publish --no-restore -o $BITBUCKET_CLONE_DIR/OrkaParallelU -c Release -f net6.0 -r win-x64 --self-contained true -p:PublishProtocol=FileSystem -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=false -p:TrimmerRemoveSymbols=false -p:TrimMode=Link -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeSymbolsInSingleFile=false -p:EnableUnsafeUTF7Encoding=false
+          artifacts:
+            - OrkaParallelU/** 
+
+      - step: &Deployment
+          name: Deployment using SSH & sFTP to Dev Vm
+          script:
+            # Install package for deploiement
+            - apt-get update && apt-get install -y openssh-client 
+
+            # Stop Web Pools
+            - 'ssh Kradmin@$RemoteUrl "c:\windows\system32\inetsrv\appcmd.exe Stop apppool $RemoteWebPool"'
+
+            # Clean Artifacts
+            - rm -rf $BITBUCKET_CLONE_DIR/Orkestra/*.pdb
+            - rm -rf $BITBUCKET_CLONE_DIR/OrkaWebApi/*.pdb
+            - rm -rf $BITBUCKET_CLONE_DIR/OrkaParallelU/*.pdb
+
+            # Install Zip package  (Done here in purpose...to be sure the process "iisreset /stop" is completed)
+            - apt-get update && apt-get install -y zip 
+            
+            # Remove Update Folder if exists
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_WebApi\App_Data\Update del /s /q $DestFolder_WebApi\App_Data\Update\*.*"
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_WebApi\App_Data\Update rd /s /q $DestFolder_WebApi\App_Data\Update"
+
+            # Backup Website App_Data Folder if exists
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_WebApi\App_Data\Database move /y $DestFolder_WebApi\App_Data\Database $DestFolder\Database"
+
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_Web del /s /q $DestFolder_Web\*.*"
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_WebApi del /s /q $DestFolder_WebApi\*.*"
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_ParallelU\_Install del /s /q $DestFolder_ParallelU\_Install\*.*"
+
+            # Create //U Update in WebApi Artifact
+            - mkdir $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data
+            - mkdir $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update
+            - cp $BITBUCKET_CLONE_DIR/OrkaParallelU/Krialys.Orkestra.ParallelU.exe $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update/Krialys.Orkestra.ParallelU.exe.update
+            # - zip -9 -r $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update/Krialys.Orkestra.ParallelU.zip $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update/Krialys.Orkestra.ParallelU.exe
+            # - rm -rf $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update/Krialys.Orkestra.ParallelU.exe
+
+            # Copy AutoUpdater to Krialys.Orkestra.WorkerNode Artifact
+            - mkdir $BITBUCKET_CLONE_DIR/OrkaParallelU/Updater
+            - cp $BITBUCKET_CLONE_DIR/AutoUpdater/Krialys.Orkestra.AutoUpdater.exe $BITBUCKET_CLONE_DIR/OrkaParallelU/Updater/Krialys.Orkestra.ParallelU.exe
+
+            # Clean destination folders (Part 2)
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_Web rd /s /q $DestFolder_Web"
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_WebApi rd /s /q $DestFolder_WebApi"          
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder_ParallelU\_Install rd /s /q $DestFolder_ParallelU\_Install"          
+
+            - ssh Kradmin@$RemoteUrl "mkdir $DestFolder_WebApi"
+            - ssh Kradmin@$RemoteUrl "mkdir $DestFolder_Web"
+            - ssh Kradmin@$RemoteUrl "mkdir $DestFolder_ParallelU\_Install"
+
+            # Deploy to Remote
+            # rsync -v -e 'ssh -A -t user@jumpserver ssh -A -t user@destinationserver' /path/to/sourcefile :/path/to/destination
+            - scp -Cqpr $BITBUCKET_CLONE_DIR/OrkaWebApi/*       Kradmin@$RemoteUrl:$ScpDestFtpFolder_WebApi
+            - scp -Cqpr $BITBUCKET_CLONE_DIR/OrkaWeb/*          Kradmin@$RemoteUrl:$ScpDestFolder_Web
+
+            - echo $BITBUCKET_BRANCH
+            - echo $BITBUCKET_DEPLOYMENT_ENVIRONMENT
+
+            # Clean appsettings.*.json according to $BITBUCKET_BRANCH and $BITBUCKET_DEPLOYMENT_ENVIRONMENT deployment
+            - |
+              if [[ "$BITBUCKET_BRANCH" == 'master' ]]; then
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Dev.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Dev.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+
+              if [[ "$BITBUCKET_BRANCH" == 'Uat'  && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'uat' ]]; then
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Uat.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Uat.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"                
+              fi
+              
+              # Should be Staging-Sncf instead of Uat-Sncf
+              if [[ "$BITBUCKET_BRANCH" == 'Uat' && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'uat-sncf' ]]; then                
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Staging-Sncf.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Staging-Sncf.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+
+              # Should be Staging-Aew instead of Uat-Aew
+              if [[ "$BITBUCKET_BRANCH" == 'Uat' && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'uat-aew' ]]; then                
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Staging-Aew.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Staging-Aew.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+
+              if [[ "$BITBUCKET_BRANCH" == 'Production' && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'production' ]]; then
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+
+              if [[ "$BITBUCKET_BRANCH" == 'Production' && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'production-demo' ]]; then
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Prod-Demo.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Prod-Demo.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+
+              if [[ "$BITBUCKET_BRANCH" == 'Production' && "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == 'production-krialys' ]]; then
+                # WebApi Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_WebApi\appsettings.Release-Prod-Krialys.json $DestFolder_WebApi\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_WebApi\appsettings.Release-*.json*"
+
+                # Web Cleaning
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\e_sqlite3.a"
+                ssh Kradmin@$RemoteUrl "move /y $DestFolder_Web\wwwroot\appsettings.Release-Prod-Krialys.json $DestFolder_Web\wwwroot\appsettings.Production.json"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Development.json*"
+                ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\appsettings.Release-*.json*"
+              fi
+              
+            # Remove old appsettings.*.br and appsettings.*.gz files
+            - ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\*.br"
+            - ssh Kradmin@$RemoteUrl "del /s /q $DestFolder_Web\wwwroot\*.gz"
+  
+            # Restore Website App_Data Folder if exists
+            - ssh Kradmin@$RemoteUrl "if exist $DestFolder\Database move /y $DestFolder\Database $DestFolder_WebApi\App_Data\Database"
+
+            # Start Web Pools
+            - 'ssh Kradmin@$RemoteUrl "c:\windows\system32\inetsrv\appcmd.exe Start apppool $RemoteWebPool"'
+            
+      - step: &BuildAndDeliver-ProductionPackageForAnyCustomer
+          name: Build And Deliver ProductionPackage For Any Customer
+          script:
+            # Install package for deploiement
+            - apt-get update && apt-get install -y openssh-client
+
+            # Build Package deploiement (To be Done)
+            # WIP
+
+            # Remove Delivery Folders if exists
+            - ssh Kradmin@$RemoteUrl "if exist $DeliveryFolder\BackEnd del /s /q $DeliveryFolder\BackEnd\*.*"
+            - ssh Kradmin@$RemoteUrl "if exist $DeliveryFolder\BackEnd rd /s /q $DeliveryFolder\BackEnd"
+            - ssh Kradmin@$RemoteUrl "if exist $DeliveryFolder\WebSite del /s /q $DeliveryFolder\WebSite\*.*"
+            - ssh Kradmin@$RemoteUrl "if exist $DeliveryFolder\WebSite rd /s /q $DeliveryFolder\WebSite"
+
+            # Create BackEnd and WebSite Folders
+            - ssh Kradmin@$RemoteUrl "mkdir $DeliveryFolder\BackEnd"
+            - ssh Kradmin@$RemoteUrl "mkdir $DeliveryFolder\WebSite"
+
+            # Create //U Update in WebApi Artifact
+            - mkdir $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data
+            - mkdir $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update
+            - cp $BITBUCKET_CLONE_DIR/OrkaParallelU/Krialys.Orkestra.ParallelU.exe $BITBUCKET_CLONE_DIR/OrkaWebApi/App_Data/Update/Krialys.Orkestra.ParallelU.exe.update
+            
+            # Deploy to Remote
+            - scp -Cqpr $BITBUCKET_CLONE_DIR/OrkaWebApi/*       Kradmin@$RemoteUrl:$ScpDeliveryFolder/BackEnd
+            - scp -Cqpr $BITBUCKET_CLONE_DIR/OrkaWeb/*          Kradmin@$RemoteUrl:$ScpDeliveryFolder/WebSite
+
+            # Clean appsettings.json in BackEnd Folder
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\BackEnd\appsettings.Development.json"
+            - ssh Kradmin@$RemoteUrl "move /y $DeliveryFolder\BackEnd\appsettings.Production.json $DeliveryFolder\BackEnd\appsettings.Production.json$"
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\BackEnd\appsettings.Release-*.json"
+
+            # WebSite Cleaning
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\WebSite\e_sqlite3.a"
+
+            # Clean appsettings.json in WebSite Folder
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\WebSite\wwwroot\appsettings.Development.json"
+            - ssh Kradmin@$RemoteUrl "move /y $DeliveryFolder\WebSite\wwwroot\appsettings.Production.json $DeliveryFolder\WebSite\wwwroot\appsettings.Production.json$"
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\WebSite\wwwroot\appsettings.Release-*.json"
+
+            # Remove old appsettings.*.br and appsettings.*.gz files
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\WebSite\wwwroot\*.br"
+            - ssh Kradmin@$RemoteUrl "del /s /q $DeliveryFolder\WebSite\wwwroot\*.gz"
+
+            # Maybe Zip Folders at the end ?
+            
+pipelines:
+  branches:
+    main:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *Deployment
+          deployment: Development
+          trigger: automatic
+
+    Uat:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *Deployment
+          deployment: Uat
+          trigger: automatic
+          
+    Deploy-Uat-SNCF:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *Deployment
+          deployment: Uat-SNCF
+          trigger: automatic
+          
+    Deploy-Production-Demo:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *Deployment
+          deployment: Production-Demo
+
+    Deploy-Production-Krialys:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *Deployment
+          deployment: Production-Krialys
+
+    BuildAndDeliver-ProductionPackageForCustomer:
+      - parallel:
+        - step: *buildWeb
+        - step: *buildWebApi
+        - step: *buildParallelU
+        - step: *AutoUpdater
+      - step:
+          <<: *BuildAndDeliver-ProductionPackageForAnyCustomer
+          deployment: Production
+    
